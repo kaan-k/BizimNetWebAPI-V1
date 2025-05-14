@@ -10,6 +10,7 @@ namespace Core.Configuration
     {
         public string CustomerCollectionName { get; set; } = "Customers";
         public string BusinessUserCollectionName { get; set; } = "BusinessUsers";
+        public string EmployeesCollectionName { get; set; } = "Employees";
         public string DepartmentsCollectionName { get; set; } = "Departments";
         public string StatusRecordCollectionName { get; set; } = "StatusRecords";
     }

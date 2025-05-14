@@ -61,6 +61,6 @@ namespace BizimNetWebAPI.Controllers
             var result = _customerService.GetCustomerCountByStatus(status);
             return Ok(result);
         }
-
+       
     }
 }

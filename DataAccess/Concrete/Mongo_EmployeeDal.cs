@@ -1,7 +1,7 @@
 ﻿using Core.Configuration;
+using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Repositories;
-using Entities.Concrete;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class Mongo_DepartmentDal : MongoRepository<Department>,IDepartmentDal
+    public class Mongo_EmployeeDal:MongoRepository<Employee>, IEmployeeDal
     {
-        public Mongo_DepartmentDal(IMongoDatabase database, IOptions<MongoDbSettings> settings)
-          : base(database, settings.Value.DepartmentsCollectionName)
+        public Mongo_EmployeeDal(IMongoDatabase database, IOptions<MongoDbSettings> settings)
+         : base(database, settings.Value.EmployeesCollectionName)
         {
         }
     }

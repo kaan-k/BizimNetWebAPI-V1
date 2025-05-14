@@ -17,7 +17,11 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<BusinessUserManager>().As<IBusinessUserService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_BusinessUserDal>().As<IBusinessUserDal>().InstancePerLifetimeScope();
 
+            builder.RegisterType<DepartmentManager>().As<IDepartmentService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_DepartmentDal>().As<IDepartmentDal>().InstancePerLifetimeScope();
 
+            builder.RegisterType<EmployeeManager>().As<IEmployeeService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_EmployeeDal>().As<IEmployeeDal>().InstancePerLifetimeScope();
         }
     }
 }

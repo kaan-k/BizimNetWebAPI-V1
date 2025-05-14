@@ -14,10 +14,12 @@ namespace Business.Concrete
     public class DepartmentManager : IDepartmentService
     {
         private readonly IDepartmentDal _departmentDal;
+        private readonly IEmployeeDal _employeeDal;
         //emp dal eklenecek
-        public DepartmentManager(IDepartmentDal departmentDal)
+        public DepartmentManager(IDepartmentDal departmentDal, IEmployeeDal employeeDal)
         {
             _departmentDal = departmentDal;
+            _employeeDal = employeeDal;
         }
         public IDataResult<Department> Add(DepartmentDto department)
         {
@@ -69,22 +71,30 @@ namespace Business.Concrete
 
         public IDataResult<int> GetEmployeeCount(string departmentId)
         {
-            throw new NotImplementedException();
+            var employees = _employeeDal.GetAll(x => x.DeparmentId == departmentId);
+
+            return new SuccessDataResult<int>(employees.Count, "Çalışan sayısı getirildi.");
         }
 
         public IDataResult<List<Employee>> GetEmployeesByDepartmentId(string departmentId)
         {
-            throw new NotImplementedException();
+            var employees = _employeeDal.GetAll(x => x.DeparmentId == departmentId);
+            return new SuccessDataResult<List<Employee>>(employees, "Bu departmandaki çalışanlar getirildi.");
         }
 
         public IDataResult<List<Employee>> GetEmployeesByRole(string departmentId, string role)
         {
-            throw new NotImplementedException();
+            var employees = _employeeDal.GetAll(x => x.DeparmentId == departmentId && x.Role == role);
+            return new SuccessDataResult<List<Employee>>(employees, $"Bu departmandaki {role} görevindeki çalışanlar getirildi.");
         }
 
         public IDataResult<Employee> GetManagerOfDepartment(string departmentId)
         {
-            throw new NotImplementedException();
+            var department = _departmentDal.Get(x => x.Id == departmentId);
+
+            var manager = _employeeDal.Get(x => x.Id == department.ManagerId);
+
+            return new SuccessDataResult<Employee>(manager, "Departman yöneticisi getirildi.");
         }
 
         public IResult IsDepartmentNameTaken(string name)
