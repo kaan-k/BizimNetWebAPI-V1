@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Utilities.Results;
-using Entities.Concrete;
+using Entities.Concrete.Department;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

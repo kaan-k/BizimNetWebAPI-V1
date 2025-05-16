@@ -1,7 +1,7 @@
 ﻿using Core.Configuration;
 using DataAccess.Abstract;
 using DataAccess.Repositories;
-using Entities.Concrete.Department;
+using Entities.Concrete.Offer;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete
 {
-    public class Mongo_DepartmentDal : MongoRepository<Department>,IDepartmentDal
+    public class Mongo_OfferDal:MongoRepository<Offer>, IOfferDal
     {
-        public Mongo_DepartmentDal(IMongoDatabase database, IOptions<MongoDbSettings> settings)
-          : base(database, settings.Value.DepartmentsCollectionName)
+        public Mongo_OfferDal(IMongoDatabase database, IOptions<MongoDbSettings> settings)
+  : base(database, settings.Value.OffersCollectionName)
         {
         }
     }

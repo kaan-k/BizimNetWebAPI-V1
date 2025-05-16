@@ -1,6 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Enums;
-using Entities.Concrete;
+using Entities.Concrete.Customer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

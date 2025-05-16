@@ -1,6 +1,5 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete;
-using Entities.Concrete.DocumentFiles;
+using Entities.Concrete.DocumentFile;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

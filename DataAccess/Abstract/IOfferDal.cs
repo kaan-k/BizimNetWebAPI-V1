@@ -1,6 +1,6 @@
 ﻿using Core.DataAccess.MongoDB;
 using DataAccess.Repositories;
-using Entities.Concrete.Customer;
+using Entities.Concrete.Offer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface ICustomerDal: IMongoRepository<Customer>
+    public interface IOfferDal:IMongoRepository<Offer>
     {
     }
 }

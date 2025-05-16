@@ -26,6 +26,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<DocumentFileManager>().As<IDocumentFileUploadService>().InstancePerLifetimeScope();
             builder.RegisterType<MongoDB_DocumentFileUpload>().As<IDocumentFileUploadDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<OfferManager>().As<IOfferService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_OfferDal>().As<IOfferDal>().InstancePerLifetimeScope();
         }
     }
 }

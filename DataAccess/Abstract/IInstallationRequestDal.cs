@@ -1,6 +1,5 @@
 ﻿using Core.DataAccess.MongoDB;
-using DataAccess.Repositories;
-using Entities.Concrete.Customer;
+using Entities.Concrete.InstallationRequest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface ICustomerDal: IMongoRepository<Customer>
+    public interface IInstallationRequestDal:IMongoRepository<InstallationRequest>
     {
     }
 }

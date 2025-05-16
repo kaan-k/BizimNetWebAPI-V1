@@ -2,7 +2,7 @@
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Repositories;
-using Entities.Concrete;
+using Entities.Concrete.Customer;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Entities.Concrete;
-using Entities.Concrete.DocumentFiles;
-
+using Entities.Concrete.DocumentFile;
+using Entities.Concrete.Offer;
 
 namespace Entities.Profiles.AutoMapperProfiles
 {
@@ -10,6 +9,7 @@ namespace Entities.Profiles.AutoMapperProfiles
         public EntitiesAutoMapperProfile()
         {
             CreateMap<DocumentFileUploadDto, DocumentFile>();
+            CreateMap<OfferDto, Offer>();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete;
+using Entities.Concrete.Department;
 using System;
 using System.Collections.Generic;
 using System.Linq;
