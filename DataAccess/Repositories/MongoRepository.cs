@@ -12,7 +12,7 @@ namespace DataAccess.Repositories
     public class MongoRepository<T> : IMongoRepository<T> where T : IEntity
     {
         protected readonly IMongoCollection<T> _collection;
-
+        public IMongoDatabase _dataBase;
         public MongoRepository(IMongoDatabase database, string collectionName)
         {
             _collection = database.GetCollection<T>(collectionName);
