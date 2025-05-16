@@ -3,6 +3,7 @@ using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
+using DataAccess.Concrete.DataBases.MongoDB;
 
 namespace Business.DependencyResolvers.Autofac
 {
@@ -22,6 +23,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<EmployeeManager>().As<IEmployeeService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_EmployeeDal>().As<IEmployeeDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<DocumentFileManager>().As<IDocumentFileUploadService>().InstancePerLifetimeScope();
+            builder.RegisterType<MongoDB_DocumentFileUpload>().As<IDocumentFileUploadDal>().InstancePerLifetimeScope();
         }
     }
 }
