@@ -29,6 +29,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<OfferManager>().As<IOfferService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_OfferDal>().As<IOfferDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<InstallationRequestManager>().As<IInstallationRequestService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_InstallationRequestDal>().As<IInstallationRequestDal>().InstancePerLifetimeScope();
         }
     }
 }

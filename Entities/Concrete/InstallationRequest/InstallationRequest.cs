@@ -19,6 +19,7 @@ namespace Entities.Concrete.InstallationRequest
         public string? AssignedEmployeeId { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? LastUpdatedAt { get; set; }
 
         public bool IsAssigned { get; set; } = false; 
         public bool IsCompleted { get; set; }
