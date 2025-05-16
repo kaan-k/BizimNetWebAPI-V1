@@ -4,6 +4,7 @@ using Core.Entities.Concrete;
 using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete.InstallationRequest;
 using Entities.Concrete.Offer;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,12 @@ namespace Business.Concrete
     {
         private readonly IOfferDal _offerDal;
         private readonly IMapper _mapper;
-        public OfferManager(IOfferDal offerDal, IMapper mapper)
+        private readonly IInstallationRequestService _installationRequestService;
+        public OfferManager(IOfferDal offerDal, IMapper mapper, IInstallationRequestService installationRequestService)
         {
             _offerDal = offerDal;
             _mapper = mapper;
+            _installationRequestService = installationRequestService;
         }
         public IResult Add(OfferDto offer)
         {
@@ -45,6 +48,18 @@ namespace Business.Concrete
                 offer.Status = OfferStatus.Approved;
                 _offerDal.Update(offer);
             }
+
+            var instRequest = new InstallationRequestDto
+            {
+                CreatedAt = DateTime.Now,
+                OfferId = offerId,
+                CustomerId = offer.CustomerId,
+                IsAssigned = false,
+                InstallationNote = "",
+                IsCompleted = false,
+            };
+            _installationRequestService.Add(instRequest);
+
             return new SuccessResult();
         }
 
