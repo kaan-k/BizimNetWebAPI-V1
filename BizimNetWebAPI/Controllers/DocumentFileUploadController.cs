@@ -4,8 +4,7 @@ using Business.Constants;
 using Castle.Core.Internal;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
-using Entities.Concrete.DocumentFiles;
+using Entities.Concrete.DocumentFile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security;
@@ -118,29 +117,30 @@ namespace BizimNetWebAPI.Controllers
             return Ok(result);
         }
 
-        //[HttpPost("Update")]
-        //public IActionResult Update([FromForm(Name = "File")] IFormFile file, [FromForm] DocumentFileUploadDto documentDto)
-        //{
-        //    var map = _mapper.Map<DocumentFile>(documentDto);
+        [HttpPost("Update")]
+        public IActionResult Update([FromForm] DocumentFileUpdateRequest request)
+        {
+            var map = new DocumentFile
+            {
+                PersonId = request.PersonId,
+                DepartmentId = request.DepartmentId,
+                DocumentName = request.DocumentName,
+                DocumentPath = request.DocumentPath,
+                DocumentFullName = request.DocumentFullName,
+                LastModifiedAt = DateTime.Now
+            };
 
-        //    var fileNameResult = _documentFileService.GetByFileName(file.FileName);
+            var fileNameResult = _documentFileService.GetByFileName(request.File.FileName);
 
-        //    if (fileNameResult.Success)
-        //    {
-        //        var result = _documentFileService.DocumentFileUpdate(map, file);
-        //        if (!result.Success)
-        //        {
-        //            return BadRequest(result.Message);
-        //        }
-        //        return Ok(result);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("Veri bulunamadı");
-        //    }
+            if (fileNameResult.Success)
+            {
+                var result = _documentFileService.DocumentFileUpdate(map, request.File);
+                return result.Success ? Ok(result) : BadRequest(result.Message);
+            }
 
+            return BadRequest("Veri bulunamadı");
+        }
 
-        //}
 
 
     }

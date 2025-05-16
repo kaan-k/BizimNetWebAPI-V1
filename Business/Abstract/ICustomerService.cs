@@ -1,6 +1,6 @@
 ﻿using Core.Enums;
 using Core.Utilities.Results;
-using Entities.Concrete;
+using Entities.Concrete.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

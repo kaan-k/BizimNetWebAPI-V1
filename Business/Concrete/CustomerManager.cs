@@ -3,7 +3,7 @@ using Castle.Core.Resource;
 using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
+using Entities.Concrete.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
