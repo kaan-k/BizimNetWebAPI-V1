@@ -30,8 +30,24 @@ namespace Business.Concrete
             _employeeDal.Add(employeeMap);
 
             return new SuccessResult("Eklendi");
+        }
 
-
+        public IResult AddRange(List<EmployeeDto> employees)
+        {
+            if (employees == null || !employees.Any())
+                return new ErrorResult("Gönderilen çalışan listesi boş.");
+            foreach (var employeeDto in employees)
+            {
+                var employee = new Employee
+                {
+                    Name = employeeDto.Name,
+                    Surname = employeeDto.Surname,
+                    DeparmentId = employeeDto.DeparmentId,
+                    Role = employeeDto.Role
+                };
+                _employeeDal.Add(employee);
+            }
+            return new SuccessResult("Çalışanlar başarıyla eklendi.");
         }
 
         public IResult AssignRole(string employeeId, string role)
@@ -134,7 +150,55 @@ namespace Business.Concrete
 
         public IResult Update(EmployeeDto employee, string employeeId)
         {
-            throw new NotImplementedException();
+            var existingEmployee = _employeeDal.Get(x => x.Id == employeeId);
+            if (existingEmployee == null)
+            {
+                return new ErrorResult("Güncellenecek çalışan bulunamadı.");
+            }
+
+            existingEmployee.Name = employee.Name;
+            existingEmployee.Surname = employee.Surname;
+            existingEmployee.Role = employee.Role;
+            existingEmployee.DeparmentId = employee.DeparmentId;
+            existingEmployee.LastUpdated = DateTime.Now;
+            _employeeDal.Update(existingEmployee);
+
+            return new SuccessResult("Çalışan başarıyla güncellendi.");
+        }
+
+        public IResult UpdateRange(List<Employee> employees)
+        {
+            if (employees == null || !employees.Any())
+            {
+                return new ErrorResult("Gönderilen çalışan listesi boş.");
+            }
+
+            var notFoundIds = new List<string>();
+
+            foreach (var employee in employees)
+            {
+                var existingEmployee = _employeeDal.Get(x => x.Id == employee.Id);
+                if (existingEmployee == null)
+                {
+                    notFoundIds.Add(employee.Id);
+                    continue;
+                }
+
+                existingEmployee.Name = employee.Name;
+                existingEmployee.Surname = employee.Surname;
+                existingEmployee.Role = employee.Role;
+                existingEmployee.DeparmentId = employee.DeparmentId;
+                existingEmployee.LastUpdated = DateTime.Now;
+
+                _employeeDal.Update(existingEmployee);
+            }
+
+            if (notFoundIds.Any())
+            {
+                return new ErrorResult($"Bazı çalışanlar bulunamadı ve güncellenemedi. Eksik ID'ler: {string.Join(", ", notFoundIds)}");
+            }
+
+            return new SuccessResult("Tüm çalışanlar başarıyla güncellendi.");
         }
     }
 }

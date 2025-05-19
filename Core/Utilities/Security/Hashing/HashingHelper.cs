@@ -7,6 +7,7 @@ namespace Core.Utilities.Security.Hashing
 {
     public class HashingHelper
     {
+        //out yerine class
         public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())

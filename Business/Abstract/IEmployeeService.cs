@@ -30,5 +30,8 @@ namespace Business.Abstract
         IDataResult<int> GetTotalEmployeeCount();
         IDataResult<int> GetCountByRole(string role);
         IDataResult<int> GetCountByDepartment(string departmentId);
+
+        IResult AddRange(List<EmployeeDto> employees);
+        IResult UpdateRange(List<Employee> employees);
     }
 }

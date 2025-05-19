@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +23,22 @@ namespace BizimNetWebAPI.Controllers
             var result = _employeeService.Add(employee);
             return Ok(result);
         }
+        [HttpPost("AddRange")]
+        public IActionResult AddRange(List<EmployeeDto> employee)
+        {
+            var result = _employeeService.AddRange(employee);
+            return Ok(result);
+        }
         [HttpPost("Update")]
         public IActionResult Update(EmployeeDto employee, string employeeId)
         {
             var result = _employeeService.Update(employee, employeeId);
+            return Ok(result);
+        }
+        [HttpPost("UpdateRange")]
+        public IActionResult UpdateRange(List<Employee> employee)
+        {
+            var result = _employeeService.UpdateRange(employee);
             return Ok(result);
         }
         [HttpPost("AssignToDepartment")]
