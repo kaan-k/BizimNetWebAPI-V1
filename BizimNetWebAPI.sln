@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizimNetWebAPI", "BizimNetWebAPI\BizimNetWebAPI.csproj", "{AABA60B4-90BD-475C-9987-D9CE4AB7F372}"
 EndProject
@@ -15,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{F75F6466-714C-4892-953C-303751EEE5AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BizimNetWorker", "BizimNetWorker\BizimNetWorker.csproj", "{AD5B2345-D68A-4D72-A2C5-9F271B206DC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD5B2345-D68A-4D72-A2C5-9F271B206DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD5B2345-D68A-4D72-A2C5-9F271B206DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD5B2345-D68A-4D72-A2C5-9F271B206DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD5B2345-D68A-4D72-A2C5-9F271B206DC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

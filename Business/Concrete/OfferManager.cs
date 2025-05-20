@@ -152,5 +152,25 @@ namespace Business.Concrete
 
             return new SuccessResult();
         }
+
+        public IDataResult<List<Offer>> WorkerCalculateEscelation()
+        {
+            var results = _offerDal.GetAll(x => x.Status == OfferStatus.Approved);
+            var today = DateTime.Now;
+
+            var escalatedOffers = new List<Offer>();
+
+            foreach (var offer in results)
+            {
+                var daysPassed = (today - offer.CreatedAt).TotalDays;
+
+                if (daysPassed >= 3)
+                {
+                    escalatedOffers.Add(offer);
+                }
+            }
+
+            return new SuccessDataResult<List<Offer>>(escalatedOffers);
+        }
     }
 }
