@@ -23,13 +23,7 @@ namespace Business.Concrete
             _mapper = mapper;
             _employeeService = employeeService;
         }
-        // transaction mongodb 
-        // acid
-        // cap
-        // postgresql
-        // tasarım kalıpları
-        // head first design pattern
-        // https://www.youtube.com/@MilanJovanovicTech/videos
+
 
         public IResult Add(InstallationRequestDto request)
         {

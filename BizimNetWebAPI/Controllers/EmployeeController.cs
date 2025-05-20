@@ -89,18 +89,6 @@ namespace BizimNetWebAPI.Controllers
             var result = _employeeService.GetManagerByDepartment(departmentId);
             return Ok(result);
         }
-        [HttpGet("SearchByName")]
-        public IActionResult SearchByName(string keyword)
-        {
-            var result = _employeeService.SearchByName(keyword);
-            return Ok(result);
-        }
-        [HttpGet("GetFiltered")]
-        public IActionResult GetFiltered(string departmentId, string filter)
-        {
-            var result = _employeeService.GetFiltered(departmentId, filter);
-            return Ok(result);
-        }
         [HttpGet("GetTotalEmployeeCount")]
         public IActionResult GetTotalEmployeeCount()
         {

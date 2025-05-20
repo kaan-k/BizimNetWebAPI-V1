@@ -3,6 +3,7 @@ using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Concrete.Department;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,10 @@ namespace Business.Concrete
     public class EmployeeManager : IEmployeeService
     {
         private readonly IEmployeeDal _employeeDal;
-        public EmployeeManager(IEmployeeDal employeeDal) {
+        private readonly IDepartmentDal _departmentDal;
+        public EmployeeManager(IEmployeeDal employeeDal, IDepartmentDal departmentDal) {
             _employeeDal = employeeDal;
+            _departmentDal = departmentDal;
         }
         
         public IResult Add(EmployeeDto employee)
@@ -95,7 +98,9 @@ namespace Business.Concrete
 
         public IDataResult<List<Employee>> GetByDepartmentId(string departmentId)
         {
-            throw new NotImplementedException();
+            var emps = _employeeDal.GetAll(x=>x.DeparmentId == departmentId);
+
+            return new SuccessDataResult<List<Employee>>(emps);
         }
 
         public IDataResult<Employee> GetById(string id)
@@ -120,33 +125,36 @@ namespace Business.Concrete
 
         public IDataResult<int> GetCountByDepartment(string departmentId)
         {
-            throw new NotImplementedException();
+
+            var count = _employeeDal.GetAll(x => x.DeparmentId == departmentId).Count();
+
+            return new SuccessDataResult<int>(count);
         }
 
         public IDataResult<int> GetCountByRole(string role)
         {
-            throw new NotImplementedException();
+            var count = _employeeDal.GetAll(x => x.Role == role).Count();
+
+            return new SuccessDataResult<int>(count);
         }
 
-        public IDataResult<List<Employee>> GetFiltered(string departmentId, string role)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public IDataResult<Employee> GetManagerByDepartment(string departmentId)
         {
-            throw new NotImplementedException();
+            var department= _departmentDal.Get(x=>x.Id ==departmentId);
+            var manager = _employeeDal.Get(x=>x.Id == department.ManagerId);
+
+            return new SuccessDataResult<Employee>(manager);
         }
 
         public IDataResult<int> GetTotalEmployeeCount()
         {
-            throw new NotImplementedException();
+            var count = _employeeDal.GetAll().Count();
+
+            return new SuccessDataResult<int>(count);
         }
 
-        public IDataResult<List<Employee>> SearchByName(string keyword)
-        {
-            throw new NotImplementedException();
-        }
 
         public IResult Update(EmployeeDto employee, string employeeId)
         {

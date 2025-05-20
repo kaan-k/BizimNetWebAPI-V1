@@ -23,10 +23,8 @@ namespace Entities.Concrete.Customer
         public string City { get; set; }
         public string Country { get; set; }
         public string CustomerField { get; set; }
-
-        public CustomerStatus Status { get; set; } // Aktif, Potansiyel, Eski (enum olarak
-        // Son işlem bilgisi
-        public DateTime? LastActionDate { get; set; } // Son işlem zamanı (teklif, kurulum vs)
+        public CustomerStatus Status { get; set; }
+        public DateTime? LastActionDate { get; set; }
         public string LastAction { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
