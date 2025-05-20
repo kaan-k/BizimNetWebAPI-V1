@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.InstallationRequest;
+using Entities.Concrete.Offer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -157,6 +160,28 @@ namespace Business.Concrete
             existingRequest.LastUpdatedAt = DateTime.Now;
             _installationRequestDal.Update(existingRequest);
             return new SuccessResult("Kurulum isteği başarıyla güncellendi.");
+        }
+
+        public IDataResult<List<InstallationRequest>> WorkerCalculateEscalation()
+        {
+            var results = _installationRequestDal.GetAll(x=>x.IsCompleted == false);
+            var today = DateTime.Now.Date;
+            var escalatedInstallments = new List<InstallationRequest>();
+
+            foreach (var installment in results)
+            {
+                var daysPassed = (today - installment.CreatedAt).TotalDays;
+
+                if (daysPassed >= 3)
+                {
+                    
+                    //
+                    escalatedInstallments.Add(installment);
+                }
+            }
+            return new SuccessDataResult<List<InstallationRequest>>(escalatedInstallments);
+
+
         }
     }
 }

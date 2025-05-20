@@ -23,6 +23,8 @@ namespace Business.Abstract
         IResult Approve(string offerId);
         IResult Reject(string offerId, string reason);
         IDataResult<int> GetOfferCountByStatus(OfferStatus status);
+        IDataResult<List<Offer>> WorkerCalculateEscelation();
+
     }
 
 }
