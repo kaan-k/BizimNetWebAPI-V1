@@ -18,5 +18,7 @@ namespace Core.Configuration
 
         public string DepartmentsCollectionName { get; set; } = "Departments";
         public string StatusRecordCollectionName { get; set; } = "StatusRecords";
+        public string ConnectionString { get; set; } = "mongodb://localhost:27017";
+        public string DatabaseName { get; set; } = "BizimNetDB";
     }
 }

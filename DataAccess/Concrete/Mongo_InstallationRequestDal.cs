@@ -14,9 +14,11 @@ namespace DataAccess.Concrete
 {
     public class Mongo_InstallationRequestDal:MongoRepository<InstallationRequest>, IInstallationRequestDal
     {
+        private readonly IMongoDatabase _db;
         public Mongo_InstallationRequestDal(IMongoDatabase database, IOptions<MongoDbSettings> settings)
           : base(database, settings.Value.InstallationRequestsCollectionName)
         {
+            _db = database;
         }
     }
 }

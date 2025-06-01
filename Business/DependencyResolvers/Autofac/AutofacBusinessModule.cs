@@ -32,6 +32,8 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<InstallationRequestManager>().As<IInstallationRequestService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_InstallationRequestDal>().As<IInstallationRequestDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
         }
     }
 }

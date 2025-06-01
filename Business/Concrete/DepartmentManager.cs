@@ -15,7 +15,6 @@ namespace Business.Concrete
     {
         private readonly IDepartmentDal _departmentDal;
         private readonly IEmployeeDal _employeeDal;
-        //emp dal eklenecek
         public DepartmentManager(IDepartmentDal departmentDal, IEmployeeDal employeeDal)
         {
             _departmentDal = departmentDal;

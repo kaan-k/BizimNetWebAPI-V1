@@ -30,15 +30,15 @@ namespace Business.Concrete
 
         public IResult Add(InstallationRequestDto request)
         {
-            if(request.AssignedEmployeeId == null)
-            {
-                var avaliableEmployees = _employeeService.GetByRole("Kurulum Danışmanı");
-                var random = new Random();
-                var selectedEmployee = avaliableEmployees.Data[random.Next(avaliableEmployees.Data.Count)];
+            //if(request.AssignedEmployeeId == null)
+            //{
+            //    var avaliableEmployees = _employeeService.GetByRole("Kurulum Danışmanı");
+            //    var random = new Random();
+            //    var selectedEmployee = avaliableEmployees.Data[random.Next(avaliableEmployees.Data.Count)];
 
-                request.AssignedEmployeeId = selectedEmployee.Id;
-            }
-            request.IsAssigned = true;
+            //    request.AssignedEmployeeId = selectedEmployee.Id;
+            //}
+            //request.IsAssigned = true;
             var mappedRequest = _mapper.Map<InstallationRequest>(request);
             _installationRequestDal.Add(mappedRequest);
             return new SuccessResult();

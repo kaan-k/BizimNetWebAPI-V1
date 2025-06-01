@@ -24,11 +24,8 @@ var host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((hostContext, services) =>
     {
-
         services.AddHostedService<Worker>();
         services.AddAutoMapper(typeof(EntitiesAutoMapperProfile));
-
-
         services.AddQuartz(q =>
         {
             var installationEscalationJobKey = new JobKey("InstallationRequestEscalationJob");
@@ -46,16 +43,14 @@ var host = Host.CreateDefaultBuilder(args)
                 .RepeatForever()
                 )
             );
-
-
             var offerEscalationJobKey = new JobKey("OfferEscalationJob");
 
             q.AddJob<OfferEscalationJob>(offerEscalationJobKey, j => j
-                .WithDescription("Installation Request Escalation Job")
+                .WithDescription("Offer Escalation Job")
             );
 
             q.AddTrigger(t => t
-                .WithIdentity("InstallationRequestEscalationJobTrigger")
+                .WithIdentity("OfferEscalationJobTrigger")
                 .ForJob(offerEscalationJobKey)
                 .StartNow()
                 .WithSimpleSchedule(x => x
@@ -63,8 +58,6 @@ var host = Host.CreateDefaultBuilder(args)
                 .RepeatForever()
                 )
             );
-
-
         });
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 

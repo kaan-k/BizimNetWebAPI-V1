@@ -80,11 +80,11 @@ namespace BizimNetWebAPI.Controllers
         [AllowAnonymous]
         public IActionResult DownloadDocument(string documentId, [FromQuery]string employeeId)
         {
-            // Belgeyi belge kimliği (documentId) kullanarak alın
+            
             var document = _documentFileService.GetByDocument(documentId);
             if (document == null)
             {
-                return NotFound(); // Belge bulunamazsa 404 Not Found döndürün
+                return NotFound();
             }
 
             if(employeeId != null)

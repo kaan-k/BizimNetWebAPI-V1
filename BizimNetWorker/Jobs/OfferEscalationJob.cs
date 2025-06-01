@@ -20,8 +20,17 @@ namespace BizimNetWorker.Jobs
 
         public Task Execute(IJobExecutionContext context)
         {
-            var result = _offerService.WorkerCalculateEscelation();
-            return Task.FromResult(result);
+            try
+            {
+                Console.WriteLine("OfferEscalationJob başladı");
+                _offerService.WorkerCalculateEscelation();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"HATA: OfferEscalationJob çöktü: {ex.Message}");
+            }
+
+            return Task.CompletedTask;
 
         }
     }

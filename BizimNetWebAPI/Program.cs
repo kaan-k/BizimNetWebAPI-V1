@@ -7,6 +7,7 @@ using Core.Extensions;
 using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
+using DataAccess.DependencyResolvers;
 using Entities.Profiles.AutoMapperProfiles;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
@@ -20,8 +21,10 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
     containerBuilder.RegisterModule(new AutofacBusinessModule());
     containerBuilder.RegisterModule(new AutoFacCoreModule());
-    //containerBuilder.RegisterModule(new AutoFacDataAccessModule());
+    containerBuilder.RegisterModule(new AutoFacDataAccessModule());
 });
+
+
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
 var mongoClient = new MongoClient(builder.Configuration.GetConnectionString("MongoDB"));
