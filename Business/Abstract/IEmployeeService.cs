@@ -24,6 +24,7 @@ namespace Business.Abstract
         IDataResult<Employee> GetManagerByDepartment(string departmentId);
         IResult AssignRole(string employeeId, string role);
 
+        IResult ReturnEmployeeEmail(string employeeId);
 
         IDataResult<int> GetTotalEmployeeCount();
         IDataResult<int> GetCountByRole(string role);

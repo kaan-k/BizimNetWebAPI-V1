@@ -155,6 +155,11 @@ namespace Business.Concrete
             return new SuccessDataResult<int>(count);
         }
 
+        public IResult ReturnEmployeeEmail(string employeeId)
+        {
+            var email = _employeeDal.Get(X => X.Id == employeeId);
+            return new SuccessResult(email.Email);
+        }
 
         public IResult Update(EmployeeDto employee, string employeeId)
         {

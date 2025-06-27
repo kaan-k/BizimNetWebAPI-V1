@@ -16,6 +16,9 @@ namespace Business.Abstract
         IResult AssignEmployee(string requestId, string employeeId);
         IResult UpdateNote(string requestId, string note);
         IResult MarkAsCompleted(string requestId);
+        IResult SendInstallationMail(InstallationRequestDto request);
+        IResult SendAssignmentMail();
+
         IDataResult<InstallationRequest> GetById(string id);
         IDataResult<List<InstallationRequest>> GetByCustomerId(string customerId);
         IDataResult<List<InstallationRequest>> GetByOfferId(string offerId);

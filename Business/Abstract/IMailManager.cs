@@ -10,6 +10,7 @@ namespace Business.Abstract
     public interface IMailManager
     {
         void SendMail(EmailConfiguration config, EMailContent content);
+        void SendInstallationConfirmationMail(EmailConfiguration config, EMailContent content);
     }
 
 }

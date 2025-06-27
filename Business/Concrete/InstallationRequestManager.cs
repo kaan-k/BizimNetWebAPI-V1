@@ -3,12 +3,15 @@ using Business.Abstract;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete.Email;
 using Entities.Concrete.InstallationRequest;
 using Entities.Concrete.Offer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,14 +20,18 @@ namespace Business.Concrete
     public class InstallationRequestManager : IInstallationRequestService
     {
         private readonly IInstallationRequestDal _installationRequestDal;
+        private readonly IMailManager _mailManager;
         private readonly IEmployeeService _employeeService;
+        private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
 
-        public InstallationRequestManager(IInstallationRequestDal installationRequestDal, IMapper mapper, IEmployeeService employeeService)
+        public InstallationRequestManager(IInstallationRequestDal installationRequestDal, IMapper mapper, IEmployeeService employeeService, IMailManager mailManager, ICustomerService customerService)
         {
+            _customerService = customerService;
             _installationRequestDal = installationRequestDal;
             _mapper = mapper;
             _employeeService = employeeService;
+            _mailManager = mailManager;
         }
 
 
@@ -41,6 +48,13 @@ namespace Business.Concrete
             //request.IsAssigned = true;
             var mappedRequest = _mapper.Map<InstallationRequest>(request);
             _installationRequestDal.Add(mappedRequest);
+
+            if(request.AssignedEmployeeId != null)
+            {
+                SendInstallationMail(request);
+            }
+
+
             return new SuccessResult();
         }
 
@@ -59,6 +73,7 @@ namespace Business.Concrete
             request.AssignedEmployeeId = employeeId;
             request.LastUpdatedAt = DateTime.Now;
             _installationRequestDal.Update(request);
+
             return new SuccessResult("Çalışan başarıyla atandı.");
         }
 
@@ -121,6 +136,41 @@ namespace Business.Concrete
             _installationRequestDal.Update(installationRequest);
 
             return new SuccessResult("Kurulum isteği tamamlandı.");
+        }
+
+        public IResult SendInstallationMail(InstallationRequestDto request)
+        {
+            var mailResult = _employeeService.ReturnEmployeeEmail(request.AssignedEmployeeId);
+            var mail = mailResult.Message;
+            var config = new EmailConfiguration
+            {
+                SmtpServer = "smtp.gmail.com",
+                Port = 587,
+                From = "kaannkale@gmail.com",
+                Username = "kaannkale@gmail.com",
+                Password = "pkho hrxk adwx oxkf ",
+                To = new List<string> { mail }
+            };
+
+            var customer = _customerService.GetById(request.CustomerId).Data;
+
+            var content = new EMailContent
+            {
+                Subject = customer.Name + " Kurulum İsteği",
+                Body = $"<h1>Test</h1><p>Müşteri adresi: {customer.Address}</p> <br> <p>Müşteri telefon numarası: {customer.PhoneNumber}</p>",
+                IsBodyHtml = true
+            };
+
+
+            _mailManager.SendMail(config, content);
+            return new SuccessResult("Mail başarıyla gönderildi.");
+        }
+
+        public IResult SendAssignmentMail()
+        {
+
+
+            return new SuccessResult("a");
         }
 
         public IResult Update(InstallationRequest request)
