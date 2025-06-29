@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities.Concrete.Device;
 using Entities.Concrete.DocumentFile;
 using Entities.Concrete.InstallationRequest;
 using Entities.Concrete.Offer;
@@ -13,6 +14,7 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<OfferDto, Offer>();
             CreateMap<InstallationRequestDto, InstallationRequest>();
             CreateMap<InstallationRequest, InstallationRequest>();
+            CreateMap<DeviceDto, Device>();
         }
     }
 }
