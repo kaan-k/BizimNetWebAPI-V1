@@ -157,7 +157,14 @@ namespace Business.Concrete
             var content = new EMailContent
             {
                 Subject = customer.Name + " Kurulum İsteği",
-                Body = $"<h1>Test</h1><p>Müşteri adresi: {customer.Address}</p> <br> <p>Müşteri telefon numarası: {customer.PhoneNumber}</p>",
+                Body = $@"
+    <div style='font-family: Arial, sans-serif; color: #333;'>
+        <h2 style='color: #2c3e50;'>Kurulum Talebi</h2>
+        <p><strong>Müşteri Adresi:</strong> {customer.Address}</p>
+        <p><strong>Telefon Numarası:</strong> {customer.PhoneNumber}</p>
+        <hr style='margin-top: 20px;'>
+        <p style='font-size: 12px; color: #999;'>Bu e-posta otomatik olarak oluşturulmuştur.</p>
+    </div>",
                 IsBodyHtml = true
             };
 
@@ -168,8 +175,6 @@ namespace Business.Concrete
 
         public IResult SendAssignmentMail()
         {
-
-
             return new SuccessResult("a");
         }
 
