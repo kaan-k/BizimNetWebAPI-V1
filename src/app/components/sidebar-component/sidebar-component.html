@@ -1,0 +1,63 @@
+
+<nav class="hk-nav">
+    <div class="nicescroll-bar">
+        <div class="navbar-nav-wrap">
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/']">
+                        <span class="feather-icon"><i class="fa-solid fa-table-columns"></i></span>
+                        <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+            <hr class="nav-separator" class="nav-link-text"> 
+           
+            <ul class="navbar-nav flex-column">
+                <li class="nav-item" >
+                    <a class="nav-link"   [routerLink]="['/work-accident']">
+                        <span class="feather-icon"><i class="fa-solid fa-person-falling"></i></span>
+                        <span class="nav-link-text">User</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+
+
+
+  
+
+  <div class="offcanvas offcanvas-start canvas-style" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header" >
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    
+    <div class="offcanvas-body">
+        <a class="navbar-brand font-weight-700"  [routerLink]="['/']">
+            <div class="navbar-logo">
+                <img src="/assets/img/logo-White.png" alt="user" class="avatar-img ">
+            </div>
+        </a>
+        <ul class="navbar-nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/']">
+                    <span class="feather-icon"><i class="fa-solid fa-table-columns"></i></span>
+                    <span class="nav-link-text">Dashboard</span>
+                </a>
+            </li>
+        </ul>
+        <hr class="nav-separator" class="nav-link-text"> 
+       
+        <ul class="navbar-nav flex-column">
+                <li class="nav-item" >
+                    <a class="nav-link"   [routerLink]="['/work-accident']">
+                        <span class="feather-icon"><i class="fa-solid fa-person-falling"></i></span>
+                        <span class="nav-link-text">User</span>
+                    </a>
+                </li>
+            </ul>
+    </div>
+  </div>
