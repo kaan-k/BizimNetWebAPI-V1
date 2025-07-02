@@ -1,6 +1,7 @@
 ﻿using Core.Enums;
 using Core.Utilities.Results;
 using Entities.Concrete.Customer;
+using Entities.Concrete.Device;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace Business.Abstract
         IDataResult<List<Customer>> GetAllFiltered(CustomerStatus status);
         IDataResult<List<Customer>> GetCustomersByField(string field);
         IDataResult<Customer> GetById(string id);
+        IDataResult<List<Device>> GetAllDevicesByCustomerId(string id);
     }
 }

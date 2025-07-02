@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Business.Abstract;
 using Business.Concrete;
+using Business.Concrete.Constants;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Concrete.DataBases.MongoDB;
@@ -32,6 +33,12 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<InstallationRequestManager>().As<IInstallationRequestService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_InstallationRequestDal>().As<IInstallationRequestDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<DeviceManager>().As<IDeviceService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_DeviceDal>().As<IDeviceDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<ServicingManager>().As<IServicingService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_ServicingDal>().As<IServicingDal>().InstancePerLifetimeScope();
 
             builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
         }

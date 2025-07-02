@@ -1,0 +1,131 @@
+﻿using Autofac.Core;
+using AutoMapper;
+using Business.Abstract;
+using Core.Utilities.Results;
+using DataAccess.Abstract;
+using Entities.Concrete.Email;
+using Entities.Concrete.Service;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Business.Concrete
+{
+    public class ServicingManager : IServicingService
+    {
+        private readonly IServicingDal _serviceDal;
+        private readonly IMailManager _mailManager;
+        private readonly ICustomerDal _customerDal;
+        private readonly ICustomerService _customerService;
+        private readonly IMapper _mapper;
+
+        public ServicingManager(IServicingDal serviceDal, IMapper mapper, ICustomerService customer, ICustomerDal customerDal, IMailManager mailManager)
+        {
+            _serviceDal = serviceDal;
+            _mailManager = mailManager;
+            _customerService = customer;
+            _mapper = mapper;
+            _customerDal = customerDal;
+        }
+        public IDataResult<ServicingAddDto> Add(ServicingAddDto service)
+        {
+            var servicingToAdd = _mapper.Map<Servicing>(service);
+            _serviceDal.Add(servicingToAdd);
+            return new SuccessDataResult<ServicingAddDto>(service, "Servis başarıyla eklendi.");
+
+        }
+
+        public IDataResult<Servicing> GetByTrackingId(string trackingId)
+        {
+            var service = _serviceDal.GetAll(x => x.TrackingId == trackingId).FirstOrDefault();
+            if (service == null)
+            {
+                return new ErrorDataResult<Servicing>("Servis bulunamadı.");
+            }
+            return new SuccessDataResult<Servicing>(service,"Servis bulundu.");
+        }
+
+        public IResult MarkAsCompleted(string id)
+        {
+            var service = _serviceDal.Get(x=>x.Id == id);
+
+            if (service == null)
+            {
+                return new ErrorResult("Servis bulunamadı.");
+            }
+
+            service.Status = Core.Enums.ServiceStatus.Completed;
+            service.LastAction = "Servis tamamlandı.";
+            service.LastActionDate = DateTime.Now;
+            service.UpdatedAt = DateTime.Now;
+            _serviceDal.Update(service);
+
+            SendCompletionMail(service);
+
+            return new SuccessResult("Servis başarıyla tamamlandı.");
+
+        }
+
+        public IResult MarkAsInProgress(string id)
+        {
+            var service = _serviceDal.Get(x => x.Id == id);
+
+            if (service == null)
+            {
+                return new ErrorResult("Servis bulunamadı.");
+            }
+
+            service.Status = Core.Enums.ServiceStatus.IProgress;
+            service.LastAction = "Servis tamir aşamasında";
+            service.LastActionDate = DateTime.Now;
+            service.UpdatedAt = DateTime.Now;
+            _serviceDal.Update(service);
+
+            return new SuccessResult("Servis başarıyla tamamlandı.");
+        }
+
+        public IResult SendCompletionMail(Servicing servicing)
+        {
+            var customer = _customerDal.Get(x => x.Id == servicing.CustomerId);
+
+            var config = new EmailConfiguration
+            {
+                SmtpServer = "smtp.gmail.com",
+                Port = 587,
+                From = "kaannkale@gmail.com",
+                Username = "kaannkale@gmail.com",
+                Password = "pkho hrxk adwx oxkf ",
+                To = new List<string> { customer.Email }
+            };
+
+            //var customer = _customerService.GetById(request.CustomerId).Data;
+
+            var content = new EMailContent
+            {
+                Subject = customer.Name + " Kurulum İsteği",
+                Body = $@"
+    <div style='font-family: Arial, sans-serif; color: #333;'>
+        <h2 style='color: #2c3e50;'>Kurulum Talebi</h2>
+        <p><strong>Müşteri Adresi:</strong> {customer.Address}</p>
+        <p><strong>Telefon Numarası:</strong> {customer.PhoneNumber}</p>
+        <hr style='margin-top: 20px;'>
+        <p style='font-size: 12px; color: #999;'>Bu e-posta otomatik olarak oluşturulmuştur.</p>
+    </div>",
+                IsBodyHtml = true
+            };
+
+
+            _mailManager.SendMail(config, content);
+            return new SuccessResult("Mail başarıyla gönderildi.");
+        }
+
+        public IDataResult<Servicing> Update(Servicing servicing)
+        {
+            _serviceDal.Update(servicing);
+            return new SuccessDataResult<Servicing>(servicing, "Servis başarıyla güncellendi.");
+
+        }
+    }
+}

@@ -4,6 +4,7 @@ using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.Customer;
+using Entities.Concrete.Device;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace Business.Concrete
     public class CustomerManager : ICustomerService
     {
         private readonly ICustomerDal _customerDal;
+        private readonly IDeviceDal _deviceDal;
 
-        public CustomerManager(ICustomerDal customerDal)
+        public CustomerManager(ICustomerDal customerDal, IDeviceDal deviceDal)
         {
             _customerDal = customerDal;
+            _deviceDal = deviceDal;
         }
         public IDataResult<Customer> Add(CustomerDto customer)
         {
@@ -53,6 +56,18 @@ namespace Business.Concrete
             var customers = _customerDal.GetAll().ToList();
 
             return new SuccessDataResult<List<Customer>>(customers);
+        }
+
+        public IDataResult<List<Device>> GetAllDevicesByCustomerId(string id)
+        {
+            //var deviceIds = _customerDal.GetAll(x => x.Id == id).Select(x => x.DeviceIds);
+            var devices = _deviceDal.GetAll(x => x.CustomerId == id).ToList();
+
+            if (!devices.Any())
+            {
+                return new ErrorDataResult<List<Device>>(devices, "Müşteriye ait cihaz bulunamadı.");
+            }
+            return new SuccessDataResult<List<Device>>(devices, "Müşteriye ait tüm cihazlar getirildi.");
         }
 
         public IDataResult<List<Customer>> GetAllFiltered(CustomerStatus status)
@@ -94,6 +109,7 @@ namespace Business.Concrete
 
         }
 
+       
         public IResult Update(Customer customer)
         {
             var customerToUpdate = _customerDal.Get(x=> x.Id == customer.Id);

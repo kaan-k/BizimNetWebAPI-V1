@@ -17,6 +17,8 @@ namespace Core.Configuration
         public string EmployeesCollectionName { get; set; } = "Employees";
         public string DocumentsCollectionName { get; set; } = "Documents";
         public string OffersCollectionName { get; set; } = "Offers";
+        public string ServicesCollectionName { get; set; } = "Services";
+
 
         public string DepartmentsCollectionName { get; set; } = "Departments";
         public string StatusRecordCollectionName { get; set; } = "StatusRecords";
