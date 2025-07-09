@@ -42,6 +42,12 @@ namespace BizimNetWebAPI.Controllers
             var result = _customerService.GetById(id);
             return Ok(result);
         }
+        [HttpGet("GetAllDevicesByCustomerId")]
+        public IActionResult GetAllDevicesByCustomerId(string id)
+        {
+            var result = _customerService.GetAllDevicesByCustomerId(id);
+            return Ok(result);
+        }
         [HttpGet("GetAllFiltered")]
         public IActionResult GetAllFiltered(CustomerStatus status)
         {
@@ -49,7 +55,7 @@ namespace BizimNetWebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpGet("Deleteeee")]
+        [HttpGet("Delete")]
         public IActionResult Delete(string id)
         {
             var result = _customerService.Delete(id);
