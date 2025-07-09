@@ -15,7 +15,7 @@ namespace DataAccess.Concrete.DataBases.MongoDB
     public class MongoDB_DocumentFileUpload : MongoRepository<DocumentFile>, IDocumentFileUploadDal
     {
         public MongoDB_DocumentFileUpload(IMongoDatabase database, IOptions<MongoDbSettings> settings)
-          : base(database, settings.Value.DocumentsCollectionName)
+          : base(database, settings.Value.CustomerCollectionName)
         {
         }
 

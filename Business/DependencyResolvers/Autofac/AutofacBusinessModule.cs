@@ -40,6 +40,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ServicingManager>().As<IServicingService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_ServicingDal>().As<IServicingDal>().InstancePerLifetimeScope();
 
+            builder.RegisterType<StockManager>().As<IStockService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_StockDal>().As<IStockDal>().InstancePerLifetimeScope();
+
             builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
         }
     }
