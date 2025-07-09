@@ -48,7 +48,7 @@ namespace Business.Concrete
             var userToCheck = _businessUserDal.Get(x=>x.Email==userForLoginDto.Email);
             if (userToCheck == null)
             {
-                return new ErrorDataResult<BusinessUser>("");
+
             }
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
