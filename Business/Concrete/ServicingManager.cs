@@ -1,9 +1,11 @@
 ﻿using Autofac.Core;
 using AutoMapper;
 using Business.Abstract;
+using Business.Concrete.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.Email;
+using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
 using System;
 using System.Collections.Generic;
@@ -18,21 +20,27 @@ namespace Business.Concrete
         private readonly IServicingDal _serviceDal;
         private readonly IMailManager _mailManager;
         private readonly ICustomerDal _customerDal;
+        private readonly IPdfGeneratorService _pdfGeneratorService;
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
 
-        public ServicingManager(IServicingDal serviceDal, IMapper mapper, ICustomerService customer, ICustomerDal customerDal, IMailManager mailManager)
+        public ServicingManager(IServicingDal serviceDal, IMapper mapper, ICustomerService customer, ICustomerDal customerDal, IMailManager mailManager, IPdfGeneratorService pdfGeneratorService)
         {
             _serviceDal = serviceDal;
             _mailManager = mailManager;
             _customerService = customer;
             _mapper = mapper;
             _customerDal = customerDal;
+            _pdfGeneratorService = pdfGeneratorService;
         }
         public IDataResult<ServicingAddDto> Add(ServicingAddDto service)
         {
             var servicingToAdd = _mapper.Map<Servicing>(service);
             _serviceDal.Add(servicingToAdd);
+
+            var pdfBytes = _pdfGeneratorService.GenerateServicingPdf(servicingToAdd);
+            var filePath = PdfGeneratorHelper.CreateServicingPdfStructure(servicingToAdd);
+            File.WriteAllBytes(filePath, pdfBytes);
             return new SuccessDataResult<ServicingAddDto>(service, "Servis başarıyla eklendi.");
 
         }

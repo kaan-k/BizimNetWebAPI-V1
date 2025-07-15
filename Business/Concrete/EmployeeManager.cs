@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -15,23 +16,18 @@ namespace Business.Concrete
     public class EmployeeManager : IEmployeeService
     {
         private readonly IEmployeeDal _employeeDal;
+        private readonly IMapper _mapper;
         private readonly IDepartmentDal _departmentDal;
-        public EmployeeManager(IEmployeeDal employeeDal, IDepartmentDal departmentDal) {
+        public EmployeeManager(IEmployeeDal employeeDal, IDepartmentDal departmentDal, IMapper mapper) {
             _employeeDal = employeeDal;
             _departmentDal = departmentDal;
+            _mapper = mapper;
         }
         
         public IResult Add(EmployeeDto employee)
         {
-            var employeeMap = new Employee
-            {
-                DeparmentId = employee.DeparmentId,
-                Name = employee.Name,
-                Surname = employee.Surname,
-                Role = employee.Role
-            };
+            var employeeMap = _mapper.Map<Employee>(employee);
             _employeeDal.Add(employeeMap);
-
             return new SuccessResult("Eklendi");
         }
 
@@ -41,13 +37,7 @@ namespace Business.Concrete
                 return new ErrorResult("Gönderilen çalışan listesi boş.");
             foreach (var employeeDto in employees)
             {
-                var employee = new Employee
-                {
-                    Name = employeeDto.Name,
-                    Surname = employeeDto.Surname,
-                    DeparmentId = employeeDto.DeparmentId,
-                    Role = employeeDto.Role
-                };
+                var employee = _mapper.Map<Employee>(employeeDto);
                 _employeeDal.Add(employee);
             }
             return new SuccessResult("Çalışanlar başarıyla eklendi.");

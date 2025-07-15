@@ -17,7 +17,6 @@ namespace Entities.Concrete.Service
         public string Id { get; set; }
         public string Name { get; set; }
         public string TrackingId { get; set; } =  $"ARY{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
-        //ARY33FUJ328
         public List<string> DeviceIds { get; set; }
         public string CustomerId { get; set; }
         public ServiceStatus Status { get; set; }
