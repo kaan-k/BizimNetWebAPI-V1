@@ -44,6 +44,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<Mongo_StockDal>().As<IStockDal>().InstancePerLifetimeScope();
 
             builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
+
+            builder.RegisterType<PdfGeneratorManager>().As<IPdfGeneratorService>().SingleInstance();
+
         }
     }
 }

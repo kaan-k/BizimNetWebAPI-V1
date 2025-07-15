@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.Concrete.Constants;
 using Core.Entities.Concrete;
 using Core.Enums;
 using Core.Utilities.Results;
@@ -17,13 +18,16 @@ namespace Business.Concrete
     public class OfferManager : IOfferService
     {
         private readonly IOfferDal _offerDal;
+        private readonly IPdfGeneratorService _pdfGeneratorService;
         private readonly IMapper _mapper;
         private readonly IInstallationRequestService _installationRequestService;
-        public OfferManager(IOfferDal offerDal, IMapper mapper, IInstallationRequestService installationRequestService)
+        public OfferManager(IOfferDal offerDal, IMapper mapper, IInstallationRequestService installationRequestService, IPdfGeneratorService dfGeneratorService)
         {
             _offerDal = offerDal;
             _mapper = mapper;
             _installationRequestService = installationRequestService;
+            _pdfGeneratorService = dfGeneratorService;
+
         }
         public IResult Add(OfferDto offer)
         {
@@ -46,6 +50,9 @@ namespace Business.Concrete
             if(offer.Status == OfferStatus.Pending)
             {
                 offer.Status = OfferStatus.Approved;
+                var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
+                var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
+                File.WriteAllBytes(filePath, pdfBytes);
                 _offerDal.Update(offer);
             }
 

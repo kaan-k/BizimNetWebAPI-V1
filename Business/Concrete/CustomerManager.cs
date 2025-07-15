@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Castle.Core.Resource;
 using Core.Enums;
 using Core.Utilities.Results;
@@ -17,30 +18,17 @@ namespace Business.Concrete
     {
         private readonly ICustomerDal _customerDal;
         private readonly IDeviceDal _deviceDal;
+        private readonly IMapper _mapper;
 
-        public CustomerManager(ICustomerDal customerDal, IDeviceDal deviceDal)
+        public CustomerManager(ICustomerDal customerDal, IDeviceDal deviceDal, IMapper mapper)
         {
             _customerDal = customerDal;
             _deviceDal = deviceDal;
+            _mapper = mapper;
         }
         public IDataResult<Customer> Add(CustomerDto customer)
         {
-            var customerDto = new Customer
-            {
-                Name = customer.Name,
-                CompanyName = customer.CompanyName,
-                CustomerField = customer.CustomerField,
-                Email = customer.Email,
-                PhoneNumber = customer.PhoneNumber,
-                Address = customer.Address,
-                City = customer.City,
-                Country = customer.Country,
-                Status = customer.Status,
-                LastActionDate = customer.LastActionDate,
-                CreatedAt = customer.CreatedAt,
-                UpdatedAt = customer.UpdatedAt,
-            };
-
+            var customerDto = _mapper.Map<Customer>(customer);
             _customerDal.Add(customerDto);
             return new SuccessDataResult<Customer>(customerDto,"Müşteri eklendi.");   
         }
