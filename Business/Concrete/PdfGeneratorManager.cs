@@ -80,7 +80,7 @@ public class PdfGeneratorManager : IPdfGeneratorService
                         row.RelativeItem().Column(col =>
                         {
                             col.Item().Text("Oluşturulma Tarihi").Bold();
-                            col.Item().Text(offer.CreatedAt.ToString("dd MMMM yyyy HH:mm", new CultureInfo("tr-TR")))
+                            col.Item().Text(offer.CreatedAt?.ToString("dd MMMM yyyy HH:mm", new CultureInfo("tr-TR")))
                                      .FontColor(Colors.Grey.Darken2);
                         });
                     });

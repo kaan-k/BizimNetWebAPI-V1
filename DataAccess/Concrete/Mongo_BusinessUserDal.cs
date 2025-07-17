@@ -2,6 +2,7 @@
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Repositories;
+using Entities.Concrete;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -14,9 +15,22 @@ namespace DataAccess.Concrete
         {
         }
 
-        public List<BusinessUser> GetAll()
+        public List<BusinessUserDetailsDto> GetAll()
         {
-            throw new NotImplementedException();
+            var list = new List<BusinessUserDetailsDto>();
+            var data = base.GetAll();
+            foreach (var item in data)
+            {
+                list.Add(new BusinessUserDetailsDto
+                {
+                    Id = item.Id,
+                    CompanyAddress = item.CompanyAddress,
+                    CompanyName = item.CompanyName,
+                    Email = item.Email
+                });
+            }
+            return list;
+
         }
     }
 }

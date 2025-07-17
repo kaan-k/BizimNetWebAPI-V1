@@ -47,9 +47,9 @@ namespace Business.Concrete
             {
                 return new ErrorResult();
             }
-            if(offer.Status == OfferStatus.Pending)
+            if(offer.Status == "Pending")
             {
-                offer.Status = OfferStatus.Approved;
+                offer.Status = "Approved";
                 var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
                 var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
                 File.WriteAllBytes(filePath, pdfBytes);
@@ -109,13 +109,13 @@ namespace Business.Concrete
             return new SuccessDataResult<Offer>(offer);
         }
 
-        public IDataResult<List<Offer>> GetByStatus(OfferStatus status)
+        public IDataResult<List<Offer>> GetByStatus(string status)
         {
             var offer = _offerDal.GetAll(x => x.Status == status);
             return new SuccessDataResult<List<Offer>>(offer);
         }
 
-        public IDataResult<int> GetOfferCountByStatus(OfferStatus status)
+        public IDataResult<int> GetOfferCountByStatus(string status)
         {
             var offer = _offerDal.GetAll(x => x.Status == status);
 
@@ -129,47 +129,34 @@ namespace Business.Concrete
             {
                 return new ErrorResult();
             }
-            if(offer.Status == OfferStatus.Pending)
-            {
-                offer.Status = OfferStatus.Rejected;
-                offer.RejectionReason = reason;
-                _offerDal.Update(offer);
-            }
+            offer.Status = "Rejected";
+            offer.RejectionReason = reason;
+            _offerDal.Update(offer);
             return new SuccessResult();
         }
 
         public IResult Update(Offer offer)
-        {
-            var existingOffer = _offerDal.Get(x=>x.Id == offer.Id);
-            if (existingOffer == null)
+        { 
+            if (offer == null)
             {
                 return new ErrorResult();
 
             }
-            //existingOffer.Id = offer.Id;
-            existingOffer.Status = offer.Status;
-            existingOffer.OfferDetails = offer.OfferDetails;
-            existingOffer.OfferTitle = offer.OfferTitle;
-            existingOffer.CustomerId = offer.CustomerId;
-            existingOffer.EmployeeId = offer.EmployeeId;
-            existingOffer.TotalAmount = offer.TotalAmount;
-            existingOffer.UpdatedAt = DateTime.Now;
-
-            _offerDal.Update(existingOffer);
-
+            offer.UpdatedAt = DateTime.Now; 
+            _offerDal.Update(offer); 
             return new SuccessResult();
         }
 
         public IDataResult<List<Offer>> WorkerCalculateEscelation()
         {
-            var results = _offerDal.GetAll(x => x.Status == OfferStatus.Approved);
+            var results = _offerDal.GetAll(x => x.Status == "Approved");
             var today = DateTime.Now;
 
             var escalatedOffers = new List<Offer>();
 
             foreach (var offer in results)
             {
-                var daysPassed = (today - offer.CreatedAt).TotalDays;
+                var daysPassed = (today - offer.CreatedAt)?.TotalDays;
 
                 if (daysPassed >= 3)
                 {

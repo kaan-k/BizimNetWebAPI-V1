@@ -18,11 +18,11 @@ namespace Business.Abstract
         IDataResult<List<Offer>> GetAll();
         IDataResult<List<Offer>> GetByCustomerId(string customerId);
         IDataResult<List<Offer>> GetByEmployeeId(string employeeId);
-        IDataResult<List<Offer>> GetByStatus(OfferStatus status);
+        IDataResult<List<Offer>> GetByStatus(string status);
         IDataResult<List<Offer>> GetByDateRange(DateTime start, DateTime end);
         IResult Approve(string offerId);
         IResult Reject(string offerId, string reason);
-        IDataResult<int> GetOfferCountByStatus(OfferStatus status);
+        IDataResult<int> GetOfferCountByStatus(string status);
         IDataResult<List<Offer>> WorkerCalculateEscelation();
 
     }
