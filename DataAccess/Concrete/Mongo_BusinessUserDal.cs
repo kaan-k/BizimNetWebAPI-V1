@@ -2,8 +2,10 @@
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Repositories;
+using Entities.Concrete.Customer;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete
 {
@@ -14,9 +16,12 @@ namespace DataAccess.Concrete
         {
         }
 
-        public List<BusinessUser> GetAll()
+        public List<BusinessUser> GetAll(Expression<Func<BusinessUser, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            if (filter == null)
+                return _collection.Find(FilterDefinition<BusinessUser>.Empty).ToList();
+
+            return _collection.Find(filter).ToList();
         }
     }
 }

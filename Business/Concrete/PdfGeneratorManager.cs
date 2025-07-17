@@ -140,8 +140,6 @@ public class PdfGeneratorManager : IPdfGeneratorService
                 page.Size(PageSizes.A4);
                 page.Margin(50);
                 page.DefaultTextStyle(x => x.FontSize(12).FontFamily("Arial"));
-
-                // === Header ===
                 page.Header().Element(header =>
                 {
                     header.Column(col =>

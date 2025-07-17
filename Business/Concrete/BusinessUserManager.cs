@@ -62,7 +62,9 @@ namespace Business.Concrete
 
         public IDataResult<List<BusinessUser>> GetAll()
         {
-            throw new NotImplementedException();
+            var users = _businessUserDal.GetAll().ToList();
+
+            return new SuccessDataResult<List<BusinessUser>>(users);
         }
         public IDataResult<AccessToken> CreateAccessToken(BusinessUser user)
         {

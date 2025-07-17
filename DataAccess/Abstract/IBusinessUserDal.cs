@@ -11,6 +11,5 @@ namespace DataAccess.Abstract
 {
     public interface IBusinessUserDal:IMongoRepository<BusinessUser>
     {
-        List<BusinessUser> GetAll();
     }
 }

@@ -8,6 +8,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,9 +21,13 @@ namespace DataAccess.Concrete
         {
         }
 
-        public List<Customer> GetAll()
+        public List<Customer> GetAll(Expression<Func<Customer, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            if (filter == null)
+                return _collection.Find(FilterDefinition<Customer>.Empty).ToList();
+
+            return _collection.Find(filter).ToList();
         }
+
     }
 }
