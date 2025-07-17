@@ -21,8 +21,8 @@ namespace Entities.Concrete.Offer
         public string OfferDetails { get; set; }
         public string? RejectionReason { get; set; }
         public decimal TotalAmount { get; set; }
-        public OfferStatus Status { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public string Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 

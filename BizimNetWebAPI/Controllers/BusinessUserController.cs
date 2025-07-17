@@ -77,5 +77,16 @@ namespace BizimNetWebAPI.Controllers
             return BadRequest();
         }
 
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            var result = _businessUserInterface.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
     }
 }

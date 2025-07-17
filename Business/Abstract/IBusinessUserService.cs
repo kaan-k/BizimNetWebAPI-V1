@@ -18,6 +18,6 @@ namespace Business.Abstract
         IResult Delete(string id);
         IDataResult<AccessToken> CreateAccessToken(BusinessUser user);
         IDataResult<BusinessUser>GetById(string id);
-        IDataResult<List<BusinessUser>> GetAll();
+        IDataResult<List<BusinessUserDetailsDto>> GetAll();
     }
 }

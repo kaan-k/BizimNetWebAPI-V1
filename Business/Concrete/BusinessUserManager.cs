@@ -60,9 +60,9 @@ namespace Business.Concrete
             return new SuccessDataResult<BusinessUser>(userToCheck, "login oldu");
         }
 
-        public IDataResult<List<BusinessUser>> GetAll()
+        public IDataResult<List<BusinessUserDetailsDto>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<BusinessUserDetailsDto>>(_businessUserDal.GetAll());
         }
         public IDataResult<AccessToken> CreateAccessToken(BusinessUser user)
         {

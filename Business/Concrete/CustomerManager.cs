@@ -60,9 +60,10 @@ namespace Business.Concrete
 
         public IDataResult<List<Customer>> GetAllFiltered(CustomerStatus status)
         {
-            var query = _customerDal.GetAll().Where(x=>x.Status == status).ToList();
+            //var query = _customerDal.GetAll().Where(x=>x.Status == status).ToList();
+            var query = _customerDal.GetAll().Where(x => true).ToList();
 
-            if(!query.Any())
+            if (!query.Any())
             {
                 return new ErrorDataResult<List<Customer>>(query, "Seçilen statüde müşteri bulunamadı.");
             }
@@ -79,7 +80,8 @@ namespace Business.Concrete
 
         public IResult GetCustomerCountByStatus(CustomerStatus status)
         {
-            var query = _customerDal.GetAll().Where(x => x.Status == status).ToList().Count;
+            //var query = _customerDal.GetAll().Where(x => x.Status == status).ToList().Count;
+            var query = _customerDal.GetAll().Where(x => true).ToList().Count;
 
             return new SuccessResult("Seçilen statüdeki müşteri sayısı: " + query.ToString());
         }
@@ -100,11 +102,8 @@ namespace Business.Concrete
        
         public IResult Update(Customer customer)
         {
-            var customerToUpdate = _customerDal.Get(x=> x.Id == customer.Id);
-
-            customerToUpdate.UpdatedAt = DateTime.UtcNow;    
+            customer.UpdatedAt = DateTime.UtcNow;    
             _customerDal.Update(customer);
-            _customerDal.Update(customerToUpdate);
             return new SuccessDataResult<Customer>(customer, "Müşteri güncellendi.");
         }
     }

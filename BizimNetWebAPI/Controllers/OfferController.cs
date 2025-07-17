@@ -28,13 +28,13 @@ namespace BizimNetWebAPI.Controllers
             var result = _offerService.Update(offer);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        [HttpPost("Approve")]
+        [HttpGet("Approve")]
         public IActionResult Approve(string id)
         {
             var result = _offerService.Approve(id);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        [HttpPost("Reject")]
+        [HttpGet("Reject")]
         public IActionResult Reject(string id, string reason)
         {
             var result = _offerService.Reject(id, reason);
@@ -71,13 +71,13 @@ namespace BizimNetWebAPI.Controllers
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
         [HttpGet("GetByStatus")]
-        public IActionResult GetByStatus(OfferStatus status)
+        public IActionResult GetByStatus(string status)
         {
             var result = _offerService.GetByStatus(status);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
         [HttpGet("CountByStatus")]
-        public IActionResult GetOfferCountByStatus(OfferStatus status)
+        public IActionResult GetOfferCountByStatus(string status)
         {
             var result = _offerService.GetOfferCountByStatus(status);
             return result.Success ? Ok(result) : BadRequest(result.Message);

@@ -15,10 +15,10 @@ namespace Entities.Concrete.InstallationRequest
         public string CustomerId { get; set; }
         public string? AssignedEmployeeId { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
         public DateTime? FinishedAt { get; set; }
 
-        public DateTime LastUpdatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
 
         public bool IsAssigned { get; set; } = false; 
         public bool IsCompleted { get; set; }
