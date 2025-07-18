@@ -47,14 +47,11 @@ namespace Business.Concrete
             {
                 return new ErrorResult();
             }
-            if(offer.Status == "Pending")
-            {
-                offer.Status = "Approved";
-                var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
-                var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
-                File.WriteAllBytes(filePath, pdfBytes);
-                _offerDal.Update(offer);
-            }
+            offer.Status = "Approved";
+            var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
+            var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
+            File.WriteAllBytes(filePath, pdfBytes);
+            _offerDal.Update(offer);
 
             var instRequest = new InstallationRequestDto
             {

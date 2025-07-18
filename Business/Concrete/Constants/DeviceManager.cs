@@ -4,6 +4,7 @@ using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.Device;
+using Entities.Concrete.Offer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,16 +39,34 @@ namespace Business.Concrete.Constants
 
         }
 
-        public IDataResult<List<Device>> GetByDeviceType(DeviceType deviceType)
+        public IDataResult<List<Device>> GetAllDetails()
+        {
+            return new SuccessDataResult<List<Device  >>(_deviceDal.GetAllDeviceDetails());
+        }
+
+        public IDataResult<List<Device>> GetByDeviceType(string deviceType)
         {
             var devices = _deviceDal.GetAll(x=> x.DeviceType == deviceType);
 
             return new SuccessDataResult<List<Device>>(devices);
         }
-
-        public IResult Update(DeviceDto request)
+        public IDataResult<List<Device>> GetAllByCustomerId(string id)
         {
-            throw new NotImplementedException();
+            var devices = _deviceDal.GetAll(x => x.CustomerId == id);
+
+            return new SuccessDataResult<List<Device>>(devices);
+        }
+
+        public IDataResult<Device> GetById(string id)
+        {
+            return new SuccessDataResult<Device>(_deviceDal.Get(x => x.Id == id));
+        }
+
+        public IResult Update(Device request)
+        {
+            request.UpdatedAt = DateTime.Now;
+            _deviceDal.Update(request);
+            return new SuccessResult();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Entities.Concrete.Device
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public DeviceType DeviceType { get; set; }
+        public string DeviceType { get; set; }
         public string Name { get; set; }
         public string CustomerId { get; set; }
         public string AnyDeskId { get; set; }

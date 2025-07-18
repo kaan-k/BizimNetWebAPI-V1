@@ -11,6 +11,6 @@ namespace DataAccess.Abstract
 {
     public interface IDeviceDal: IMongoRepository<Device>
     {
-
+        List<Device> GetAllDeviceDetails();
     }
 }

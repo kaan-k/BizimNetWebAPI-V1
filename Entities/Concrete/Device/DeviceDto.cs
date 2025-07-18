@@ -14,7 +14,7 @@ namespace Entities.Concrete.Device
     {
         public string Name { get; set; }
         public string CustomerId { get; set; }
-        public DeviceType DeviceType { get; set; }
+        public string DeviceType { get; set; }
         public string AnyDeskId { get; set; }
         public string? PublicIp { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;

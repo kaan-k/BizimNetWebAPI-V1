@@ -45,6 +45,16 @@ namespace Business.Concrete
 
         }
 
+        public IDataResult<List<Servicing>> GetAll()
+        {
+            return new SuccessDataResult<List<Servicing>>(_serviceDal.GetAllServicingDetails());
+        }
+
+        public IDataResult<Servicing> GetById(string id)
+        {
+            return new SuccessDataResult<Servicing>(_serviceDal.Get(x => x.Id == id));
+        }
+
         public IDataResult<Servicing> GetByTrackingId(string trackingId)
         {
             var service = _serviceDal.GetAll(x => x.TrackingId == trackingId).FirstOrDefault();
@@ -64,7 +74,7 @@ namespace Business.Concrete
                 return new ErrorResult("Servis bulunamadı.");
             }
 
-            service.Status = Core.Enums.ServiceStatus.Completed;
+            service.Status = "Completed";
             service.LastAction = "Servis tamamlandı.";
             service.LastActionDate = DateTime.Now;
             service.UpdatedAt = DateTime.Now;
@@ -75,6 +85,7 @@ namespace Business.Concrete
             return new SuccessResult("Servis başarıyla tamamlandı.");
 
         }
+        
 
         public IResult MarkAsInProgress(string id)
         {
@@ -85,7 +96,7 @@ namespace Business.Concrete
                 return new ErrorResult("Servis bulunamadı.");
             }
 
-            service.Status = Core.Enums.ServiceStatus.IProgress;
+            service.Status = "IProgress";
             service.LastAction = "Servis tamir aşamasında";
             service.LastActionDate = DateTime.Now;
             service.UpdatedAt = DateTime.Now;
@@ -131,6 +142,7 @@ namespace Business.Concrete
 
         public IDataResult<Servicing> Update(Servicing servicing)
         {
+            servicing.UpdatedAt = DateTime.Now; 
             _serviceDal.Update(servicing);
             return new SuccessDataResult<Servicing>(servicing, "Servis başarıyla güncellendi.");
 

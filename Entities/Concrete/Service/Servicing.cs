@@ -19,7 +19,7 @@ namespace Entities.Concrete.Service
         public string TrackingId { get; set; } =  $"ARY{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
         public List<string> DeviceIds { get; set; }
         public string CustomerId { get; set; }
-        public ServiceStatus Status { get; set; }
+        public string Status { get; set; }
         public DateTime? LastActionDate { get; set; }
         public string LastAction { get; set; }
         public DateTime CreatedAt { get; set; }

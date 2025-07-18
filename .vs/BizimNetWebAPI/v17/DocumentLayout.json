@@ -3,24 +3,124 @@
   "WorkspaceRootPath": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\installationrequest\\installationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\installationrequest\\installationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\servicingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\servicingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\documentfileuploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\documentfileuploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\concrete\\servicingmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\servicingmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\installationrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\installationrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\abstract\\iservicingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\iservicingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\devicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\devicecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\service\\servicing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\service\\servicing.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\service\\servicingadddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\service\\servicingadddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\concrete\\constants\\devicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\constants\\devicemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\abstract\\ideviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\ideviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\core\\entities\\concrete\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|solutionrelative:core\\entities\\concrete\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\employeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\employeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\repositories\\mongorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\repositories\\mongorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\device\\device.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\device\\device.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\abstract\\iservicingdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\abstract\\iservicingdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_servicingdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_servicingdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_devicedal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_devicedal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\core\\enums\\servicestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|solutionrelative:core\\enums\\servicestatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\core\\enums\\devicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|solutionrelative:core\\enums\\devicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\concrete\\offermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\offermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\concrete\\employeemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\employeemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\abstract\\idevicedal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\abstract\\idevicedal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongodb_documentfileupload.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongodb_documentfileupload.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_stockdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_stockdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_installationrequestdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_installationrequestdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_offerdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_offerdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\device\\devicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\device\\devicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\installationrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\installationrequestcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\concrete\\installationrequestmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\installationrequestmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\abstract\\iofferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\iofferservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\installationrequest\\installationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\installationrequest\\installationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\documentfileuploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\documentfileuploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\installationrequest\\installationrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -45,10 +145,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\entities\\concrete\\customer\\customerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\customer\\customerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_offerdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_offerdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\ozanc\\onedrive\\belgeler\\github\\bizimnetwebapi-v1\\business\\abstract\\ibusinessuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -86,7 +182,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -98,19 +194,360 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DeviceType.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Enums\\DeviceType.cs",
+              "RelativeDocumentMoniker": "Core\\Enums\\DeviceType.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Enums\\DeviceType.cs",
+              "RelativeToolTip": "Core\\Enums\\DeviceType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:22:11.567Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "ServiceStatus.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Enums\\ServiceStatus.cs",
+              "RelativeDocumentMoniker": "Core\\Enums\\ServiceStatus.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Enums\\ServiceStatus.cs",
+              "RelativeToolTip": "Core\\Enums\\ServiceStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T19:49:45.921Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Servicing.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Service\\Servicing.cs",
+              "RelativeDocumentMoniker": "Entities\\Concrete\\Service\\Servicing.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Service\\Servicing.cs",
+              "RelativeToolTip": "Entities\\Concrete\\Service\\Servicing.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T19:49:10.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ServicingManager.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\ServicingManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\ServicingManager.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\ServicingManager.cs*",
+              "RelativeToolTip": "Business\\Concrete\\ServicingManager.cs*",
+              "ViewState": "AgIAACcAAAAAAAAAAAAewDQAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T19:49:03.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DeviceManager.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\Constants\\DeviceManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\Constants\\DeviceManager.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\Constants\\DeviceManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\Constants\\DeviceManager.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAnwC4AAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:22:48.587Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IDeviceService.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IDeviceService.cs",
+              "RelativeDocumentMoniker": "Business\\Abstract\\IDeviceService.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IDeviceService.cs",
+              "RelativeToolTip": "Business\\Abstract\\IDeviceService.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAgwBUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:19:42.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DeviceController.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DeviceController.cs",
+              "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\DeviceController.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DeviceController.cs",
+              "RelativeToolTip": "BizimNetWebAPI\\Controllers\\DeviceController.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAnwC4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:23:01.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ServicingAddDto.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Service\\ServicingAddDto.cs",
+              "RelativeDocumentMoniker": "Entities\\Concrete\\Service\\ServicingAddDto.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Service\\ServicingAddDto.cs",
+              "RelativeToolTip": "Entities\\Concrete\\Service\\ServicingAddDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T21:03:49.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ServicingController.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\ServicingController.cs",
+              "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\ServicingController.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\ServicingController.cs*",
+              "RelativeToolTip": "BizimNetWebAPI\\Controllers\\ServicingController.cs*",
+              "ViewState": "AgIAABsAAAAAAAAAAAAuwCcAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T19:53:17.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "IServicingService.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IServicingService.cs",
+              "RelativeDocumentMoniker": "Business\\Abstract\\IServicingService.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IServicingService.cs",
+              "RelativeToolTip": "Business\\Abstract\\IServicingService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T21:35:43.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Mongo_ServicingDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_ServicingDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_ServicingDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_ServicingDal.cs",
+              "RelativeToolTip": "DataAccess\\Concrete\\Mongo_ServicingDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBEAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:39:20.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "MongoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Repositories\\MongoRepository.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Repositories\\MongoRepository.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Repositories\\MongoRepository.cs",
+              "RelativeToolTip": "DataAccess\\Repositories\\MongoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T18:45:01.715Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Employee.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Entities\\Concrete\\Employee.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Concrete\\Employee.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Entities\\Concrete\\Employee.cs",
+              "RelativeToolTip": "Core\\Entities\\Concrete\\Employee.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-18T11:09:34.034Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EmployeeDto.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\EmployeeDto.cs",
+              "RelativeDocumentMoniker": "Entities\\Concrete\\EmployeeDto.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\EmployeeDto.cs",
+              "RelativeToolTip": "Entities\\Concrete\\EmployeeDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-18T11:09:17.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Device.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Device\\Device.cs",
+              "RelativeDocumentMoniker": "Entities\\Concrete\\Device\\Device.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Device\\Device.cs",
+              "RelativeToolTip": "Entities\\Concrete\\Device\\Device.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:22:34.96Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "IServicingDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IServicingDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Abstract\\IServicingDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IServicingDal.cs",
+              "RelativeToolTip": "DataAccess\\Abstract\\IServicingDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T21:34:03.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Mongo_DeviceDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_DeviceDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_DeviceDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_DeviceDal.cs",
+              "RelativeToolTip": "DataAccess\\Concrete\\Mongo_DeviceDal.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAswC0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:39:07.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Mongo_StockDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_StockDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_StockDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_StockDal.cs",
+              "RelativeToolTip": "DataAccess\\Concrete\\Mongo_StockDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:39:19.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "OfferManager.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\OfferManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\OfferManager.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\OfferManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\OfferManager.cs",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAkwI4AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T16:03:35.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "EmployeeManager.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\EmployeeManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\EmployeeManager.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\EmployeeManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\EmployeeManager.cs",
+              "ViewState": "AgIAAKwAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T16:01:36.718Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "MongoDB_DocumentFileUpload.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\MongoDB_DocumentFileUpload.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Concrete\\MongoDB_DocumentFileUpload.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\MongoDB_DocumentFileUpload.cs",
+              "RelativeToolTip": "DataAccess\\Concrete\\MongoDB_DocumentFileUpload.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAA1wCsAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:39:21.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "IDeviceDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IDeviceDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Abstract\\IDeviceDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IDeviceDal.cs",
+              "RelativeToolTip": "DataAccess\\Abstract\\IDeviceDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:44:31.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Mongo_InstallationRequestDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_InstallationRequestDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_InstallationRequestDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_InstallationRequestDal.cs",
+              "RelativeToolTip": "DataAccess\\Concrete\\Mongo_InstallationRequestDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:39:18.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "DeviceDto.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Device\\DeviceDto.cs",
+              "RelativeDocumentMoniker": "Entities\\Concrete\\Device\\DeviceDto.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Device\\DeviceDto.cs",
+              "RelativeToolTip": "Entities\\Concrete\\Device\\DeviceDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T15:22:22.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "InstallationRequestManager.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\InstallationRequestManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\InstallationRequestManager.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\InstallationRequestManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\InstallationRequestManager.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAwwDAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-17T09:39:16.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Mongo_OfferDal.cs",
+              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_OfferDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_OfferDal.cs",
+              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_OfferDal.cs",
+              "RelativeToolTip": "DataAccess\\Concrete\\Mongo_OfferDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-10T22:28:58.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
               "Title": "InstallationRequestController.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\InstallationRequestController.cs",
               "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\InstallationRequestController.cs",
               "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\InstallationRequestController.cs",
               "RelativeToolTip": "BizimNetWebAPI\\Controllers\\InstallationRequestController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAzwEwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T19:56:28.948Z"
+              "WhenOpened": "2025-07-14T19:56:28.948Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 30,
               "Title": "InstallationRequestDto.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\InstallationRequest\\InstallationRequestDto.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\InstallationRequest\\InstallationRequestDto.cs",
@@ -122,20 +559,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 28,
               "Title": "InstallationRequest.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\InstallationRequest\\InstallationRequest.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\InstallationRequest\\InstallationRequest.cs",
               "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\InstallationRequest\\InstallationRequest.cs",
               "RelativeToolTip": "Entities\\Concrete\\InstallationRequest\\InstallationRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBQAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-14T19:51:08.291Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 31,
               "Title": "OfferController.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\OfferController.cs",
               "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\OfferController.cs",
@@ -147,19 +584,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 27,
               "Title": "IOfferService.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IOfferService.cs",
               "RelativeDocumentMoniker": "Business\\Abstract\\IOfferService.cs",
               "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IOfferService.cs",
               "RelativeToolTip": "Business\\Abstract\\IOfferService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T17:17:24.461Z"
+              "WhenOpened": "2025-07-14T17:17:24.461Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 34,
               "Title": "DepartmentManager.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DepartmentManager.cs",
               "RelativeDocumentMoniker": "Business\\Concrete\\DepartmentManager.cs",
@@ -171,7 +609,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 33,
               "Title": "IDepartmentDal.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IDepartmentDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Abstract\\IDepartmentDal.cs",
@@ -183,19 +621,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "OfferManager.cs",
-              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\OfferManager.cs",
-              "RelativeDocumentMoniker": "Business\\Concrete\\OfferManager.cs",
-              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\OfferManager.cs",
-              "RelativeToolTip": "Business\\Concrete\\OfferManager.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAxwJEAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-14T16:03:35.045Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 32,
               "Title": "Offer.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Offer\\Offer.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Offer\\Offer.cs",
@@ -207,7 +633,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 35,
               "Title": "CustomerDto.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Customer\\CustomerDto.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Customer\\CustomerDto.cs",
@@ -219,7 +645,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 29,
               "Title": "DocumentFileUploadController.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DocumentFileUploadController.cs",
               "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\DocumentFileUploadController.cs",
@@ -231,19 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Mongo_OfferDal.cs",
-              "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_OfferDal.cs",
-              "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_OfferDal.cs",
-              "ToolTip": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_OfferDal.cs",
-              "RelativeToolTip": "DataAccess\\Concrete\\Mongo_OfferDal.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-10T22:28:58.302Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 36,
               "Title": "IBusinessUserService.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IBusinessUserService.cs",
               "RelativeDocumentMoniker": "Business\\Abstract\\IBusinessUserService.cs",
@@ -255,7 +669,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 39,
               "Title": "BusinessUserDto.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\BusinessUserDto.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\BusinessUserDto.cs",
@@ -267,7 +681,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 38,
               "Title": "IBusinessUserDal.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IBusinessUserDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Abstract\\IBusinessUserDal.cs",
@@ -279,7 +693,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 37,
               "Title": "Mongo_BusinessUserDal.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_BusinessUserDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_BusinessUserDal.cs",
@@ -291,7 +705,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 42,
               "Title": "AspectInterceptorSelector.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Utilities\\Interceptors\\AspectInterceptorSelector.cs",
               "RelativeDocumentMoniker": "Core\\Utilities\\Interceptors\\AspectInterceptorSelector.cs",
@@ -303,7 +717,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 41,
               "Title": "BusinessUserController.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\BusinessUserController.cs",
               "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\BusinessUserController.cs",
@@ -315,7 +729,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 40,
               "Title": "BusinessUser.cs",
               "DocumentMoniker": "C:\\Users\\ozanc\\OneDrive\\Belgeler\\GitHub\\BizimNetWebAPI-V1\\Core\\Entities\\Concrete\\BusinessUser.cs",
               "RelativeDocumentMoniker": "Core\\Entities\\Concrete\\BusinessUser.cs",

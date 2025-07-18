@@ -15,9 +15,13 @@ namespace Business.Abstract
     {
         IResult Add(DeviceDto request);
         IResult Delete(string id);
-        IResult Update(DeviceDto request);
+        IResult Update(Device request);
 
 
-        IDataResult <List<Device>>GetByDeviceType(DeviceType deviceType);
+        IDataResult <List<Device>>GetByDeviceType(string deviceType);
+        IDataResult<List<Device>> GetAllByCustomerId(string id);
+        IDataResult<List<Device>> GetAllDetails();
+        IDataResult<Device> GetById(string id);
+
     }
 }

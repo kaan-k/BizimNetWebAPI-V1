@@ -15,6 +15,7 @@ namespace DataAccess.Repositories
         public IMongoDatabase _dataBase;
         public MongoRepository(IMongoDatabase database, string collectionName)
         {
+            _dataBase = database;
             _collection = database.GetCollection<T>(collectionName);
         }
 

@@ -1,6 +1,8 @@
 ﻿using Core.Configuration;
 using DataAccess.Abstract;
 using DataAccess.Repositories;
+using Entities.Concrete.Customer;
+using Entities.Concrete.Device;
 using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
 using Microsoft.Extensions.Options;
@@ -20,6 +22,31 @@ namespace DataAccess.Concrete
   : base(database, settings.Value.ServicesCollectionName)
         {
             _db = database;
+        }
+        public List<Servicing> GetAllServicingDetails()
+        {
+            var list = new List<Servicing>();
+            var data = base.GetAll();
+            var customerCollection = base._dataBase.GetCollection<Customer>("Customers");
+            foreach (var item in data)
+            {
+                var filter = Builders<Customer>.Filter.Eq(k => k.Id, item.CustomerId);
+                var customer = customerCollection.Find(filter).FirstOrDefault();
+                list?.Add(new Servicing
+                {
+                    Id = item?.Id,
+                    CustomerId = customer?.Name,
+                    Name = item?.Name,
+                    CreatedAt=item.CreatedAt,
+                    DeviceIds=item?.DeviceIds,
+                    LastAction=item?.LastAction,
+                    LastActionDate=item?.LastActionDate,
+                    Status=item?.Status,
+                    TrackingId=item?.TrackingId,
+                    UpdatedAt= item?.UpdatedAt
+                });
+            }
+            return list;
         }
     }
 }
