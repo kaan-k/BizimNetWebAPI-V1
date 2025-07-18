@@ -14,9 +14,11 @@ namespace Business.Abstract
         IDataResult<ServicingAddDto> Add(ServicingAddDto service);
         IDataResult<Servicing> Update(Servicing servicing);
         IDataResult<Servicing> GetByTrackingId(string trackingId);
+        IDataResult<Servicing> GetById(string id);
         IResult MarkAsCompleted(string id);
         IResult MarkAsInProgress(string id);
         IResult SendCompletionMail(Servicing servicing);
+        IDataResult<List<Servicing>> GetAll();
 
     }
 }

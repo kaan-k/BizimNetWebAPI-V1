@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
 {
     public interface IServicingDal:IMongoRepository<Servicing>
     {
+        List<Servicing> GetAllServicingDetails();
     }
 }

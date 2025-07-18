@@ -26,13 +26,13 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpPost("Update")]
-        public IActionResult Update(DeviceDto request)
+        public IActionResult Update(Device request)
         {
             var result = _deviceService.Update(request);
             return Ok(result);
         }
 
-        [HttpDelete("Delete")]
+        [HttpGet("Delete")]
         public IActionResult Delete(string id)
         {
             var result = _deviceService.Delete(id);
@@ -40,9 +40,27 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetByDeviceType")]
-        public IActionResult GetByDeviceType(DeviceType deviceType)
+        public IActionResult GetByDeviceType(string deviceType)
         {
             var result = _deviceService.GetByDeviceType(deviceType);
+            return Ok(result);
+        }
+        [HttpGet("GetAllByCustomerId")]
+        public IActionResult GetAllByCustomerId(string id)
+        {
+            var result = _deviceService.GetAllByCustomerId(id);
+            return Ok(result);
+        }
+        [HttpGet("GetById")]
+        public IActionResult GetById(string id)
+        {
+            var result = _deviceService.GetById(id);
+            return Ok(result);
+        }
+        [HttpGet("GetAllDetails")]
+        public IActionResult GetAllDetails()
+        {
+            var result = _deviceService.GetAllDetails();
             return Ok(result);
         }
     }
