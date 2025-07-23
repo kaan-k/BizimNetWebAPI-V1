@@ -22,6 +22,8 @@ namespace Business.Abstract
         IDataResult<List<Device>> GetAllByCustomerId(string id);
         IDataResult<List<Device>> GetAllDetails();
         IDataResult<Device> GetById(string id);
+        IDataResult<string> GetNameById(string id);
+
 
     }
 }

@@ -58,7 +58,13 @@ namespace Business.Concrete
 
         public IDataResult<List<DocumentFile>> GetAll()
         {
-            return new SuccessDataResult<List<DocumentFile>>(_documentFileDal.GetAll(), "Başarıyla getirildi.");
+            var documents = _documentFileDal.GetAll();
+            if(documents != null)
+            {
+                return new SuccessDataResult<List<DocumentFile>>(documents, "Başarıyla getirildi.");
+
+            }
+            return new ErrorDataResult<List< DocumentFile >> ("");
         }
 
         public IDataResult<DocumentFile> GetByDocument(string id)

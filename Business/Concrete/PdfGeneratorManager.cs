@@ -5,9 +5,15 @@ using QuestPDF.Infrastructure;
 using QuestPDF.Drawing;
 using System.Globalization;
 using Entities.Concrete.Service;
+using Business.Abstract;
 
 public class PdfGeneratorManager : IPdfGeneratorService
 {
+    private readonly IDeviceService _deviceService;
+    public PdfGeneratorManager(IDeviceService deviceService)
+    {
+        _deviceService = deviceService;
+    }
     public byte[] GenerateOfferPdf(Offer offer)
     {
         QuestPDF.Settings.License = LicenseType.Community;
@@ -189,7 +195,8 @@ public class PdfGeneratorManager : IPdfGeneratorService
                         {
                             foreach (var deviceId in servicing.DeviceIds)
                             {
-                                deviceCol.Item().Text($"• {deviceId}").FontColor(Colors.Grey.Darken2);
+                                var name = _deviceService.GetNameById(deviceId);
+                                deviceCol.Item().Text($"• {name.Data}").FontColor(Colors.Grey.Darken2);
                             }
                         });
                     }

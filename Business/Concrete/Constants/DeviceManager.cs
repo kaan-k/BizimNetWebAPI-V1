@@ -68,5 +68,17 @@ namespace Business.Concrete.Constants
             _deviceDal.Update(request);
             return new SuccessResult();
         }
+
+        public IDataResult<string> GetNameById(string id)
+        {
+            var name = _deviceDal.Get(x => x.Id == id);
+            if(name != null)
+            {
+                return new SuccessDataResult<string>(name.Name);
+            }
+
+            return new ErrorDataResult<string>();
+
+        }
     }
 }

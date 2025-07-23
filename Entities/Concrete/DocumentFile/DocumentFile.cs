@@ -16,6 +16,11 @@ namespace Entities.Concrete.DocumentFile
         public string Id { get; set; }
         public string? OfferId { get; set; }
         public string PersonId { get; set; }
+        public string? Name { get; set; }
+        public string? CompanyName { get; set; }
+        public string? Email { get; set; }
+
+        public List<string>? DeviceIds { get; set; }
         public string DepartmentId { get; set; }
         public List<string> downloderIds { get; set; } = new List<string>();
         public string DocumentName { get; set; }
