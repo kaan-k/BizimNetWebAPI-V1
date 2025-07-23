@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entities.Concrete.Customer;
 using Entities.Concrete.Device;
 using Entities.Concrete.DocumentFile;
 using Entities.Concrete.InstallationRequest;
@@ -19,6 +20,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<DeviceDto, Device>();
             CreateMap<ServicingAddDto, Servicing>();
             CreateMap<StockAddDto, Stock>();
+            CreateMap<CustomerDto, Customer>();
+
         }
     }
 }
