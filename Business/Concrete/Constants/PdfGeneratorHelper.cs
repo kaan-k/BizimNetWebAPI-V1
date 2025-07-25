@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.Offer;
+﻿using Entities.Concrete.InstallationRequest;
+using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,20 @@ namespace Business.Concrete.Constants
             var folderPath = Path.Combine("wwwroot", "teklifler", folderName);
             Directory.CreateDirectory(folderPath);
             var fileName = $"teklif_{offer.OfferTitle}.pdf";
+            var safeFileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+            var filePath = Path.Combine(folderPath, safeFileName);
+
+            return filePath;
+        }
+        public static string CreateInstallationRequestPdfStructure(InstallationRequest yasin)
+        {
+            var now = DateTime.Now;
+            var monthName = now.ToString("MMMM", new System.Globalization.CultureInfo("tr-TR"));
+            var yearSuffix = now.Year % 100;
+            var folderName = $"{monthName}-{yearSuffix}";
+            var folderPath = Path.Combine("wwwroot", "kurulumlar", folderName);
+            Directory.CreateDirectory(folderPath);
+            var fileName = $"kurulum{yasin.OfferId}.pdf";
             var safeFileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
             var filePath = Path.Combine(folderPath, safeFileName);
 

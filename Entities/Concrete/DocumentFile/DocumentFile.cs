@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete.DocumentFile
 {
+    [BsonIgnoreExtraElements]
+
     public class DocumentFile : IEntity
     {
         [BsonId]
