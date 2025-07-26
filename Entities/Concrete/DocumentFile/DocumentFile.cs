@@ -17,12 +17,9 @@ namespace Entities.Concrete.DocumentFile
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string? OfferId { get; set; }
-        public string PersonId { get; set; }
-        public string DepartmentId { get; set; }
-        public List<string> downloderIds { get; set; } = new List<string>();
+        public string DepartmentId { get; set; } 
         public string DocumentName { get; set; }
-        public string? DocumentPath { get; set; }
-        public string? DocumentFullName { get; set; }
+        public string? DocumentPath { get; set; } 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? LastModifiedAt { get;set; }
     }

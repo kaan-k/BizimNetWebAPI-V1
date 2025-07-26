@@ -2,6 +2,7 @@
 using Business.Abstract;
 using Business.Constants;
 using Castle.Core.Internal;
+using Core.Utilities.FileHelper;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.DocumentFile;
@@ -19,25 +20,20 @@ namespace BizimNetWebAPI.Controllers
         private readonly IDocumentFileUploadService _documentFileService;
         private readonly IDocumentFileUploadDal _documentFileUploadDal;
         private readonly IMapper _mapper;
+        private readonly IFileHelper _fileHelper;
 
-        public DocumentFileUploadController(IDocumentFileUploadService documentFileUploadService, IMapper mapper, IDocumentFileUploadDal documentFileUploadDal)
+        public DocumentFileUploadController(IDocumentFileUploadService documentFileUploadService, IMapper mapper, IDocumentFileUploadDal documentFileUploadDal, IFileHelper fileHelper)
         {
             _documentFileService = documentFileUploadService;
-            _mapper = mapper;   
+            _mapper = mapper;
             _documentFileUploadDal = documentFileUploadDal;
+            _fileHelper = fileHelper;
         }
 
         [HttpPost("Add")]
         public IActionResult DocumentFileAdd([FromForm] DocumentFileAddRequest request)
         {
-            var map = new DocumentFile
-            {
-                PersonId = request.PersonId,
-                DepartmentId = request.DepartmentId,
-                DocumentName = request.DocumentName,
-                DocumentPath = request.DocumentPath,
-                DocumentFullName = request.DocumentFullName
-            };
+            var map = _mapper.Map<DocumentFile>(request);
 
             var fileNameResult = _documentFileService.GetByFileName(request.File.FileName);
 
@@ -57,46 +53,35 @@ namespace BizimNetWebAPI.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var result = _documentFileService.GetAll();
+            var result = _documentFileService.GetDocumentDetails();
             if (!result.Success)
             {
                 return BadRequest(result.Message);
             }
             return Ok(result);
         }
-        //[HttpGet("GetAllDocumentDetails")]
-        //public IActionResult GetDocumentDetails()
-        //{
-        //    var result = _documentFileService.GetDocumentDetails();
-        //    if (!result.Success)
-        //    {
-        //        return BadRequest(result.Message);
-        //    }
-        //    return Ok(result);
-        //}
+        [HttpGet("GetByDocument")]
+        public IActionResult GetByDocument(string id)
+        {
+            var result = _documentFileService.GetByDocument(id);
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result);
+        }
         //allowanon kaldirmayi unutma!!
-  
-        [HttpGet("DownloadDocument/{documentId}")]
+
+        [HttpGet("DownloadDocument/{id}")]
         [AllowAnonymous]
-        public IActionResult DownloadDocument(string documentId, [FromQuery]string employeeId)
+        public IActionResult DownloadDocument(string id)
         {
             
-            var document = _documentFileService.GetByDocument(documentId);
+            var document = _documentFileService.GetByDocument(id);
             if (document == null)
             {
                 return NotFound();
-            }
-
-            if(employeeId != null)
-            {
-                
-
-                if (!document.Data.downloderIds.Contains(employeeId))
-                {
-                    document.Data.downloderIds.Add(employeeId);
-                    _documentFileUploadDal.Update(document.Data);
-                }
-            }
+            } 
 
             // Belgeyi tarayıcıya indir
             var newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "DocumentFile" + Path.DirectorySeparatorChar + 
@@ -120,25 +105,26 @@ namespace BizimNetWebAPI.Controllers
         [HttpPost("Update")]
         public IActionResult Update([FromForm] DocumentFileUpdateRequest request)
         {
-            var map = new DocumentFile
+            var map = _mapper.Map<DocumentFile>(request);
+
+            // Eski veriyi veritabanından çek
+            var oldDocumentResult = _documentFileService.GetByDocument(map.Id);
+            if (oldDocumentResult.Success && oldDocumentResult.Data != null)
             {
-                PersonId = request.PersonId,
-                DepartmentId = request.DepartmentId,
-                DocumentName = request.DocumentName,
-                DocumentPath = request.DocumentPath,
-                DocumentFullName = request.DocumentFullName,
-                LastModifiedAt = DateTime.Now
-            };
+                var oldDocument = oldDocumentResult.Data;
+                // DocumentName değişmişse eski dosyayı sil
+                var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "DocumentFile",
+                        oldDocument.DocumentName, oldDocument.DocumentPath);
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                    var path = Path.Combine(PathConstant.DocumentFile + map.DocumentName + Path.DirectorySeparatorChar);
+                    map.DocumentPath = _fileHelper.Upload(request.File, path);
+                }
+            } 
 
-            var fileNameResult = _documentFileService.GetByFileName(request.File.FileName);
-
-            if (fileNameResult.Success)
-            {
-                var result = _documentFileService.DocumentFileUpdate(map, request.File);
-                return result.Success ? Ok(result) : BadRequest(result.Message);
-            }
-
-            return BadRequest("Veri bulunamadı");
+            var result = _documentFileService.DocumentFileUpdate(map, request.File);
+            return result.Success ? Ok(result) : BadRequest(result.Message);
         }
 
 
