@@ -9,6 +9,6 @@ namespace DataAccess.Abstract
 {
     public interface IDocumentFileUploadDal : IMongoRepository<DocumentFile>
     {
-        
+        List<DocumentFileDetailsDto> GetDocumentDetails();
     }
 }
