@@ -31,6 +31,8 @@ namespace Business.Concrete
                 Email = buisnessUser.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                FirstName = buisnessUser.FirstName,
+                LastName = buisnessUser.LastName,
                 CompanyAddress = buisnessUser.CompanyAddress,
                 CompanyName = buisnessUser.CompanyName,
             };

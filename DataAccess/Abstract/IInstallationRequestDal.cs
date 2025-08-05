@@ -10,5 +10,7 @@ namespace DataAccess.Abstract
 {
     public interface IInstallationRequestDal:IMongoRepository<InstallationRequest>
     {
+        public List<InstallationRequest> GetAllInstallationRequestDetails();
+
     }
 }

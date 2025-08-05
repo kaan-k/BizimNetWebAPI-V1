@@ -16,6 +16,8 @@ namespace Business.Abstract
         IResult Delete(string id);
         IDataResult<Offer> GetById(string id);
         IDataResult<List<Offer>> GetAll();
+        IDataResult<List<Offer>> GetAllDetails();
+
         IDataResult<List<Offer>> GetByCustomerId(string customerId);
         IDataResult<List<Offer>> GetByEmployeeId(string employeeId);
         IDataResult<List<Offer>> GetByStatus(string status);

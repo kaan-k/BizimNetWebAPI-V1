@@ -80,6 +80,11 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Offer>>(offers);
         }
 
+        public IDataResult<List<Offer>> GetAllDetails()
+        {
+            return new SuccessDataResult<List<Offer>>(_offerDal.GetAllOfferDetails());
+        }
+
         public IDataResult<List<Offer>> GetByCustomerId(string customerId)
         {
             var offer = _offerDal.GetAll(X=> X.CustomerId == customerId);

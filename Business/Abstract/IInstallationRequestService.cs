@@ -25,6 +25,8 @@ namespace Business.Abstract
         IDataResult<List<InstallationRequest>> GetUnassigned();
         IDataResult<List<InstallationRequest>> GetAssigned();
         IDataResult<List<InstallationRequest>> GetAll();
+        IDataResult<List<InstallationRequest>> GetAllInstallationRequestDetails();
+
         IDataResult<List<InstallationRequest>> WorkerCalculateEscalation();
     }
 }

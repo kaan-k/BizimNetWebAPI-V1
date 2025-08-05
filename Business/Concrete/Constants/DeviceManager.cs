@@ -41,7 +41,7 @@ namespace Business.Concrete.Constants
 
         public IDataResult<List<Device>> GetAllDetails()
         {
-            return new SuccessDataResult<List<Device  >>(_deviceDal.GetAllDeviceDetails());
+            return new SuccessDataResult<List<Device>>(_deviceDal.GetAllDeviceDetails());
         }
 
         public IDataResult<List<Device>> GetByDeviceType(string deviceType)
