@@ -1,5 +1,4 @@
 ﻿using Core.Entities.Abstract;
-using Core.Enums;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
@@ -8,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Concrete.Service
+namespace Entities.Concrete.Duty
 {
-    public class Servicing:IEntity
+    public class Duty : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
-        public string TrackingId { get; set; } =  $"ARY{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
-        public List<string> DeviceIds { get; set; }
+        public string Description { get; set; }
         public string CustomerId { get; set; }
-        public string Status { get; set; }
-        public DateTime? LastActionDate { get; set; }
-        public string LastAction { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string Priority { get; set; }
+        public DateTime? Deadline { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public string Status { get; set; }
+
     }
 }

@@ -30,5 +30,6 @@ namespace Core.Configuration
         public string ConnectionString { get; set; } = "mongodb://localhost:27017";
         public string DatabaseName { get; set; } = "QRMenuDB";
         public string MenuCategoryCollectionName { get; set; } = "MenuCategories";
+        public string DutiesCollectionName { get; set; } = "Duties";
     }
 }

@@ -2,6 +2,7 @@
 using Entities.Concrete.Customer;
 using Entities.Concrete.Device;
 using Entities.Concrete.DocumentFile;
+using Entities.Concrete.Duty;
 using Entities.Concrete.InstallationRequest;
 using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
@@ -23,6 +24,8 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<ServicingAddDto, Servicing>();
             CreateMap<StockAddDto, Stock>();
             CreateMap<CustomerDto, Customer>();
+            CreateMap<DutyDto, Duty>();
+
 
         }
     }

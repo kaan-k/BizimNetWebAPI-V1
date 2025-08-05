@@ -26,6 +26,8 @@ namespace DataAccess.Concrete
                     Id = item.Id,
                     CompanyAddress = item.CompanyAddress,
                     CompanyName = item.CompanyName,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
                     Email = item.Email
                 });
             }

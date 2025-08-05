@@ -82,5 +82,11 @@ namespace BizimNetWebAPI.Controllers
             var result = _offerService.GetOfferCountByStatus(status);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
+        [HttpGet("GetAllDetails")]
+        public IActionResult GetAllDetails()
+        {
+            var result = _offerService.GetAllDetails();
+            return result.Success ? Ok(result) : BadRequest(result.Message);
+        }
     }
 }

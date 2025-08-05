@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess.MongoDB;
-using DataAccess.Repositories;
+using Core.Entities.Concrete;
+using Entities.Concrete.Duty;
 using Entities.Concrete.Offer;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IOfferDal:IMongoRepository<Offer>
+    public interface IDutyDal: IMongoRepository<Duty>
     {
-        public List<Offer> GetAllOfferDetails();
+        public List<Duty> GetAllDutyDetails();
 
     }
 }

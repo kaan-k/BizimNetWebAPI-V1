@@ -109,15 +109,8 @@ namespace Business.Concrete
         {
             var customer = _customerDal.Get(x => x.Id == servicing.CustomerId);
 
-            var config = new EmailConfiguration
-            {
-                SmtpServer = "smtp.gmail.com",
-                Port = 587,
-                From = "kaannkale@gmail.com",
-                Username = "kaannkale@gmail.com",
-                Password = "pkho hrxk adwx oxkf ",
-                To = new List<string> { customer.Email }
-            };
+            var config = EmailHelper.config(customer.Email);
+            
 
             //var customer = _customerService.GetById(request.CustomerId).Data;
 

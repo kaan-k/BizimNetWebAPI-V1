@@ -77,6 +77,12 @@ namespace BizimNetWebAPI.Controllers
             var result = _installationRequestService.GetAll();
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
+        [HttpGet("GetAllInstallationRequestDetails")]
+        public IActionResult GetAllInstallationRequestDetails()
+        {
+            var result = _installationRequestService.GetAllInstallationRequestDetails();
+            return result.Success ? Ok(result) : BadRequest(result.Message);
+        }
 
         [HttpGet("GetById")]
         public IActionResult GetById(string id)

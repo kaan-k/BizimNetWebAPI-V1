@@ -238,5 +238,10 @@ namespace Business.Concrete
 
 
         }
+
+        public IDataResult<List<InstallationRequest>> GetAllInstallationRequestDetails()
+        {
+            return new SuccessDataResult<List<InstallationRequest>>(_installationRequestDal.GetAllInstallationRequestDetails());
+        }
     }
 }

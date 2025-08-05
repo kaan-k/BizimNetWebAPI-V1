@@ -4,7 +4,6 @@ using Business.DependencyResolvers.Autofac;
 using Core.Configuration;
 using Core.DependencyResolvers;
 using Core.Extensions;
-using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DataAccess.DependencyResolvers;
@@ -15,6 +14,7 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ Use Autofac DI
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
@@ -23,27 +23,34 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
     containerBuilder.RegisterModule(new AutoFacDataAccessModule());
 });
 
-
-
+// ✅ MongoDB configuration
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
 var mongoClient = new MongoClient(builder.Configuration.GetConnectionString("MongoDB"));
 var database = mongoClient.GetDatabase("BizimNetDB");
 builder.Services.AddSingleton(database);
 
+// ✅ Add HttpContext Accessor
 builder.Services.AddHttpContextAccessor();
+
+// ✅ Improved CORS Policy (Secure + Flexible)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(
+                "https://crm.kaankale.xyz",
+                "http://localhost:4200",
+                "http://100.115.96.64:4200"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // Only if cookies/auth headers are used
     });
 });
 
-// JWT Authentication
+//// ✅ JWT Authentication
 //var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//builder.Services.AddAuthentication("Bearer")
 //    .AddJwtBearer(options =>
 //    {
 //        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -60,10 +67,10 @@ builder.Services.AddCors(options =>
 //        };
 //    });
 
-// AutoMapper konfigürasyonu
+// ✅ AutoMapper config
 builder.Services.AddAutoMapper(typeof(EntitiesAutoMapperProfile));
 
-// Swagger konfigürasyonu
+// ✅ Swagger config with JWT support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "BizimNet Web API", Version = "v1" });
@@ -79,7 +86,6 @@ builder.Services.AddSwaggerGen(c =>
     };
 
     c.AddSecurityDefinition("Bearer", securityScheme);
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -99,34 +105,28 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Core DI modülleri
-//builder.Services.AddDependencyResolvers(new ICoreModule[] {
-//    new CoreModule(),
-//    new DataAccessModule(),
-//    new BusinessModule()
-//});
-
 var app = builder.Build();
 
-// Geliştirici hata sayfası
-app.UseDeveloperExceptionPage();
+// ✅ Developer Exception Page (optional for dev)
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
-// Swagger UI
+// ✅ Swagger UI
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "BizimNet Web API v1");
 });
 
-// Özel exception middleware’in varsa burada çalıştır
-//app.ConfigureCustomExceptionMiddleware();
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseCors("AllowAngular");
-
 app.UseRouting();
+
+// ✅ Use CORS before Authentication
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
