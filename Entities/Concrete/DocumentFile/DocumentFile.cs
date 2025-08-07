@@ -17,7 +17,6 @@ namespace Entities.Concrete.DocumentFile
         public string Id { get; set; }
         public string? OfferId { get; set; }
         public string? CustomerId { get; set; }
-
         public string? PersonId { get; set; }
         public string? DepartmentId { get; set; }
         public List<string> downloderIds { get; set; } = new List<string>();

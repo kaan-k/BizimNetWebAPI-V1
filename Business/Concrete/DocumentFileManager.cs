@@ -50,7 +50,6 @@ namespace Business.Concrete
 
         public IResult DocumentFileUpdate(DocumentFile documentFile, IFormFile file)
         {
-            documentFile.DocumentPath = _fileHelper.Update(file, PathConstant.DocumentFile + documentFile.DocumentName + Path.DirectorySeparatorChar + documentFile.DocumentPath, PathConstant.DocumentFile + documentFile.DocumentName);
             documentFile.LastModifiedAt = DateTime.Now;
             _documentFileDal.Update(documentFile);
             return new SuccessResult();
@@ -95,6 +94,11 @@ namespace Business.Concrete
             var docx = _documentFileDal.GetDocumentDetails();
 
             return new SuccessDataResult<List<DocumentFile>>(docx);
+=======
+        public IDataResult<List<DocumentFileDetailsDto>> GetDocumentDetails()
+        {
+            return new SuccessDataResult<List<DocumentFileDetailsDto>>(_documentFileDal.GetDocumentDetails());
+
         }
     }
 }

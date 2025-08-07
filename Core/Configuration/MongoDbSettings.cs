@@ -14,8 +14,9 @@ namespace Core.Configuration
         public string RestaurantCollectionName { get; set; } = "Restaurants";
         public string DepartmentsCollectionName { get; set; } = "Departments";
         public string DeviceCollectionName { get; set; } = "Devices";
+        public string DocumentFileCollectionName { get; set; } = "DocumentFile";
 
-        
+
         public string MenuItemCollectionName { get; set; } = "MenuItems";
 
         public string BusinessUserCollectionName { get; set; } = "BusinessUsers";

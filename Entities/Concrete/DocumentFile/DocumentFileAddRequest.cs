@@ -22,7 +22,6 @@ namespace Entities.Concrete.DocumentFile
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? LastModifiedAt { get; set; }
         public string? DocumentType { get; set; }
-
     }
 
 }

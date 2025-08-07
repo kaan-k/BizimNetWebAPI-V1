@@ -15,6 +15,8 @@ namespace Entities.Profiles.AutoMapperProfiles
         public EntitiesAutoMapperProfile()
         {
             CreateMap<DocumentFileUploadDto, DocumentFile>();
+            CreateMap<DocumentFileAddRequest, DocumentFile>();
+            CreateMap<DocumentFileUpdateRequest, DocumentFile>();
             CreateMap<OfferDto, Offer>();
             CreateMap<InstallationRequestDto, InstallationRequest>();
             CreateMap<InstallationRequest, InstallationRequest>();
