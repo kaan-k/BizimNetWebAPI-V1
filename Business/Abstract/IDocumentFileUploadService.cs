@@ -22,7 +22,5 @@ namespace Business.Abstract
 
         IResult DocumentFileUpdate(DocumentFile documentFile, IFormFile file);
         IResult DocumentFileDelete(string id);
-
-        IDataResult<List<DocumentFileDetailsDto>> GetDocumentDetails();
     }
 }

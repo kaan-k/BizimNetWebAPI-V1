@@ -83,11 +83,7 @@ namespace BizimNetWebAPI.Controllers
         }
         //allowanon kaldirmayi unutma!!
 
-        [HttpGet("DownloadDocument/{documentId}")]
-        [AllowAnonymous]
-        public IActionResult DownloadDocument(string documentId, [FromQuery]string? employeeId)
-
-        //allowanon kaldirmayi unutma!!
+       
 
         [HttpGet("DownloadDocument/{id}")]
         [AllowAnonymous]

@@ -94,11 +94,6 @@ namespace Business.Concrete
             var docx = _documentFileDal.GetDocumentDetails();
 
             return new SuccessDataResult<List<DocumentFile>>(docx);
-=======
-        public IDataResult<List<DocumentFileDetailsDto>> GetDocumentDetails()
-        {
-            return new SuccessDataResult<List<DocumentFileDetailsDto>>(_documentFileDal.GetDocumentDetails());
-
         }
     }
 }
