@@ -15,7 +15,10 @@ namespace Entities.Concrete.DocumentFile
         public string? OfferId { get; set; }
 
         public string DocumentName { get; set; }
-        public string DocumentPath { get; set; } 
+        public string DocumentPath { get; set; }
+        public string DocumentFullName { get; set; }
+        public string? DocumentType { get; set; }
+
     }
 
 }

@@ -83,9 +83,22 @@ namespace Business.Concrete
 
         }
 
+        public IResult DocumentFileCreateServicing(DocumentFile documentFile)
+        {
+            _documentFileDal.Add(documentFile);
+            return new SuccessResult("Başarılı");
+        }
+
+        public IDataResult<List<DocumentFile>> GetDocumentDetails()
+        {
+            var docx = _documentFileDal.GetDocumentDetails();
+
+            return new SuccessDataResult<List<DocumentFile>>(docx);
+=======
         public IDataResult<List<DocumentFileDetailsDto>> GetDocumentDetails()
         {
             return new SuccessDataResult<List<DocumentFileDetailsDto>>(_documentFileDal.GetDocumentDetails());
+
         }
     }
 }

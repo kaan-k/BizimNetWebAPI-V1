@@ -4,9 +4,12 @@ using Business.Abstract;
 using Business.Concrete.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete.DocumentFile;
 using Entities.Concrete.Email;
 using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +22,13 @@ namespace Business.Concrete
     {
         private readonly IServicingDal _serviceDal;
         private readonly IMailManager _mailManager;
+        private readonly IDocumentFileUploadService _documentFileUploadService;
         private readonly ICustomerDal _customerDal;
         private readonly IPdfGeneratorService _pdfGeneratorService;
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
 
-        public ServicingManager(IServicingDal serviceDal, IMapper mapper, ICustomerService customer, ICustomerDal customerDal, IMailManager mailManager, IPdfGeneratorService pdfGeneratorService)
+        public ServicingManager(IServicingDal serviceDal, IMapper mapper, ICustomerService customer, ICustomerDal customerDal, IMailManager mailManager, IPdfGeneratorService pdfGeneratorService, IDocumentFileUploadService documentFileUploadService)
         {
             _serviceDal = serviceDal;
             _mailManager = mailManager;
@@ -32,6 +36,7 @@ namespace Business.Concrete
             _mapper = mapper;
             _customerDal = customerDal;
             _pdfGeneratorService = pdfGeneratorService;
+            _documentFileUploadService = documentFileUploadService;
         }
         public IDataResult<ServicingAddDto> Add(ServicingAddDto service)
         {
@@ -41,6 +46,20 @@ namespace Business.Concrete
             var pdfBytes = _pdfGeneratorService.GenerateServicingPdf(servicingToAdd);
             var filePath = PdfGeneratorHelper.CreateServicingPdfStructure(servicingToAdd);
             File.WriteAllBytes(filePath, pdfBytes);
+
+            var documentFile = new DocumentFile
+            {
+                CreatedAt = DateTime.Now,
+                DocumentName = servicingToAdd.Name,
+                DocumentPath = filePath,
+                DocumentFullName = $"{servicingToAdd.Name}.pdf",
+                LastModifiedAt = DateTime.Now,
+                DocumentType = "Servis",
+                CustomerId = servicingToAdd.CustomerId
+            };
+
+
+            _documentFileUploadService.DocumentFileCreateServicing(documentFile);
             return new SuccessDataResult<ServicingAddDto>(service, "Servis başarıyla eklendi.");
 
         }
