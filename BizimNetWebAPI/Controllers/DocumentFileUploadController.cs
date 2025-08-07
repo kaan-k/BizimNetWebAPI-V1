@@ -64,21 +64,21 @@ namespace BizimNetWebAPI.Controllers
             }
             return Ok(result);
         }
-        //[HttpGet("GetAllDocumentDetails")]
-        //public IActionResult GetDocumentDetails()
-        //{
-        //    var result = _documentFileService.GetDocumentDetails();
-        //    if (!result.Success)
-        //    {
-        //        return BadRequest(result.Message);
-        //    }
-        //    return Ok(result);
-        //}
+        [HttpGet("GetAllDocumentDetails")]
+        public IActionResult GetDocumentDetails()
+        {
+            var result = _documentFileService.GetDocumentDetails();
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+            return Ok(result);
+        }
         //allowanon kaldirmayi unutma!!
-  
+
         [HttpGet("DownloadDocument/{documentId}")]
         [AllowAnonymous]
-        public IActionResult DownloadDocument(string documentId, [FromQuery]string employeeId)
+        public IActionResult DownloadDocument(string documentId, [FromQuery]string? employeeId)
         {
             
             var document = _documentFileService.GetByDocument(documentId);
@@ -99,9 +99,9 @@ namespace BizimNetWebAPI.Controllers
             }
 
             // Belgeyi tarayıcıya indir
-            var newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "DocumentFile" + Path.DirectorySeparatorChar + 
-                document.Data.DocumentName + Path.DirectorySeparatorChar + document.Data.DocumentPath);
-            var fileBytes = System.IO.File.ReadAllBytes(newPath);
+            //var newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "DocumentFile" + Path.DirectorySeparatorChar + 
+                //document.Data.DocumentName + Path.DirectorySeparatorChar + document.Data.DocumentPath);
+            var fileBytes = System.IO.File.ReadAllBytes(document.Data.DocumentPath);
             return File(fileBytes, "application/pdf", document.Data.DocumentName);
         }
 
