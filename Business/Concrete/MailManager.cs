@@ -53,7 +53,7 @@ namespace Business.Concrete
                 mailMessage.To.Add(recipient);
             }
 
-            client.Send(mailMessage);
+            //client.Send(mailMessage);
         }
     }
 

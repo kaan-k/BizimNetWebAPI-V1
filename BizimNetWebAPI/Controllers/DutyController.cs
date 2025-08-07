@@ -34,10 +34,18 @@ namespace BizimNetWebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public IActionResult Update([FromBody] Duty request)
         {
             var result = _dutyService.Update(request);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpGet("MarkAsCompleted")]
+        public IActionResult MarkAsCompleted(string id)
+        {
+            var result = _dutyService.MarkAsCompleted(id);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);

@@ -76,6 +76,17 @@ namespace Business.Concrete
             return new SuccessDataResult<Duty>(dutyToGet);
         }
 
+        public IDataResult<Duty> MarkAsCompleted(string id)
+        {
+            var duty = _dutyDal.Get(x => x.Id == id);
+            duty.Status = "Tamamlandı";
+            duty.UpdatedAt = DateTime.Now;
+            _dutyDal.Update(duty);
+
+            return new SuccessDataResult<Duty>(duty);
+
+        }
+
         public IResult Update(Duty request)
         {
             _dutyDal.Update(request);

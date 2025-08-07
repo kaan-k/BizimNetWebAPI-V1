@@ -21,6 +21,8 @@ namespace Business.Abstract
         IDataResult<List<Duty>> GetAllByStatus(string status);
         IDataResult<Duty> UpdateStatusById(string id, string newStatus);
         IDataResult<Duty> GetById(string id);
+        IDataResult<Duty> MarkAsCompleted(string id);
+
 
 
     }
