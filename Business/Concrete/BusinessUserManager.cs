@@ -5,6 +5,7 @@ using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Concrete.InviteToken;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,30 @@ namespace Business.Concrete
     public class BusinessUserManager : IBusinessUserService
     {
         private readonly IBusinessUserDal _businessUserDal;
+        private readonly IInviteTokenService _inviteTokenService;
         private readonly ITokenHelper _tokenHelper;
-        public BusinessUserManager(IBusinessUserDal businessUserDal, ITokenHelper tokenHelper)
+        public BusinessUserManager(IBusinessUserDal businessUserDal, ITokenHelper tokenHelper, IInviteTokenService inviteTokenService)
         {
             _businessUserDal = businessUserDal;
             _tokenHelper = tokenHelper;
+            _inviteTokenService = inviteTokenService;
         }
 
         public IDataResult<BusinessUser> Add(BusinessUserDto buisnessUser)
         {
+            var token = new InviteTokenValidationDto
+            {
+                Token = buisnessUser.InvitaonToken,
+                Email = buisnessUser.Email
+            };
+            var result = _inviteTokenService.Validate(token);
+
+            if (!result.Success)
+            {
+                return new ErrorDataResult<BusinessUser>("Geçersiz veya kullanılmış token.");
+            }
+
+
             HashingHelper.CreatePasswordHash(buisnessUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             var user = new BusinessUser
             {

@@ -41,7 +41,9 @@ namespace DataAccess.Concrete
                     Deadline = item?.Deadline,
                     Name = item?.Name,
                     Description = item?.Description,
-                    Priority = item?.Priority
+                    Priority = item?.Priority,
+                    CompletedBy = item?.CompletedBy,
+                    CreatedBy = item?.CreatedBy
 
                 });
             }

@@ -4,6 +4,7 @@ using Entities.Concrete.Device;
 using Entities.Concrete.DocumentFile;
 using Entities.Concrete.Duty;
 using Entities.Concrete.InstallationRequest;
+using Entities.Concrete.InviteToken;
 using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
 using Entities.Concrete.Stock;
@@ -25,6 +26,7 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<StockAddDto, Stock>();
             CreateMap<CustomerDto, Customer>();
             CreateMap<DutyDto, Duty>();
+            CreateMap<InviteTokenCreateDto, InviteToken>();
 
 
         }

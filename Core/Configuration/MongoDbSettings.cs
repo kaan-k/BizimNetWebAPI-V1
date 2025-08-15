@@ -24,6 +24,8 @@ namespace Core.Configuration
         public string EmployeesCollectionName { get; set; } = "Employees";
 
         public string InstallationRequestsCollectionName { get; set; } = "InstallationRequest";
+        public string InvitationTokenCollectionName { get; set; } = "InvitationTokens";
+
         public string OffersCollectionName { get; set; } = "Offers";
 
         public string ServicesCollectionName { get; set; } = "Servicing";

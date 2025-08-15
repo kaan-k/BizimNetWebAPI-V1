@@ -46,6 +46,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<DutyManager>().As<IDutyService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_DutyDal>().As<IDutyDal>().InstancePerLifetimeScope();
 
+            builder.RegisterType<InviteTokenManager>().As<IInviteTokenService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_InviteTokenDal>().As<IInviteTokenDal>().InstancePerLifetimeScope();
+
             builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
 
             builder.RegisterType<PdfGeneratorManager>().As<IPdfGeneratorService>().SingleInstance();
