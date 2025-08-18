@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Core.Utilities.Context;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.Duty;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +17,16 @@ namespace Business.Concrete
     {
         private readonly IMapper _mapper;
         private readonly IDutyDal _dutyDal;
-        public DutyManager(IDutyDal dutyDal, IMapper mapper) {
+        private readonly IUserContext _user;
+        public DutyManager(IDutyDal dutyDal, IMapper mapper, IUserContext userContext) {
             _dutyDal = dutyDal;
             _mapper = mapper;
+            _user = userContext;
         }
         public IDataResult<Duty> Add(DutyDto duty)
         {
             var dutyDto = _mapper.Map<Duty>(duty);
+            dutyDto.CreatedBy = _user.UserId;
             _dutyDal.Add(dutyDto);
             return new SuccessDataResult<Duty>(dutyDto);
         }
@@ -81,6 +86,7 @@ namespace Business.Concrete
             var duty = _dutyDal.Get(x => x.Id == id);
             duty.Status = "Tamamlandı";
             duty.UpdatedAt = DateTime.Now;
+            duty.CompletedBy = _user.UserId;
             _dutyDal.Update(duty);
 
             return new SuccessDataResult<Duty>(duty);

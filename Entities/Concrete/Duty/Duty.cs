@@ -22,6 +22,8 @@ namespace Entities.Concrete.Duty
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? Status { get; set; }
+        public string CreatedBy { get; set; }
+        public string CompletedBy{ get; set; }
 
     }
 }
