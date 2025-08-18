@@ -2,9 +2,11 @@
 using Business.Abstract;
 using Business.Concrete;
 using Business.Concrete.Constants;
+using Core.Utilities.Context;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using DataAccess.Concrete.DataBases.MongoDB;
+using Core.Infrastructure;
 
 namespace Business.DependencyResolvers.Autofac
 {
@@ -45,6 +47,8 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<DutyManager>().As<IDutyService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_DutyDal>().As<IDutyDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<HttpUserContext>().As<IUserContext>().InstancePerLifetimeScope();
 
             builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
 

@@ -4,6 +4,7 @@ using Business.DependencyResolvers.Autofac;
 using Core.Configuration;
 using Core.DependencyResolvers;
 using Core.Extensions;
+using Core.Utilities.Context;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DataAccess.DependencyResolvers;
@@ -31,6 +32,8 @@ builder.Services.AddSingleton(database);
 
 // ✅ Add HttpContext Accessor
 builder.Services.AddHttpContextAccessor();
+//builder.Services.AddScoped<IUserContext, HttpUserContext>();
+
 
 // ✅ Improved CORS Policy (Secure + Flexible)
 builder.Services.AddCors(options =>
