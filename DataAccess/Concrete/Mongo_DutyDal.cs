@@ -45,6 +45,7 @@ namespace DataAccess.Concrete
                     Status = item?.Status,
                     CreatedAt = item?.CreatedAt,
                     UpdatedAt = item?.UpdatedAt,
+                    CompletedAt = item?.CompletedAt,
                     Deadline = item?.Deadline,
                     Name = item?.Name,
                     Description = item?.Description,

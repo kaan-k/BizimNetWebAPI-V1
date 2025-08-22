@@ -33,7 +33,7 @@ namespace DataAccess.Concrete
                 list?.Add(new Device
                 {
                     Id = item?.Id,
-                    CustomerId= customer?.Name,
+                    CustomerId= customer?.CompanyName,
                     Name = item?.Name,
                     AnyDeskId = item?.AnyDeskId,
                     CreatedAt = item.CreatedAt,

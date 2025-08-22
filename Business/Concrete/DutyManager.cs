@@ -27,8 +27,9 @@ namespace Business.Concrete
         {
             var dutyDto = _mapper.Map<Duty>(duty);
             dutyDto.CreatedBy = _user.UserId;
+            dutyDto.CreatedAt = DateTime.UtcNow;
             _dutyDal.Add(dutyDto);
-            return new SuccessDataResult<Duty>(dutyDto);
+            return new SuccessDataResult<Duty>(dutyDto,"Görev başarıyla oluşturuldu.");
         }
 
         public IResult Delete(string id)
@@ -84,12 +85,19 @@ namespace Business.Concrete
         public IDataResult<Duty> MarkAsCompleted(string id)
         {
             var duty = _dutyDal.Get(x => x.Id == id);
+
+            if(duty.CompletedBy != null)
+            {
+                return new ErrorDataResult<Duty>(duty, "Bu görev zaten tamamlanmış.");
+            }
+
             duty.Status = "Tamamlandı";
             duty.UpdatedAt = DateTime.Now;
+            duty.CompletedAt = DateTime.Now;
             duty.CompletedBy = _user.UserId;
             _dutyDal.Update(duty);
 
-            return new SuccessDataResult<Duty>(duty);
+            return new SuccessDataResult<Duty>(duty,"Görev başarıyla tamamlandı!");
 
         }
 
