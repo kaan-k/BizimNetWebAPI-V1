@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.InstallationRequest;
+﻿using Entities.Concrete.Duty;
+using Entities.Concrete.InstallationRequest;
 using Entities.Concrete.Offer;
 using Entities.Concrete.Service;
 using System;
@@ -40,6 +41,20 @@ namespace Business.Concrete.Constants
 
             return filePath;
         }
-    
+        public static string CreateDailyDutiesReportPdfStructure()
+        {
+            var now = DateTime.Now;
+            var monthName = now.ToString("MMMM", new System.Globalization.CultureInfo("tr-TR"));
+            var yearSuffix = now.Year % 100;
+            var folderName = $"{monthName}-{yearSuffix}";
+            var folderPath = Path.Combine("wwwroot", "Uploads", "raporlar", folderName);
+            Directory.CreateDirectory(folderPath);
+            var fileName = $"rapor_{DateTime.Today}.pdf";
+            var safeFileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+            var filePath = Path.Combine(folderPath, safeFileName);
+
+            return filePath;
+        }
+
     }
 }

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.Concrete.Constants;
 using Core.Utilities.Context;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete.DocumentFile;
 using Entities.Concrete.Duty;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -18,10 +20,15 @@ namespace Business.Concrete
         private readonly IMapper _mapper;
         private readonly IDutyDal _dutyDal;
         private readonly IUserContext _user;
-        public DutyManager(IDutyDal dutyDal, IMapper mapper, IUserContext userContext) {
+        private readonly IPdfGeneratorService _pdfGeneratorService;
+        private readonly IDocumentFileUploadService _documentFileUploadService;
+        public DutyManager(IDutyDal dutyDal, IMapper mapper, IUserContext userContext, IPdfGeneratorService pdfGeneratorService, IDocumentFileUploadService documentFileUploadService)
+        {
             _dutyDal = dutyDal;
             _mapper = mapper;
             _user = userContext;
+            _pdfGeneratorService = pdfGeneratorService;
+            _documentFileUploadService = documentFileUploadService;
         }
         public IDataResult<Duty> Add(DutyDto duty)
         {
@@ -82,16 +89,52 @@ namespace Business.Concrete
             return new SuccessDataResult<Duty>(dutyToGet);
         }
 
+        public IDataResult<List<Duty>> GetTodaysDuties()
+        {
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            var duties = _dutyDal.GetAll(x =>
+                x.CompletedAt >= today && x.CompletedAt < tomorrow);
+
+            var pdfBytes = _pdfGeneratorService.GenerateDailyDutiesPdf(duties, DateTime.Today);
+            var filePath = PdfGeneratorHelper.CreateDailyDutiesReportPdfStructure();
+            File.WriteAllBytes(filePath, pdfBytes);
+
+            var documentFile = new DocumentFile
+            {
+                CreatedAt = DateTime.Now,
+                DocumentName = DateTime.Today.ToString(),
+                DocumentPath = filePath,
+                DocumentFullName = $"{DateTime.Today.ToString()}.pdf",
+                LastModifiedAt = DateTime.Now,
+                DocumentType = "Servis",
+            };
+            _documentFileUploadService.DocumentFileCreateServicing(documentFile);
+
+
+            return new SuccessDataResult<List<Duty>>(duties);
+        }
+
         public IDataResult<Duty> MarkAsCompleted(string id)
         {
             var duty = _dutyDal.Get(x => x.Id == id);
-
+            var timeNow = DateTime.Now;
             if(duty.CompletedBy != null)
             {
                 return new ErrorDataResult<Duty>(duty, "Bu görev zaten tamamlanmış.");
             }
 
-            duty.Status = "Tamamlandı";
+            if(duty.Deadline <  timeNow)
+            {
+                duty.CompletedBeforeDeadline = true;
+            }
+            else
+            {
+                duty.CompletedBeforeDeadline = false;
+            }
+
+                duty.Status = "Tamamlandı";
             duty.UpdatedAt = DateTime.Now;
             duty.CompletedAt = DateTime.Now;
             duty.CompletedBy = _user.UserId;
