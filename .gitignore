@@ -43,3 +43,4 @@ msbuild.err
 msbuild.wrn
 TTDWorkerService/TTDWorkerService.csproj
 TTDWebAPI/wwwroot/*
+/BizimNetWebAPI/wwwroot/Uploads
