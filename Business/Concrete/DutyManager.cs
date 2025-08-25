@@ -108,7 +108,7 @@ namespace Business.Concrete
                 DocumentPath = filePath,
                 DocumentFullName = $"{DateTime.Today.ToString()}.pdf",
                 LastModifiedAt = DateTime.Now,
-                DocumentType = "Servis",
+                DocumentType = "Günlük Rapor",
             };
             _documentFileUploadService.DocumentFileCreateServicing(documentFile);
 
