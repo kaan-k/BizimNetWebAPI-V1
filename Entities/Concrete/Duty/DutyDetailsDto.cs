@@ -22,5 +22,7 @@ namespace Entities.Concrete.Duty
         public string? CreatedBy { get; set; }
         public string? CompletedBy { get; set; }
         public bool CompletedBeforeDeadline { get; set; }
+        public string AssignedEmployeeId { get; set; }
+
     }
 }

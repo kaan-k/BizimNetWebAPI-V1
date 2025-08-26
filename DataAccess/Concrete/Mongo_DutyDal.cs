@@ -35,9 +35,14 @@ namespace DataAccess.Concrete
 
                 var businessUserCreatedFilter = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.CreatedBy);
                 var businessUserCompletedFilter = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.CompletedBy);
+                var businessUserAssignedAt = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.AssignedEmployeeId);
+
 
                 var createdBy = businessUsersCollection.Find(businessUserCreatedFilter).FirstOrDefault();
                 var completedBy = businessUsersCollection.Find(businessUserCompletedFilter).FirstOrDefault();
+                var assignedAt = businessUsersCollection.Find(businessUserAssignedAt).FirstOrDefault();
+
+
                 list?.Add(new Duty
                 {
                     Id = item?.Id,
@@ -49,6 +54,7 @@ namespace DataAccess.Concrete
                     Deadline = item?.Deadline,
                     Name = item?.Name,
                     Description = item?.Description,
+                    AssignedEmployeeId = assignedAt?.FirstName,
                     Priority = item?.Priority,
                     CreatedBy = createdBy?.FirstName,
                     CompletedBy = completedBy?.FirstName
