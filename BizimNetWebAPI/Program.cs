@@ -41,7 +41,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-                "https://crm.kaankale.xyz",
+                "https://crm.aryyazilim.online",
                 "http://localhost:4200",
                 "http://100.115.96.64:4200"
             )
