@@ -15,7 +15,7 @@ namespace Business.Abstract
         IResult Delete(string id);
         IResult Update(Duty request);
         IDataResult<List<Duty>> GetAll();
-        IDataResult<List<Duty>> GetAllDetails();
+        IDataResult<List<Duty>> GetAllDetails(string userId);
 
         IDataResult <List<Duty>> GetTodaysDuties();
 

@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
 {
     public interface IDutyDal: IMongoRepository<Duty>
     {
-        public List<Duty> GetAllDutyDetails();
+        public List<Duty> GetAllDutyDetails(string requesterId);
 
     }
 }

@@ -17,5 +17,6 @@ namespace Entities.Concrete
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? CompanyAddress { get; set; }
+        public bool isAuthorised { get; set; } = false;
     }
 }

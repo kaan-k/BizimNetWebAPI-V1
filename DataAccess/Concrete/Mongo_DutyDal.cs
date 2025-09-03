@@ -21,7 +21,7 @@ namespace DataAccess.Concrete
          : base(database, settings.Value.DutiesCollectionName)
         {
         }
-        public List<Duty> GetAllDutyDetails()
+        public List<Duty> GetAllDutyDetails(string requesterId)
         {
             var list = new List<Duty>();
             var data = base.GetAll();
@@ -35,31 +35,56 @@ namespace DataAccess.Concrete
 
                 var businessUserCreatedFilter = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.CreatedBy);
                 var businessUserCompletedFilter = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.CompletedBy);
+                var businessUserFilter = Builders<BusinessUser>.Filter.Eq(k => k.Id, requesterId);
                 var businessUserAssignedAt = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.AssignedEmployeeId);
 
 
                 var createdBy = businessUsersCollection.Find(businessUserCreatedFilter).FirstOrDefault();
                 var completedBy = businessUsersCollection.Find(businessUserCompletedFilter).FirstOrDefault();
                 var assignedAt = businessUsersCollection.Find(businessUserAssignedAt).FirstOrDefault();
+                var businessUser = businessUsersCollection.Find(businessUserFilter).FirstOrDefault();
 
-
-                list?.Add(new Duty
+                if(item.AssignedEmployeeId == requesterId)
                 {
-                    Id = item?.Id,
-                    CustomerId = customer?.CompanyName,
-                    Status = item?.Status,
-                    CreatedAt = item?.CreatedAt,
-                    UpdatedAt = item?.UpdatedAt,
-                    CompletedAt = item?.CompletedAt,
-                    Deadline = item?.Deadline,
-                    Name = item?.Name,
-                    Description = item?.Description,
-                    AssignedEmployeeId = assignedAt?.FirstName,
-                    Priority = item?.Priority,
-                    CreatedBy = createdBy?.FirstName,
-                    CompletedBy = completedBy?.FirstName
+                    list?.Add(new Duty
+                    {
+                        Id = item?.Id,
+                        CustomerId = customer?.CompanyName,
+                        Status = item?.Status,
+                        CreatedAt = item?.CreatedAt,
+                        UpdatedAt = item?.UpdatedAt,
+                        CompletedAt = item?.CompletedAt,
+                        Deadline = item?.Deadline,
+                        Name = item?.Name,
+                        Description = item?.Description,
+                        AssignedEmployeeId = assignedAt?.FirstName,
+                        Priority = item?.Priority,
+                        CreatedBy = createdBy?.FirstName,
+                        CompletedBy = completedBy?.FirstName
 
-                });
+                    });
+                }
+                else if (businessUser.isAuthorised)
+                {
+                    list?.Add(new Duty
+                    {
+                        Id = item?.Id,
+                        CustomerId = customer?.CompanyName,
+                        Status = item?.Status,
+                        CreatedAt = item?.CreatedAt,
+                        UpdatedAt = item?.UpdatedAt,
+                        CompletedAt = item?.CompletedAt,
+                        Deadline = item?.Deadline,
+                        Name = item?.Name,
+                        Description = item?.Description,
+                        AssignedEmployeeId = assignedAt?.FirstName,
+                        Priority = item?.Priority,
+                        CreatedBy = createdBy?.FirstName,
+                        CompletedBy = completedBy?.FirstName
+
+                    });
+                }
+                
             }
             return list;
         }

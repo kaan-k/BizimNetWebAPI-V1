@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,9 +78,10 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Duty>>(duties);
         }
 
-        public IDataResult<List<Duty>> GetAllDetails()
+        public IDataResult<List<Duty>> GetAllDetails(string userId)
         {
-            return new SuccessDataResult<List<Duty>>(_dutyDal.GetAllDutyDetails()); 
+
+            return new SuccessDataResult<List<Duty>>(_dutyDal.GetAllDutyDetails(userId)); 
         }
 
         public IDataResult<Duty> GetById(string id)

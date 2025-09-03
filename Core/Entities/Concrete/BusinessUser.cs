@@ -23,5 +23,6 @@ namespace Core.Entities.Concrete
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public string? CompanyAddress { get; set; }
+        public bool isAuthorised { get; set; }
     }
 }

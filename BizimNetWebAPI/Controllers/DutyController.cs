@@ -60,9 +60,9 @@ namespace BizimNetWebAPI.Controllers
             return BadRequest(result);
         }
         [HttpGet("GetAllDetails")]
-        public IActionResult GetAllDetails()
+        public IActionResult GetAllDetails([FromQuery] string userId)
         {
-            var result = _dutyService.GetAllDetails();
+            var result = _dutyService.GetAllDetails(userId);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);
