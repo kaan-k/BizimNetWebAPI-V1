@@ -40,6 +40,20 @@ namespace Business.Concrete
             return new SuccessDataResult<Duty>(dutyDto,"Görev başarıyla oluşturuldu.");
         }
 
+        public IDataResult<Duty> AddCompleted(DutyDto request)
+        {
+            var dutyDto = _mapper.Map<Duty>(request);
+            dutyDto.CreatedBy = _user.UserId;
+            dutyDto.CreatedAt = DateTime.UtcNow;
+            dutyDto.CompletedAt = DateTime.UtcNow;
+            dutyDto.CompletedBy = _user.UserId;
+            dutyDto.Status = "Tamamlandı";
+
+
+            _dutyDal.Add(dutyDto);
+            return new SuccessDataResult<Duty>(dutyDto, "Görev başarıyla oluşturuldu.");
+        }
+
         public IResult Delete(string id)
         {
             _dutyDal.Delete(id);

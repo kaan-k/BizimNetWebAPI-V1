@@ -12,6 +12,8 @@ namespace Business.Abstract
     public interface IDutyService
     {
         IDataResult<Duty> Add(DutyDto request);
+        IDataResult<Duty> AddCompleted(DutyDto request);
+
         IResult Delete(string id);
         IResult Update(Duty request);
         IDataResult<List<Duty>> GetAll();

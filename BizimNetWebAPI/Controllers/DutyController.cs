@@ -24,6 +24,14 @@ namespace BizimNetWebAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+        [HttpPost("AddCompleted")]
+        public IActionResult AddCompleted([FromBody] DutyDto request)
+        {
+            var result = _dutyService.AddCompleted(request);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
 
         [HttpGet("Delete")]
         public IActionResult Delete(string id)
