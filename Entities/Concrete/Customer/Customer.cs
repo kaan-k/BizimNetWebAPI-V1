@@ -23,6 +23,7 @@ namespace Entities.Concrete.Customer
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public string TaxId { get; set; }
         public string CustomerField { get; set; }
         public string Status { get; set; }
         public DateTime? LastActionDate { get; set; }
