@@ -54,6 +54,11 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<PdfGeneratorManager>().As<IPdfGeneratorService>().SingleInstance();
 
+
+
+            builder.RegisterType<AgGridSettingsManager>().As<IAgGridSettingsService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_AgGridSettingsDal>().As<IAgGridSettingsDal>().InstancePerLifetimeScope();
+
         }
     }
 }

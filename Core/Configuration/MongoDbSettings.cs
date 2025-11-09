@@ -12,6 +12,7 @@ namespace Core.Configuration
         public string AggrementsCollectionName { get; set; } = "Aggrements";
 
         public string DocumentsCollectionName { get; set; } = "DocumentFiles";
+        public string AgGridSettingsCollectionName { get; set; } = "AgGridSettings";
 
         public string RestaurantCollectionName { get; set; } = "Restaurants";
         public string DepartmentsCollectionName { get; set; } = "Departments";
