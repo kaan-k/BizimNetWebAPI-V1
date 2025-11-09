@@ -10,7 +10,7 @@ using Core.Enums;
 
 namespace Entities.Concrete.Customer
 {
-    public class Customer:IEntity
+    public class Customer : IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -30,5 +30,9 @@ namespace Entities.Concrete.Customer
         public string? LastAction { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        public List<string>? AggrementIds { get; set; }
+
+
     }
 }

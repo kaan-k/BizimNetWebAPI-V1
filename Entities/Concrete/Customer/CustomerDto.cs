@@ -23,5 +23,6 @@ namespace Entities.Concrete.Customer
         public DateTime? LastActionDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public List<string>? AggrementIds { get; set; }
     }
 }

@@ -9,6 +9,8 @@ namespace Core.Configuration
     public class MongoDbSettings
     {
         public string CustomerCollectionName { get; set; } = "Customers";
+        public string AggrementsCollectionName { get; set; } = "Aggrements";
+
         public string DocumentsCollectionName { get; set; } = "DocumentFiles";
 
         public string RestaurantCollectionName { get; set; } = "Restaurants";
