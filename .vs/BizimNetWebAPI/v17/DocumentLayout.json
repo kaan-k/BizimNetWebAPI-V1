@@ -3,20 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_aggrementdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_aggrementdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\pdfgeneratormanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\pdfgeneratormanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\core\\configuration\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|solutionrelative:core\\configuration\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\dutymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\dutymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\dutycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\dutycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\abstract\\idutyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\idutyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\abstract\\ipdfgenerationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\ipdfgenerationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\departmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\departmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\aggrementmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\aggrementmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\departmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\departmentmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\customermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\customermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\employeemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\employeemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\abstract\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_aggrementdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_aggrementdal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\core\\configuration\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CBB98383-1B0F-4D56-9FE5-91E7CE4FF311}|Core\\Core.csproj|solutionrelative:core\\configuration\\mongodbsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\aggrementcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,10 +75,6 @@
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\iaggrementservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\employeemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\employeemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\abstract\\ibusinessuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\ibusinessuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -61,14 +93,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\customer\\customerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\customer\\customerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\customermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\customermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\abstract\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,24 +102,89 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AggrementController.cs",
-              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\AggrementController.cs",
-              "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\AggrementController.cs",
-              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\AggrementController.cs",
-              "RelativeToolTip": "BizimNetWebAPI\\Controllers\\AggrementController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "DutyController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DutyController.cs",
+              "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\DutyController.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DutyController.cs",
+              "RelativeToolTip": "BizimNetWebAPI\\Controllers\\DutyController.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAA8wE8AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-18T18:53:20.844Z",
+              "WhenOpened": "2025-11-09T12:59:37.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "BizimNetWebAPI\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAswCsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T12:57:53.165Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "IDutyService.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IDutyService.cs",
+              "RelativeDocumentMoniker": "Business\\Abstract\\IDutyService.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IDutyService.cs",
+              "RelativeToolTip": "Business\\Abstract\\IDutyService.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAcwBYAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T12:52:03.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DutyManager.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DutyManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\DutyManager.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DutyManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\DutyManager.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAUwJEAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T12:43:15.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IPdfGenerationService.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IPdfGenerationService.cs",
+              "RelativeDocumentMoniker": "Business\\Abstract\\IPdfGenerationService.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IPdfGenerationService.cs",
+              "RelativeToolTip": "Business\\Abstract\\IPdfGenerationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T12:41:37.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PdfGeneratorManager.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\PdfGeneratorManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\PdfGeneratorManager.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\PdfGeneratorManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\PdfGeneratorManager.cs",
+              "ViewState": "AgIAABgBAAAAAAAAAAAiwDYBAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-09T10:29:09.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "DepartmentManager.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DepartmentManager.cs",
               "RelativeDocumentMoniker": "Business\\Concrete\\DepartmentManager.cs",
@@ -108,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "AggrementManager.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\AggrementManager.cs",
               "RelativeDocumentMoniker": "Business\\Concrete\\AggrementManager.cs",
@@ -121,7 +210,59 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
+              "Title": "CustomerManager.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\CustomerManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\CustomerManager.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\CustomerManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\CustomerManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-16T09:42:20.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EmployeeManager.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\EmployeeManager.cs",
+              "RelativeDocumentMoniker": "Business\\Concrete\\EmployeeManager.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\EmployeeManager.cs",
+              "RelativeToolTip": "Business\\Concrete\\EmployeeManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T17:21:07.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ICustomerService.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\ICustomerService.cs",
+              "RelativeDocumentMoniker": "Business\\Abstract\\ICustomerService.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\ICustomerService.cs",
+              "RelativeToolTip": "Business\\Abstract\\ICustomerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-16T09:42:42.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AggrementController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\AggrementController.cs",
+              "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\AggrementController.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\AggrementController.cs",
+              "RelativeToolTip": "BizimNetWebAPI\\Controllers\\AggrementController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T18:53:20.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "MongoDbSettings.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Core\\Configuration\\MongoDbSettings.cs",
               "RelativeDocumentMoniker": "Core\\Configuration\\MongoDbSettings.cs",
@@ -134,7 +275,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
               "Title": "Mongo_AggrementDal.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_AggrementDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_AggrementDal.cs",
@@ -147,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 15,
               "Title": "IBusinessUserDal.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IBusinessUserDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Abstract\\IBusinessUserDal.cs",
@@ -159,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "IAggrementDal.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IAggrementDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Abstract\\IAggrementDal.cs",
@@ -171,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "IAggrementService.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IAggrementService.cs",
               "RelativeDocumentMoniker": "Business\\Abstract\\IAggrementService.cs",
@@ -183,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "AggrementDto.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Aggrements\\AggrementDto.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Aggrements\\AggrementDto.cs",
@@ -195,7 +336,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "Customer.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Customer\\Customer.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Customer\\Customer.cs",
@@ -207,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "Aggrement.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Aggrements\\Aggrement.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Aggrements\\Aggrement.cs",
@@ -219,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 16,
               "Title": "Mongo_CustomerDal.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_CustomerDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_CustomerDal.cs",
@@ -231,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "IBusinessUserService.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IBusinessUserService.cs",
               "RelativeDocumentMoniker": "Business\\Abstract\\IBusinessUserService.cs",
@@ -243,43 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "EmployeeManager.cs",
-              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\EmployeeManager.cs",
-              "RelativeDocumentMoniker": "Business\\Concrete\\EmployeeManager.cs",
-              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\EmployeeManager.cs",
-              "RelativeToolTip": "Business\\Concrete\\EmployeeManager.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABwAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-18T17:21:07.676Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ICustomerService.cs",
-              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\ICustomerService.cs",
-              "RelativeDocumentMoniker": "Business\\Abstract\\ICustomerService.cs",
-              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\ICustomerService.cs",
-              "RelativeToolTip": "Business\\Abstract\\ICustomerService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T09:42:42.44Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "CustomerManager.cs",
-              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\CustomerManager.cs",
-              "RelativeDocumentMoniker": "Business\\Concrete\\CustomerManager.cs",
-              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\CustomerManager.cs",
-              "RelativeToolTip": "Business\\Concrete\\CustomerManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T09:42:20.578Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "CustomerDto.cs",
               "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Customer\\CustomerDto.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Customer\\CustomerDto.cs",

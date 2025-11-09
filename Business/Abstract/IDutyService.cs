@@ -20,6 +20,8 @@ namespace Business.Abstract
         IDataResult<List<Duty>> GetAllDetails(string userId);
 
         IDataResult <List<Duty>> GetTodaysDuties();
+        IDataResult<List<Duty>> GetAllByCustomerIdReport(string customerId);
+
 
         IDataResult<List<Duty>> GetAllByCustomerId(string customerId);
         IDataResult<List<Duty>> GetAllByStatus(string status);

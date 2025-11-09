@@ -78,7 +78,7 @@ namespace BizimNetWebAPI.Controllers
         [HttpGet("GetAllByCustomer/{customerId}")]
         public IActionResult GetAllByCustomerId(string customerId)
         {
-            var result = _dutyService.GetAllByCustomerId(customerId);
+            var result = _dutyService.GetAllByCustomerIdReport(customerId);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);

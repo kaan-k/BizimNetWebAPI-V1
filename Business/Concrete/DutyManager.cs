@@ -23,13 +23,15 @@ namespace Business.Concrete
         private readonly IUserContext _user;
         private readonly IPdfGeneratorService _pdfGeneratorService;
         private readonly IDocumentFileUploadService _documentFileUploadService;
-        public DutyManager(IDutyDal dutyDal, IMapper mapper, IUserContext userContext, IPdfGeneratorService pdfGeneratorService, IDocumentFileUploadService documentFileUploadService)
+        private readonly ICustomerService _customerService;
+        public DutyManager(IDutyDal dutyDal, IMapper mapper, IUserContext userContext, IPdfGeneratorService pdfGeneratorService, IDocumentFileUploadService documentFileUploadService, ICustomerService customerService)
         {
             _dutyDal = dutyDal;
             _mapper = mapper;
             _user = userContext;
             _pdfGeneratorService = pdfGeneratorService;
             _documentFileUploadService = documentFileUploadService;
+            _customerService = customerService;
         }
         public IDataResult<Duty> Add(DutyDto duty)
         {
@@ -130,6 +132,35 @@ namespace Business.Concrete
 
 
             return new SuccessDataResult<List<Duty>>(duties);
+        }
+        public IDataResult<List<Duty>> GetAllByCustomerIdReport(string customerId)
+        {
+            var name = _customerService.GetById(customerId);
+            var duties = _dutyDal.GetAll(x => x.CustomerId == customerId);
+
+            if (duties == null)
+            {
+                return new ErrorDataResult<List<Duty>>();
+            }
+
+            var pdfBytes = _pdfGeneratorService.GenerateDutiesByCustomerPdf(duties, DateTime.Today);
+            var filePath = PdfGeneratorHelper.CreateDailyDutiesReportPdfStructure();
+            File.WriteAllBytes(filePath, pdfBytes);
+
+            var documentFile = new DocumentFile
+            {
+                CreatedAt = DateTime.Now,
+                DocumentName = name.Data.CompanyName+"-"+DateTime.Today.ToString(),
+                DocumentPath = filePath,
+                DocumentFullName = $"{name.Data.CompanyName}.pdf",
+                LastModifiedAt = DateTime.Now,
+                DocumentType = "Servis Raporu",
+            };
+            _documentFileUploadService.DocumentFileCreateServicing(documentFile);
+
+
+            return new SuccessDataResult<List<Duty>>(duties);
+
         }
 
         public IDataResult<Duty> MarkAsCompleted(string id)
