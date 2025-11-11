@@ -15,6 +15,9 @@ namespace Entities.Concrete.Duty
         public string Priority { get; set; }
         public DateTime? Deadline { get; set; }
         public DateTime? CreatedAt { get; set; }
+
+        public DateTime? BeginsAt { get; set; }
+        public DateTime? EndsAt { get; set; }
         public DateTime? CompletedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }

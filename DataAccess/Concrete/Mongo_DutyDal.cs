@@ -60,7 +60,9 @@ namespace DataAccess.Concrete
                         AssignedEmployeeId = assignedAt?.FirstName,
                         Priority = item?.Priority,
                         CreatedBy = createdBy?.FirstName,
-                        CompletedBy = completedBy?.FirstName
+                        CompletedBy = completedBy?.FirstName,
+                        BeginsAt = item.BeginsAt,
+                        EndsAt = item.EndsAt
 
                     });
                 }
@@ -80,7 +82,9 @@ namespace DataAccess.Concrete
                         AssignedEmployeeId = assignedAt?.FirstName,
                         Priority = item?.Priority,
                         CreatedBy = createdBy?.FirstName,
-                        CompletedBy = completedBy?.FirstName
+                        CompletedBy = completedBy?.FirstName,
+                        BeginsAt = item.BeginsAt,
+                        EndsAt = item.EndsAt
 
                     });
                 }
