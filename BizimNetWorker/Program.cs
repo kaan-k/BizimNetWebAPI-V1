@@ -43,20 +43,16 @@ var host = Host.CreateDefaultBuilder(args)
                 .RepeatForever()
                 )
             );
-            var offerEscalationJobKey = new JobKey("OfferEscalationJob");
+            var dailyReportJobKey = new JobKey("DailyReportJob");
 
-            q.AddJob<OfferEscalationJob>(offerEscalationJobKey, j => j
-                .WithDescription("Offer Escalation Job")
+            q.AddJob<OfferEscalationJob>(dailyReportJobKey, j => j
+                .WithDescription("Daily Report Job")
             );
 
             q.AddTrigger(t => t
-                .WithIdentity("OfferEscalationJobTrigger")
-                .ForJob(offerEscalationJobKey)
-                .StartNow()
-                .WithSimpleSchedule(x => x
-                .WithIntervalInSeconds(1)
-                .RepeatForever()
-                )
+    .WithIdentity("DailyReportJobTrigger")
+    .ForJob(dailyReportJobKey)
+    .WithCronSchedule("0 59 23 * * ?")
             );
         });
         services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
