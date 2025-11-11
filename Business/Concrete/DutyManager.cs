@@ -81,10 +81,25 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Duty>>(duties);
 
         }
+        public IDataResult<List<Duty>> GetAllByEmployeeId(string employeeId)
+        {
+            //var duties = _dutyDal.GetAll(x => x.AssignedEmployeeId == employeeId);
+            return new SuccessDataResult<List<Duty>>(_dutyDal.GetAllDutyDetailsPerEmployee(employeeId));
+
+
+            //if (duties == null)
+            //{
+            //    return new ErrorDataResult<List<Duty>>();
+            //}
+
+            //return new SuccessDataResult<List<Duty>>(duties);
+
+        }
 
         public IDataResult<List<Duty>> GetAllByStatus(string status)
         {
-            var duties = _dutyDal.GetAll(x => x.Status == status);
+            var duties = _dutyDal.GetAllDutyDetailsPerStatus(_user.UserId,status);
+
 
             if (duties == null)
             {

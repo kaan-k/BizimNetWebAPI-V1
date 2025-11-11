@@ -13,6 +13,9 @@ namespace DataAccess.Abstract
     public interface IDutyDal: IMongoRepository<Duty>
     {
         public List<Duty> GetAllDutyDetails(string requesterId);
+        public List<Duty> GetAllDutyDetailsPerEmployee(string employeeId);
+        public List<Duty> GetAllDutyDetailsPerStatus(string employeeId, string status);
+
 
     }
 }

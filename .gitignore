@@ -44,3 +44,8 @@ msbuild.wrn
 TTDWorkerService/TTDWorkerService.csproj
 TTDWebAPI/wwwroot/*
 /BizimNetWebAPI/wwwroot/Uploads
+.vs/BizimNetWebAPI/DesignTimeBuild/.dtbcache.v2
+.vs/BizimNetWebAPI/v17/.futdcache.v2
+.vs/BizimNetWebAPI/v17/.suo
+.vs/BizimNetWebAPI/v17/DocumentLayout.backup.json
+.vs/BizimNetWebAPI/v17/HierarchyCache.v1.txt

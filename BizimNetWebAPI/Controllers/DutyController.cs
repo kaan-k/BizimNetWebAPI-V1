@@ -83,6 +83,14 @@ namespace BizimNetWebAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+        [HttpGet("GetAllByEmployee/{employeeId}")]
+        public IActionResult GetAllByEmployeeId(string employeeId)
+        {
+            var result = _dutyService.GetAllByEmployeeId(employeeId);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
 
         [HttpGet("GetAllByStatus/{status}")]
         public IActionResult GetAllByStatus(string status)

@@ -24,6 +24,8 @@ namespace Business.Abstract
 
 
         IDataResult<List<Duty>> GetAllByCustomerId(string customerId);
+        IDataResult<List<Duty>> GetAllByEmployeeId(string employeeId);
+
         IDataResult<List<Duty>> GetAllByStatus(string status);
         IDataResult<Duty> UpdateStatusById(string id, string newStatus);
         IDataResult<Duty> GetById(string id);

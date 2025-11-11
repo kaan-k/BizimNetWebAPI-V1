@@ -1,33 +1,41 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\",
+  "WorkspaceRootPath": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\dutymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\dutymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\dutymanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_dutydal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\abstract\\idutyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\abstract\\idutyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\dataaccess\\abstract\\idutydal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\abstract\\idutydal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\dataaccess\\concrete\\mongo_dutydal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F75F6466-714C-4892-953C-303751EEE5AA}|DataAccess\\DataAccess.csproj|solutionrelative:dataaccess\\concrete\\mongo_dutydal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\dutycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\bizimnetwebapi\\controllers\\dutycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AABA60B4-90BD-475C-9987-D9CE4AB7F372}|BizimNetWebAPI\\BizimNetWebAPI.csproj|solutionrelative:bizimnetwebapi\\controllers\\dutycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\duty\\duty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\duty\\duty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\duty\\duty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\duty\\dutydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\duty\\dutydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\duty\\dutydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\duty\\dutydetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\entities\\concrete\\duty\\dutydetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{67E920EE-DB8A-4735-9EC5-574B1E8BEF43}|Entities\\Entities.csproj|solutionrelative:entities\\concrete\\duty\\dutydetailsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\fat\u0130h\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\aggridsettingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|c:\\users\\kaan\\documents\\github\\bizimnetwebapi-v1\\business\\concrete\\aggridsettingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B6B0A8AE-45EC-4562-8C75-8B3FAF193937}|Business\\Business.csproj|solutionrelative:business\\concrete\\aggridsettingsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -38,30 +46,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IDutyDal.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IDutyDal.cs",
+              "RelativeDocumentMoniker": "DataAccess\\Abstract\\IDutyDal.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Abstract\\IDutyDal.cs",
+              "RelativeToolTip": "DataAccess\\Abstract\\IDutyDal.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwBAAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T19:28:08.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "IDutyService.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IDutyService.cs",
+              "RelativeDocumentMoniker": "Business\\Abstract\\IDutyService.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Abstract\\IDutyService.cs",
+              "RelativeToolTip": "Business\\Abstract\\IDutyService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAqwBwAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T19:10:59.2Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Mongo_DutyDal.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_DutyDal.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_DutyDal.cs",
               "RelativeDocumentMoniker": "DataAccess\\Concrete\\Mongo_DutyDal.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_DutyDal.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\DataAccess\\Concrete\\Mongo_DutyDal.cs",
               "RelativeToolTip": "DataAccess\\Concrete\\Mongo_DutyDal.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAAwEAAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAswBEAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T12:39:15.622Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "DutyController.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DutyController.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DutyController.cs",
               "RelativeDocumentMoniker": "BizimNetWebAPI\\Controllers\\DutyController.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DutyController.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\BizimNetWebAPI\\Controllers\\DutyController.cs",
               "RelativeToolTip": "BizimNetWebAPI\\Controllers\\DutyController.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAswD0AAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAuwFYAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T12:17:08.353Z",
               "EditorCaption": ""
@@ -70,61 +104,58 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "DutyManager.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DutyManager.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DutyManager.cs",
               "RelativeDocumentMoniker": "Business\\Concrete\\DutyManager.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DutyManager.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\DutyManager.cs",
               "RelativeToolTip": "Business\\Concrete\\DutyManager.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAwwGEAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAmwF8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-10T12:08:08.027Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "DutyDto.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDto.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDto.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Duty\\DutyDto.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDto.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDto.cs",
               "RelativeToolTip": "Entities\\Concrete\\Duty\\DutyDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T08:10:30.758Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T08:10:30.758Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DutyDetailsDto.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
+              "RelativeDocumentMoniker": "Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
+              "RelativeToolTip": "Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T08:10:27.044Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "DutyDetailsDto.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
-              "RelativeDocumentMoniker": "Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
-              "RelativeToolTip": "Entities\\Concrete\\Duty\\DutyDetailsDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T08:10:27.044Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Duty.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\Duty.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\Duty.cs",
               "RelativeDocumentMoniker": "Entities\\Concrete\\Duty\\Duty.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\Duty.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Entities\\Concrete\\Duty\\Duty.cs",
               "RelativeToolTip": "Entities\\Concrete\\Duty\\Duty.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAAwBIAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-10T08:10:06.925Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-10T08:10:06.925Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "AgGridSettingsManager.cs",
-              "DocumentMoniker": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\AgGridSettingsManager.cs",
+              "DocumentMoniker": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\AgGridSettingsManager.cs",
               "RelativeDocumentMoniker": "Business\\Concrete\\AgGridSettingsManager.cs",
-              "ToolTip": "C:\\Users\\FAT\u0130H\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\AgGridSettingsManager.cs",
+              "ToolTip": "C:\\Users\\Kaan\\Documents\\GitHub\\BizimNetWebAPI-V1\\Business\\Concrete\\AgGridSettingsManager.cs",
               "RelativeToolTip": "Business\\Concrete\\AgGridSettingsManager.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAAQwBgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
