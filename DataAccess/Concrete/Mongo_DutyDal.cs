@@ -88,6 +88,28 @@ namespace DataAccess.Concrete
 
                     });
                 }
+                else if(businessUser.FirstName == "Alev")
+                {
+                    list?.Add(new Duty
+                    {
+                        Id = item?.Id,
+                        CustomerId = customer?.CompanyName,
+                        Status = item?.Status,
+                        CreatedAt = item?.CreatedAt,
+                        UpdatedAt = item?.UpdatedAt,
+                        CompletedAt = item?.CompletedAt,
+                        Deadline = item?.Deadline,
+                        Name = item?.Name,
+                        Description = item?.Description,
+                        AssignedEmployeeId = assignedAt?.FirstName,
+                        Priority = item?.Priority,
+                        CreatedBy = createdBy?.FirstName,
+                        CompletedBy = completedBy?.FirstName,
+                        BeginsAt = item.BeginsAt,
+                        EndsAt = item.EndsAt
+
+                    });
+                }
                 
             }
             return list;
