@@ -32,5 +32,7 @@ namespace Entities.Concrete.Duty
         public string AssignedEmployeeId { get; set; }
         public bool CompletedBeforeDeadline { get; set; }
 
+        public string? SignatureBase64 { get; set; }
+
     }
 }

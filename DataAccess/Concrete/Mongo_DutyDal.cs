@@ -62,7 +62,8 @@ namespace DataAccess.Concrete
                         CreatedBy = createdBy?.FirstName,
                         CompletedBy = completedBy?.FirstName,
                         BeginsAt = item.BeginsAt,
-                        EndsAt = item.EndsAt
+                        EndsAt = item.EndsAt,
+                        SignatureBase64 = item?.SignatureBase64
 
                     });
                 }
@@ -84,7 +85,9 @@ namespace DataAccess.Concrete
                         CreatedBy = createdBy?.FirstName,
                         CompletedBy = completedBy?.FirstName,
                         BeginsAt = item.BeginsAt,
-                        EndsAt = item.EndsAt
+                        EndsAt = item.EndsAt,
+                        SignatureBase64 = item?.SignatureBase64
+
 
                     });
                 }
@@ -106,7 +109,8 @@ namespace DataAccess.Concrete
                         CreatedBy = createdBy?.FirstName,
                         CompletedBy = completedBy?.FirstName,
                         BeginsAt = item.BeginsAt,
-                        EndsAt = item.EndsAt
+                        EndsAt = item.EndsAt,
+                        SignatureBase64 = item?.SignatureBase64
 
                     });
                 }
@@ -158,7 +162,8 @@ namespace DataAccess.Concrete
                         CreatedBy = createdBy?.FirstName,
                         CompletedBy = completedBy?.FirstName,
                         BeginsAt = item.BeginsAt,
-                        EndsAt = item.EndsAt
+                        EndsAt = item.EndsAt,
+                        SignatureBase64 = item?.SignatureBase64
 
                     });
                 }
@@ -231,7 +236,8 @@ namespace DataAccess.Concrete
                         CreatedBy = createdBy?.FirstName,
                         CompletedBy = completedBy?.FirstName,
                         BeginsAt = item.BeginsAt,
-                        EndsAt = item.EndsAt
+                        EndsAt = item.EndsAt,
+                        SignatureBase64 = item?.SignatureBase64
 
                     });
                 }
