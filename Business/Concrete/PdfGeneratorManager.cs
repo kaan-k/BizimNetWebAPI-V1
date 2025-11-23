@@ -1,591 +1,484 @@
-﻿using Entities.Concrete.Offer;
+﻿using Business.Abstract;
+using DataAccess.Abstract;
+using Entities.Concrete.Duty;
+using Entities.Concrete.Offer;
+using Entities.Concrete.Service;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using QuestPDF.Drawing;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using Entities.Concrete.Service;
-using Entities.Concrete.Duty;
-using Business.Abstract;
-using DataAccess.Abstract;
+using System.Linq;
 
 public class PdfGeneratorManager : IPdfGeneratorService
 {
     private readonly ICustomerDal _customerDal;
     private readonly IBusinessUserDal _businessUserDal;
+
+    // --- THEME COLORS ---
+    private readonly string ColorPrimary = "#203B46";      // Dark Teal (Brand)
+    private readonly string ColorAccent = "#26A69A";       // Bright Teal (Highlights)
+    private readonly string ColorLight = "#F8FAFC";        // Very Light Blue/Gray (Backgrounds)
+    private readonly string ColorText = "#1E293B";         // Slate (Main Text)
+    private readonly string ColorMuted = "#64748B";        // Muted Gray (Secondary Text)
+    private readonly string ColorBorder = "#E2E8F0";       // Light Border
+
     public PdfGeneratorManager(ICustomerDal customerDal, IBusinessUserDal businessUserDal)
     {
         _customerDal = customerDal;
         _businessUserDal = businessUserDal;
     }
+
+    // =================================================================================================
+    // 1. DAILY DUTIES REPORT (General Overview)
+    // =================================================================================================
     public byte[] GenerateDailyDutiesPdf(List<Duty> duties, DateTime reportDate)
     {
-        QuestPDF.Settings.License = LicenseType.Community;
+        SetupLicense();
+        var tr = new CultureInfo("tr-TR");
 
         duties = duties?.Where(d => d != null).ToList() ?? new List<Duty>();
 
-        // ---- Performans: müşteri ve kullanıcıları tek seferde çek (N+1 engel)
-        var customerIds = duties.Where(d => !string.IsNullOrEmpty(d.CustomerId))
-                                .Select(d => d.CustomerId)
-                                .Distinct()
-                                .ToList();
-        var customers = _customerDal
-            .GetAll(c => customerIds.Contains(c.Id))
-            .ToDictionary(c => c.Id, c => c);
+        var customerIds = duties.Where(d => !string.IsNullOrEmpty(d.CustomerId)).Select(d => d.CustomerId).Distinct().ToList();
+        var customers = _customerDal.GetAll(c => customerIds.Contains(c.Id)).ToDictionary(c => c.Id, c => c);
 
-        var employeeIds = duties.Where(d => !string.IsNullOrEmpty(d.CompletedBy))
-                                .Select(d => d.CompletedBy)
-                                .Distinct()
-                                .ToList();
-        var employees = _businessUserDal
-            .GetAll(e => employeeIds.Contains(e.Id))
-            .ToDictionary(e => e.Id, e => e);
+        var employeeIds = duties.Where(d => !string.IsNullOrEmpty(d.CompletedBy)).Select(d => d.CompletedBy).Distinct().ToList();
+        var employees = _businessUserDal.GetAll(e => employeeIds.Contains(e.Id)).ToDictionary(e => e.Id, e => e);
 
-        // ---- Hücre stilleri (excel benzeri)
-        Func<IContainer, IContainer> Cell = c => c
-            .Border(0.75f)
-            .BorderColor(Colors.Grey.Lighten2)
-            .Padding(6);
-
-        Func<IContainer, IContainer> HeaderCell = c => c
-            .Background(Colors.Grey.Lighten3)
-            .Border(0.75f)
-            .BorderColor(Colors.Grey.Lighten1)
-            .Padding(8);
-
-        var tr = new CultureInfo("tr-TR");
+        var completedCount = duties.Count(d => d.Status == "Tamamlandı");
+        var pendingCount = duties.Count - completedCount;
 
         var document = Document.Create(container =>
         {
             container.Page(page =>
             {
-                page.Margin(40);
-                page.Size(PageSizes.A4);
-                page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Arial"));
+                SetupPage(page);
 
-                // === Header ===
-                page.Header().Column(col =>
+                // HEADER
+                page.Header().Element(e => ComposeHeader(e, "GÜNLÜK GÖREV RAPORU", reportDate.ToString("dd MMMM yyyy, dddd", tr)));
+
+                // CONTENT
+                page.Content().PaddingVertical(20f).Column(col =>
                 {
-                    col.Item().Text("Ary Yazılım A.Ş.")
-                        .FontSize(18).Bold().FontColor(Colors.Blue.Medium);
+                    col.Spacing(20f);
 
-                    col.Item().Text("Günlük Görev Tamamlama Raporu")
-                        .FontSize(22).Bold();
+                    // KPI Cards
+                    col.Item().Row(row =>
+                    {
+                        row.RelativeItem().Element(c => ComposeStatCard(c, "Toplam", duties.Count.ToString(), "#4F46E5"));
+                        row.Spacing(10f);
+                        row.RelativeItem().Element(c => ComposeStatCard(c, "Tamamlanan", completedCount.ToString(), "#10B981"));
+                        row.Spacing(10f);
+                        row.RelativeItem().Element(c => ComposeStatCard(c, "Bekleyen", pendingCount.ToString(), "#EF4444"));
+                    });
 
-                    col.Item().Text(reportDate.ToString("dd MMMM yyyy", tr))
-                        .FontSize(14).FontColor(Colors.Grey.Darken2);
-
-                    col.Item().PaddingTop(5).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                });
-
-                // === Content ===
-                page.Content().PaddingVertical(20).Column(content =>
-                {
-                    content.Spacing(15);
-
-                    // Özet kutusu
-                    content.Item().Border(1).BorderColor(Colors.Grey.Lighten1)
-                           .Padding(12).Background(Colors.Grey.Lighten5).Column(summary =>
-                           {
-                               summary.Spacing(5);
-                               summary.Item().Text($"Bugün Tamamlanan Görev: {duties.Count}").Bold();
-                           });
-
-                    // Boşsa bilgilendir
                     if (duties.Count == 0)
                     {
-                        content.Item().Padding(20).AlignCenter().Text("Bugün için tamamlanan görev bulunamadı.")
-                               .FontColor(Colors.Grey.Darken2);
+                        col.Item().PaddingTop(30f).AlignCenter().Text("Bugün için kayıt bulunamadı.").FontSize(12f).FontColor(ColorMuted).Italic();
                         return;
                     }
 
-                    // Excel benzeri tablolu görünüm
-                    content.Item().Table(table =>
+                    // Data Table
+                    col.Item().Table(table =>
                     {
-                        table.ColumnsDefinition(columns =>
+                        table.ColumnsDefinition(c =>
                         {
-                            columns.RelativeColumn(2); // Görev Adı
-                            columns.RelativeColumn(1); // Öncelik
-                            columns.RelativeColumn(2); // Müşteri
-                            columns.RelativeColumn(2); // Tamamlayan
-                            columns.RelativeColumn(2); // Tamamlanma
+                            c.RelativeColumn(3f); // Task
+                            c.RelativeColumn(2f); // Customer
+                            c.RelativeColumn(2f); // Staff
+                            c.RelativeColumn(1.5f); // Priority
+                            c.RelativeColumn(1.5f); // Time
                         });
 
-                        // header (her sayfada tekrar etsin)
-                        table.Header(header =>
+                        table.Header(h =>
                         {
-                            header.Cell().Element(HeaderCell).Text("Görev Adı").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).AlignCenter().Text("Öncelik").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).Text("Müşteri").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).Text("Tamamlayan").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).AlignCenter().Text("Tamamlanma").Bold().AlignCenter();
+                            h.Cell().Element(CellStyleHeader).Text("GÖREV ADI");
+                            h.Cell().Element(CellStyleHeader).Text("MÜŞTERİ");
+                            h.Cell().Element(CellStyleHeader).Text("PERSONEL");
+                            h.Cell().Element(CellStyleHeader).AlignCenter().Text("ÖNCELİK");
+                            h.Cell().Element(CellStyleHeader).AlignRight().Text("SAAT");
                         });
 
-                        var i = 0; // zebra
-
-                        foreach (var duty in duties)
+                        for (int i = 0; i < duties.Count; i++)
                         {
+                            var duty = duties[i];
                             customers.TryGetValue(duty.CustomerId ?? "", out var customer);
                             employees.TryGetValue(duty.CompletedBy ?? "", out var employee);
 
-                            // zebra satır arka planı
-                            Func<IContainer, IContainer> Zebra = c =>
-                                (i++ % 2 == 0) ? c.Background(Colors.Grey.Lighten5) : c;
+                            IContainer CellStyleRow(IContainer c) => (i % 2 == 0) ? CellStyleEven(c) : CellStyleOdd(c);
 
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(duty.Name ?? "-").AlignCenter();
+                            table.Cell().Element(CellStyleRow).Text(duty.Name).SemiBold().FontColor(ColorText);
+                            table.Cell().Element(CellStyleRow).Text(customer?.CompanyName ?? "-").FontSize(9f).FontColor(ColorMuted);
+                            table.Cell().Element(CellStyleRow).Text(employee?.FirstName ?? "-").FontSize(9f).FontColor(ColorMuted);
+                            table.Cell().Element(CellStyleRow).AlignCenter().Element(c => ComposePriorityBadge(c, duty.Priority));
 
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(duty.Priority ?? "-").AlignCenter();
-
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(customer?.CompanyName ?? "-").AlignCenter();
-
-                            var empName = (employee == null)
-                                ? "-"
-                                : string.Join(" ", new[] { employee.FirstName }
-                                                      .Where(s => !string.IsNullOrWhiteSpace(s)));
-                            table.Cell().Element(Zebra).Element(Cell)
-                                 .Text(string.IsNullOrWhiteSpace(empName) ? "-" : empName).AlignCenter();
-
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(duty.CompletedAt?.ToString("dd.MM.yyyy HH:mm", tr) ?? "-").AlignCenter();
+                            // FIX: Apply Timezone Shift
+                            var timeStr = ToTrTime(duty.CompletedAt)?.ToString("HH:mm") ?? "-";
+                            table.Cell().Element(CellStyleRow).AlignRight().Text(timeStr).FontFamily("Arial").FontSize(10f);
                         }
                     });
                 });
 
-                // === Footer ===
-                page.Footer().AlignCenter().Column(col =>
-                {
-                    col.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                    col.Item().Text(text =>
-                    {
-                        text.Span("Ary Yazılım A.Ş.").Bold();
-                        text.Span(" | Günlük Rapor Sistemi | ");
-                        text.Span("www.aryyazilim.com");
-                    });
-                    col.Item().Text(x =>
-                    {
-                        x.CurrentPageNumber();
-                        x.Span(" / ");
-                        x.TotalPages();
-                    });
-                });
+                page.Footer().Element(ComposeFooter);
             });
         });
 
         return document.GeneratePdf();
     }
 
+    // =================================================================================================
+    // 2. DUTIES BY CUSTOMER REPORT (Grouped "Invoice" Style)
+    // =================================================================================================
     public byte[] GenerateDutiesByCustomerPdf(List<Duty> duties, DateTime reportDate)
     {
-        QuestPDF.Settings.License = LicenseType.Community;
+        SetupLicense();
+        var tr = new CultureInfo("tr-TR");
 
         duties = duties?.Where(d => d != null).ToList() ?? new List<Duty>();
 
-        // ---- Performans: müşteri ve kullanıcıları tek seferde çek (N+1 engel)
-        var customerIds = duties.Where(d => !string.IsNullOrEmpty(d.CustomerId))
-                                .Select(d => d.CustomerId)
-                                .Distinct()
-                                .ToList();
-        var customers = _customerDal
-            .GetAll(c => customerIds.Contains(c.Id))
-            .ToDictionary(c => c.Id, c => c);
+        var customerIds = duties.Where(d => !string.IsNullOrEmpty(d.CustomerId)).Select(d => d.CustomerId).Distinct().ToList();
+        var customers = _customerDal.GetAll(c => customerIds.Contains(c.Id)).ToDictionary(c => c.Id, c => c);
 
-        var employeeIds = duties.Where(d => !string.IsNullOrEmpty(d.CompletedBy))
-                                .Select(d => d.CompletedBy)
-                                .Distinct()
-                                .ToList();
-        var employees = _businessUserDal
-            .GetAll(e => employeeIds.Contains(e.Id))
-            .ToDictionary(e => e.Id, e => e);
+        var employeeIds = duties.Where(d => !string.IsNullOrEmpty(d.CompletedBy)).Select(d => d.CompletedBy).Distinct().ToList();
+        var employees = _businessUserDal.GetAll(e => employeeIds.Contains(e.Id)).ToDictionary(e => e.Id, e => e);
 
-        // ---- Hücre stilleri (excel benzeri)
-        Func<IContainer, IContainer> Cell = c => c
-            .Border(0.75f)
-            .BorderColor(Colors.Grey.Lighten2)
-            .Padding(6);
+        var dutiesByCustomer = duties.GroupBy(d => d.CustomerId);
 
-        Func<IContainer, IContainer> HeaderCell = c => c
-            .Background(Colors.Grey.Lighten3)
-            .Border(0.75f)
-            .BorderColor(Colors.Grey.Lighten1)
-            .Padding(8);
+        var document = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                SetupPage(page);
+                page.Header().Element(e => ComposeHeader(e, "HİZMET DÖKÜMÜ RAPORU", reportDate.ToString("dd MMMM yyyy", tr)));
 
+                page.Content().PaddingVertical(10f).Column(col =>
+                {
+                    col.Spacing(30f);
+
+                    if (!duties.Any())
+                    {
+                        col.Item().PaddingTop(50f).AlignCenter().Text("Kayıt bulunamadı.").FontSize(12f).FontColor(ColorMuted);
+                        return;
+                    }
+
+                    foreach (var group in dutiesByCustomer)
+                    {
+                        customers.TryGetValue(group.Key ?? "", out var customer);
+                        var customerName = customer?.CompanyName ?? "Bilinmeyen Müşteri";
+                        var count = group.Count();
+
+                        col.Item().Column(c =>
+                        {
+                            c.Item().Background(ColorLight).Border(1f).BorderColor(ColorBorder).Padding(12f).Row(r =>
+                            {
+                                r.RelativeItem().Column(info =>
+                                {
+                                    info.Item().Text("MÜŞTERİ").FontSize(8f).Bold().FontColor(ColorAccent);
+                                    info.Item().Text(customerName).FontSize(12f).Bold().FontColor(ColorPrimary);
+                                });
+
+                                r.AutoItem().Column(info =>
+                                {
+                                    info.Item().AlignRight().Text("TOPLAM İŞLEM").FontSize(8f).Bold().FontColor(ColorAccent);
+                                    info.Item().AlignRight().Text($"{count} Adet").FontSize(12f).Bold().FontColor(ColorText);
+                                });
+                            });
+
+                            c.Item().PaddingTop(5f).Table(table =>
+                            {
+                                table.ColumnsDefinition(cols =>
+                                {
+                                    cols.RelativeColumn(4f);
+                                    cols.RelativeColumn(2f);
+                                    cols.RelativeColumn(2f);
+                                    cols.RelativeColumn(1.5f);
+                                });
+
+                                table.Header(h =>
+                                {
+                                    h.Cell().Element(CellStyleHeader).Text("YAPILAN İŞLEM / AÇIKLAMA");
+                                    h.Cell().Element(CellStyleHeader).Text("PERSONEL");
+                                    h.Cell().Element(CellStyleHeader).Text("TARİH");
+                                    h.Cell().Element(CellStyleHeader).AlignRight().Text("DURUM");
+                                });
+
+                                foreach (var duty in group)
+                                {
+                                    employees.TryGetValue(duty.CompletedBy ?? "", out var emp);
+                                    var empName = emp?.FirstName ?? "-";
+
+                                    // FIX: Apply Timezone Shift
+                                    var dateStr = ToTrTime(duty.CompletedAt)?.ToString("dd.MM.yyyy", tr) ?? "-";
+                                    var timeStr = ToTrTime(duty.CompletedAt)?.ToString("HH:mm", tr) ?? "-";
+
+                                    IContainer RowStyle(IContainer x) => x.BorderBottom(1f).BorderColor(ColorBorder).PaddingVertical(8f).PaddingHorizontal(4f);
+
+                                    table.Cell().Element(RowStyle).Column(cx => {
+                                        cx.Item().Text(duty.Name).FontSize(10f).SemiBold().FontColor(ColorText);
+                                        if (!string.IsNullOrEmpty(duty.Description))
+                                        {
+                                            cx.Item().Text(duty.Description).FontSize(9f).FontColor(ColorMuted);
+                                        }
+                                    });
+
+                                    table.Cell().Element(RowStyle).Text(empName).FontSize(10f).FontColor(ColorText);
+
+                                    table.Cell().Element(RowStyle).Column(cx => {
+                                        cx.Item().Text(dateStr).FontSize(10f).FontColor(ColorText);
+                                        cx.Item().Text(timeStr).FontSize(8f).FontColor(ColorMuted);
+                                    });
+
+                                    table.Cell().Element(RowStyle).AlignRight().Text(txt => {
+                                        if (duty.Status == "Tamamlandı")
+                                            txt.Span("TAMAMLANDI").FontSize(9f).Bold().FontColor(ColorPrimary);
+                                        else
+                                            txt.Span("AÇIK").FontSize(9f).Bold().FontColor("#F59E0B");
+                                    });
+                                }
+                            });
+                        });
+                    }
+                });
+
+                page.Footer().Element(ComposeFooter);
+            });
+        });
+        return document.GeneratePdf();
+    }
+
+    // =================================================================================================
+    // 3. SERVICING REPORT (Form Layout)
+    // =================================================================================================
+    public byte[] GenerateServicingPdf(Servicing servicing)
+    {
+        SetupLicense();
         var tr = new CultureInfo("tr-TR");
 
         var document = Document.Create(container =>
         {
             container.Page(page =>
             {
-                page.Margin(40);
-                page.Size(PageSizes.A4);
-                page.DefaultTextStyle(x => x.FontSize(11).FontFamily("Arial"));
+                SetupPage(page);
+                page.Header().Element(e => ComposeHeader(e, "TEKNİK SERVİS FORMU", $"Takip No: {servicing.TrackingId}"));
 
-                // === Header ===
-                page.Header().Column(col =>
+                page.Content().PaddingVertical(20f).Column(col =>
                 {
-                    col.Item().Text("Ary Yazılım A.Ş.")
-                        .FontSize(18).Bold().FontColor(Colors.Blue.Medium);
+                    col.Spacing(20f);
 
-                    col.Item().Text("Müşteri Servis Hizmeti Raporu")
-                        .FontSize(22).Bold();
-
-                    col.Item().Text(reportDate.ToString("dd MMMM yyyy", tr))
-                        .FontSize(14).FontColor(Colors.Grey.Darken2);
-
-                    col.Item().PaddingTop(5).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                });
-
-                // === Content ===
-                page.Content().PaddingVertical(20).Column(content =>
-                {
-                    content.Spacing(15);
-
-                    // Özet kutusu
-                    content.Item().Border(1).BorderColor(Colors.Grey.Lighten1)
-                           .Padding(12).Background(Colors.Grey.Lighten5).Column(summary =>
-                           {
-                               summary.Spacing(5);
-                               summary.Item().Text($"Toplam Tamamlanan Görev: {duties.Count}").Bold();
-                           });
-
-                    // Boşsa bilgilendir
-                    if (duties.Count == 0)
+                    // Info Box
+                    col.Item().Border(1f).BorderColor(ColorBorder).Padding(15f).Column(info =>
                     {
-                        content.Item().Padding(20).AlignCenter().Text("Bugün için tamamlanan görev bulunamadı.")
-                               .FontColor(Colors.Grey.Darken2);
-                        return;
-                    }
+                        info.Spacing(10f);
 
-                    // Excel benzeri tablolu görünüm
-                    content.Item().Table(table =>
-                    {
-                        table.ColumnsDefinition(columns =>
-                        {
-                            columns.RelativeColumn(2); // Görev Adı
-                            columns.RelativeColumn(1); // Öncelik
-                            columns.RelativeColumn(2); // Müşteri
-                            columns.RelativeColumn(2); // Tamamlayan
-                            columns.RelativeColumn(2); // Tamamlanma
+                        // FIX: Apply Timezone Shift to Dates
+                        var createdDate = ToTrTime(servicing.CreatedAt).ToString("g", tr);
+                        var lastActionDate = ToTrTime(servicing.LastActionDate)?.ToString("g", tr) ?? "-";
+
+                        info.Item().Row(r => {
+                            r.RelativeItem().Column(c => { c.Item().Text("Servis Başlığı").FontSize(9f).FontColor(ColorMuted).Bold(); c.Item().Text(servicing.Name).FontSize(12f).SemiBold(); });
+                            r.RelativeItem().AlignRight().Column(c => { c.Item().Text("Tarih & Saat").FontSize(9f).FontColor(ColorMuted).Bold(); c.Item().Text(createdDate).FontSize(12f); });
                         });
 
-                        // header (her sayfada tekrar etsin)
-                        table.Header(header =>
-                        {
-                            header.Cell().Element(HeaderCell).Text("Görev Adı").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).AlignCenter().Text("Öncelik").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).Text("Müşteri").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).Text("Tamamlayan").Bold().AlignCenter();
-                            header.Cell().Element(HeaderCell).AlignCenter().Text("Tamamlanma").Bold().AlignCenter();
+                        info.Item().LineHorizontal(1f).LineColor(ColorBorder);
+
+                        info.Item().Row(r => {
+                            r.RelativeItem().Column(c => { c.Item().Text("Durum").FontSize(9f).FontColor(ColorMuted).Bold(); c.Item().Text(servicing.Status.ToString()).FontSize(11f).FontColor(ColorPrimary); });
+                            r.RelativeItem().AlignRight().Column(c => { c.Item().Text("Son İşlem").FontSize(9f).FontColor(ColorMuted).Bold(); c.Item().Text(lastActionDate).FontSize(11f); });
                         });
+                    });
 
-                        var i = 0; // zebra
-
-                        foreach (var duty in duties)
+                    // Devices
+                    col.Item().Column(dev => {
+                        dev.Spacing(5f);
+                        dev.Item().Text("İLGİLİ CİHAZLAR").FontSize(10f).Bold().FontColor(ColorAccent);
+                        if (servicing.DeviceIds != null && servicing.DeviceIds.Any())
                         {
-                            customers.TryGetValue(duty.CustomerId ?? "", out var customer);
-                            employees.TryGetValue(duty.CompletedBy ?? "", out var employee);
-
-                            // zebra satır arka planı
-                            Func<IContainer, IContainer> Zebra = c =>
-                                (i++ % 2 == 0) ? c.Background(Colors.Grey.Lighten5) : c;
-
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(duty.Name ?? "-").AlignCenter();
-
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(duty.Priority ?? "-").AlignCenter();
-
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(customer?.CompanyName ?? "-").AlignCenter();
-
-                            var empName = (employee == null)
-                                ? "-"
-                                : string.Join(" ", new[] { employee.FirstName }
-                                                      .Where(s => !string.IsNullOrWhiteSpace(s)));
-                            table.Cell().Element(Zebra).Element(Cell)
-                                 .Text(string.IsNullOrWhiteSpace(empName) ? "-" : empName).AlignCenter();
-
-                            table.Cell().Element(Zebra).Element(Cell).AlignCenter()
-                                 .Text(duty.CompletedAt?.ToString("dd.MM.yyyy", tr) ?? "-").AlignCenter();
+                            foreach (var d in servicing.DeviceIds) dev.Item().PaddingLeft(10f).Text($"• {d}").FontSize(10f);
+                        }
+                        else
+                        {
+                            dev.Item().Text("Cihaz belirtilmedi.").FontSize(10f).Italic().FontColor(ColorMuted);
                         }
                     });
-                });
 
-                // === Footer ===
-                page.Footer().AlignCenter().Column(col =>
-                {
-                    col.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                    col.Item().Text(text =>
-                    {
-                        text.Span("Ary Yazılım A.Ş.").Bold();
-                        text.Span(" | Servis Raporu Sistemi | ");
-                        text.Span("www.aryyazilim.com");
+                    // Actions
+                    col.Item().Column(act => {
+                        act.Spacing(5f);
+                        act.Item().Text("YAPILAN İŞLEMLER").FontSize(10f).Bold().FontColor(ColorAccent);
+                        act.Item().Background(ColorLight).Padding(10f).Text(servicing.LastAction).FontSize(10f);
                     });
-                    col.Item().Text(x =>
-                    {
-                        x.CurrentPageNumber();
-                        x.Span(" / ");
-                        x.TotalPages();
+
+                    // Signatures
+                    col.Item().PaddingTop(40f).Row(r => {
+                        r.RelativeItem().Column(c => { c.Spacing(40f); c.Item().Text("Teknisyen İmza").FontSize(10f).Bold().AlignCenter(); c.Item().LineHorizontal(1f); });
+                        r.ConstantItem(40f);
+                        r.RelativeItem().Column(c => { c.Spacing(40f); c.Item().Text("Müşteri Onay").FontSize(10f).Bold().AlignCenter(); c.Item().LineHorizontal(1f); });
                     });
                 });
+                page.Footer().Element(ComposeFooter);
             });
         });
-
         return document.GeneratePdf();
     }
 
+    // =================================================================================================
+    // 4. OFFER REPORT (Detailed Proposal)
+    // =================================================================================================
     public byte[] GenerateOfferPdf(Offer offer)
     {
-        QuestPDF.Settings.License = LicenseType.Community;
+        SetupLicense();
+        var tr = new CultureInfo("tr-TR");
+
+        // FIX: Apply Timezone Shift
+        var createdDate = ToTrTime(offer.CreatedAt ?? DateTime.Now).ToString("dd.MM.yyyy", tr);
 
         var document = Document.Create(container =>
         {
             container.Page(page =>
             {
-                page.Margin(50);
-                page.Size(PageSizes.A4);
-                page.DefaultTextStyle(x => x.FontSize(12).FontFamily("Arial"));
+                SetupPage(page);
+                page.Header().Element(e => ComposeHeader(e, "RESMİ TEKLİF BELGESİ", $"Tarih: {createdDate}"));
 
-                // === Header ===
-                page.Header().Element(header =>
+                page.Content().PaddingVertical(20f).Column(col =>
                 {
-                    header.Column(col =>
-                    {
-                        col.Item().Text("Ary Yazılım A.Ş.")
-                            .FontSize(18)
-                            .Bold()
-                            .FontColor(Colors.Blue.Medium);
+                    col.Spacing(20f);
 
-                        col.Item().Text("Resmi Teklif Belgesi")
-                            .FontSize(24)
-                            .Bold()
-                            .FontColor(Colors.Black);
+                    col.Item().Border(1f).BorderColor(ColorBorder).Padding(20f).Background(ColorLight).Column(c => {
+                        c.Spacing(10f);
+                        c.Item().Text("Teklif Başlığı").FontSize(10f).FontColor(ColorAccent).Bold();
+                        c.Item().Text(offer.OfferTitle).FontSize(14f).SemiBold().FontColor(ColorText);
 
-                        col.Item().PaddingTop(5).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
+                        c.Item().PaddingTop(10f).Text("Detaylar").FontSize(10f).FontColor(ColorAccent).Bold();
+                        c.Item().Text(offer.OfferDetails).FontSize(10f).LineHeight(1.4f).FontColor(ColorText);
+                    });
+
+                    col.Item().Row(r => {
+                        r.RelativeItem().Column(c => { c.Item().Text("Müşteri ID").Bold().FontSize(9f); c.Item().Text(offer.CustomerId).FontSize(10f); });
+                        r.RelativeItem().Column(c => { c.Item().Text("Personel ID").Bold().FontSize(9f); c.Item().Text(offer.EmployeeId).FontSize(10f); });
+                    });
+
+                    col.Item().Background("#F0FDF4").Border(1f).BorderColor("#4ADE80").Padding(15f).AlignCenter().Column(c => {
+                        c.Item().Text("TOPLAM TUTAR").FontSize(10f).Bold().FontColor("#15803D");
+                        c.Item().Text($"{offer.TotalAmount:C}").FontSize(20f).Bold().FontColor("#166534");
+                    });
+
+                    col.Item().PaddingTop(40f).AlignRight().Width(150f).Column(c => {
+                        c.Spacing(40f);
+                        c.Item().Text("Yetkili İmza / Kaşe").FontSize(10f).Bold().AlignCenter();
+                        c.Item().LineHorizontal(1f);
                     });
                 });
-
-                // === Content ===
-                page.Content().PaddingVertical(25).Column(column =>
-                {
-                    column.Spacing(20);
-
-                    // Offer Info Box
-                    column.Item().Border(1)
-                                 .BorderColor(Colors.Grey.Lighten1)
-                                 .Padding(15)
-                                 .Background(Colors.Grey.Lighten5)
-                                 .Column(info =>
-                                 {
-                                     info.Spacing(5);
-
-                                     info.Item().Text("Teklif Başlığı").Bold();
-                                     info.Item().Text(offer.OfferTitle).FontSize(14).FontColor(Colors.Grey.Darken3);
-
-                                     info.Item().Text("Teklif Detayları");
-                                     info.Item().Text(offer.OfferDetails)
-                                                .FontColor(Colors.Grey.Darken2)
-                                                .LineHeight(1.4f);
-                                 });
-
-                    // Technical Details
-                    column.Item().Row(row =>
-                    {
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Müşteri ID").Bold();
-                            col.Item().Text(offer.CustomerId).FontColor(Colors.Grey.Darken2);
-                        });
-
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Personel ID").Bold();
-                            col.Item().Text(offer.EmployeeId).FontColor(Colors.Grey.Darken2);
-                        });
-
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Oluşturulma Tarihi").Bold();
-                            col.Item().Text(offer.CreatedAt?.ToString("dd MMMM yyyy HH:mm", new CultureInfo("tr-TR")))
-                                     .FontColor(Colors.Grey.Darken2);
-                        });
-                    });
-
-                    // Price Highlight Box
-                    column.Item().Background(Colors.White)
-                                 .Border(1)
-                                 .BorderColor(Colors.Green.Medium)
-                                 .Padding(15)
-                                 .AlignCenter()
-                                 .Column(col =>
-                                 {
-                                     col.Item().Text("Toplam Teklif Tutarı")
-                                               .FontSize(14)
-                                               .Bold()
-                                               .FontColor(Colors.Green.Darken2);
-
-                                     col.Item().Text($"{offer.TotalAmount:C}")
-                                               .FontSize(22)
-                                               .Bold()
-                                               .FontColor(Colors.Green.Medium);
-                                 });
-
-                    // Optional: Signature area
-                    column.Item().PaddingTop(30).Column(col =>
-                    {
-                        col.Item().Text("Yetkili İmza").Bold();
-                        col.Item().PaddingTop(40).LineHorizontal(1);
-                    });
-                });
-
-                // === Footer ===
-                page.Footer().AlignCenter().Column(col =>
-                {
-                    col.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                    col.Item().Text(text =>
-                    {
-                        text.Span("Ary Yazılım A.Ş.").Bold();
-                        text.Span(" | Otomatik Teklif Sistemi | ");
-                        text.Span("www.aryyazilim.com");
-                    });
-                });
+                page.Footer().Element(ComposeFooter);
             });
         });
-
         return document.GeneratePdf();
     }
 
-    public byte[] GenerateServicingPdf(Servicing servicing)
+    // =================================================================================================
+    //                                     PRIVATE HELPERS
+    // =================================================================================================
+
+    private void SetupLicense()
     {
         QuestPDF.Settings.License = LicenseType.Community;
+    }
 
-        var document = Document.Create(container =>
+    // *** NEW HELPER: Turkey Time Converter (+3 Hours) ***
+    private DateTime ToTrTime(DateTime date) => date.AddHours(3);
+    private DateTime? ToTrTime(DateTime? date) => date?.AddHours(3);
+
+    private void SetupPage(PageDescriptor page)
+    {
+        page.Margin(40f);
+        page.Size(PageSizes.A4);
+        page.DefaultTextStyle(x => x.FontSize(10f).FontFamily("Arial"));
+        page.PageColor(Colors.White);
+    }
+
+    private void ComposeHeader(IContainer container, string title, string subtitle)
+    {
+        container.Column(col =>
         {
-            container.Page(page =>
+            col.Item().Row(row =>
             {
-                page.Size(PageSizes.A4);
-                page.Margin(50);
-                page.DefaultTextStyle(x => x.FontSize(12).FontFamily("Arial"));
-
-                // === Header ===
-                page.Header().Element(header =>
+                row.RelativeItem().Column(c =>
                 {
-                    header.Column(col =>
-                    {
-                        col.Item().Text("ARY YAZILIM A.Ş.")
-                            .FontSize(18)
-                            .Bold()
-                            .FontColor(Colors.Blue.Medium);
-
-                        col.Item().Text("SERVİS FORMU")
-                            .FontSize(24)
-                            .Bold()
-                            .FontColor(Colors.Black);
-
-                        col.Item().PaddingTop(5).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                    });
+                    c.Item().Text("ARY YAZILIM").FontSize(20f).ExtraBold().FontColor(ColorPrimary);
                 });
 
-                // === Content ===
-                page.Content().PaddingVertical(20).Column(column =>
+                row.RelativeItem().AlignRight().Column(c =>
                 {
-                    column.Spacing(20);
-
-                    // Service Info Box
-                    column.Item().Border(1)
-                                 .BorderColor(Colors.Grey.Lighten1)
-                                 .Padding(15)
-                                 .Background(Colors.Grey.Lighten5)
-                                 .Column(info =>
-                                 {
-                                     info.Spacing(5);
-
-                                     info.Item().Text("Servis Başlığı").Bold();
-                                     info.Item().Text(servicing.Name).FontSize(14).FontColor(Colors.Grey.Darken3);
-
-                                     info.Item().Text("Takip Numarası").Bold();
-                                     info.Item().Text(servicing.TrackingId).FontColor(Colors.Blue.Medium);
-                                 });
-
-                    // Device List
-                    column.Item().Text("İlgili Cihazlar").Bold();
-                    if (servicing.DeviceIds != null && servicing.DeviceIds.Any())
-                    {
-                        column.Item().Column(deviceCol =>
-                        {
-                            foreach (var deviceId in servicing.DeviceIds)
-                            {
-                                deviceCol.Item().Text($"• {deviceId}").FontColor(Colors.Grey.Darken2);
-                            }
-                        });
-                    }
-                    else
-                    {
-                        column.Item().Text("Cihaz bilgisi bulunmamaktadır.").Italic();
-                    }
-
-                    // Status & Actions
-                    column.Item().Row(row =>
-                    {
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Durum").Bold();
-                            col.Item().Text(servicing.Status.ToString()).FontColor(Colors.Grey.Darken2);
-                        });
-
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Son İşlem Tarihi").Bold();
-                            col.Item().Text(servicing.LastActionDate?.ToString("dd MMMM yyyy HH:mm", new CultureInfo("tr-TR")) ?? "—")
-                                     .FontColor(Colors.Grey.Darken2);
-                        });
-
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Oluşturulma").Bold();
-                            col.Item().Text(servicing.CreatedAt.ToString("dd MMMM yyyy HH:mm", new CultureInfo("tr-TR")))
-                                     .FontColor(Colors.Grey.Darken2);
-                        });
-                    });
-
-                    column.Item().Text("Son Yapılan İşlem").Bold();
-                    column.Item().Text(servicing.LastAction).FontColor(Colors.Grey.Darken3).LineHeight(1.4f);
-
-                    // Signature Section
-                    column.Item().PaddingTop(30).Row(row =>
-                    {
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Teknisyen İmzası").Bold();
-                            col.Item().PaddingTop(40).LineHorizontal(1);
-                        });
-
-                        row.ConstantItem(50); // spacer
-
-                        row.RelativeItem().Column(col =>
-                        {
-                            col.Item().Text("Müşteri İmzası").Bold();
-                            col.Item().PaddingTop(40).LineHorizontal(1);
-                        });
-                    });
+                    c.Item().Text(title).FontSize(14f).Bold().FontColor(ColorAccent);
+                    c.Item().Text(subtitle).FontSize(10f).FontColor(ColorText);
                 });
+            });
+            col.Item().PaddingTop(10f).LineHorizontal(2f).LineColor(ColorPrimary);
+        });
+    }
 
-                // === Footer ===
-                page.Footer().AlignCenter().Column(col =>
+    private void ComposeFooter(IContainer container)
+    {
+        container.Column(col =>
+        {
+            col.Item().PaddingBottom(5f).LineHorizontal(1f).LineColor(ColorBorder);
+            col.Item().Row(row =>
+            {
+                row.RelativeItem().Text("www.aryyazilim.com | info@aryyazilim.com").FontSize(8f).FontColor(ColorMuted);
+                row.RelativeItem().AlignRight().Text(x =>
                 {
-                    col.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
-                    col.Item().Text(text =>
-                    {
-                        text.Span("Ary Yazılım A.Ş.").Bold();
-                        text.Span(" | Servis Takip Sistemi | ");
-                        text.Span("www.aryyazılım.com");
-                    });
+                    x.Span("Sayfa ");
+                    x.CurrentPageNumber();
+                    x.Span(" / ");
+                    x.TotalPages();
                 });
             });
         });
-
-        return document.GeneratePdf();
     }
+
+    private void ComposeStatCard(IContainer container, string label, string value, string colorHex)
+    {
+        container
+            .Border(1f).BorderColor(ColorBorder)
+            .Background(Colors.White)
+            .Padding(10f)
+            .Column(col =>
+            {
+                col.Item().Text(label).FontSize(9f).FontColor(ColorMuted).Medium();
+                col.Item().Text(value).FontSize(18f).Bold().FontColor(colorHex);
+            });
+    }
+
+    private void ComposePriorityBadge(IContainer container, string priority)
+    {
+        var color = priority?.ToLower() switch
+        {
+            "acil" => "#FEF2F2",
+            "yüksek" => "#FFF7ED",
+            "orta" => "#EFF6FF",
+            _ => "#F1F5F9"
+        };
+        var text = priority?.ToLower() switch
+        {
+            "acil" => "#DC2626",
+            "yüksek" => "#EA580C",
+            "orta" => "#2563EB",
+            _ => "#475569"
+        };
+
+        container.Background(color).PaddingVertical(2f).PaddingHorizontal(8f)
+            .Text(priority?.ToUpper() ?? "-").FontSize(8f).Bold().FontColor(text);
+    }
+
+    private IContainer CellStyleHeader(IContainer container)
+    {
+        return container
+            .BorderBottom(1f).BorderColor(ColorPrimary)
+            .Background(ColorLight)
+            .Padding(6f)
+            .PaddingBottom(8f);
+    }
+
+    private IContainer CellStyleOdd(IContainer container) => container.BorderBottom(1f).BorderColor(ColorBorder).Padding(6f);
+    private IContainer CellStyleEven(IContainer container) => container.Background(ColorLight).BorderBottom(1f).BorderColor(ColorBorder).Padding(6f);
 }
