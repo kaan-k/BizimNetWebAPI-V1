@@ -58,6 +58,17 @@ namespace BizimNetWebAPI.Controllers
             }
             return BadRequest();
         }
+        [Authorize]
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword(BusinessUserPasswordResetDto businessUser)
+        {
+            var result = _businessUserInterface.ResetPassword(businessUser);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
         [HttpGet("Delete")]
         public IActionResult Delete(string id)
         {
