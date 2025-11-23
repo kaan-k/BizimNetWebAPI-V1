@@ -22,7 +22,7 @@ namespace Business.Abstract
         IDataResult <List<Duty>> GetTodaysDuties();
         IDataResult<List<Duty>> GetAllByCustomerIdReport(string customerId);
 
-
+        IDataResult<List<Duty>> ReplaceCustomerId(string customerId, string customerIdToReplace);
         IDataResult<List<Duty>> GetAllByCustomerId(string customerId);
         IDataResult<List<Duty>> GetAllByEmployeeId(string employeeId);
 

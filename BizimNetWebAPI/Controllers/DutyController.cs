@@ -118,5 +118,14 @@ namespace BizimNetWebAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+        // Birden fazla aynı müşteriden eklendiğinde düzeltmek için
+        [HttpGet("ReplaceById")]
+        public IActionResult ReplaceById(string id, string toReplaceId)
+        {
+            var result = _dutyService.ReplaceCustomerId(id, toReplaceId);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
     }
 }

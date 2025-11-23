@@ -109,6 +109,19 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Duty>>(duties);
         }
 
+
+
+        public IDataResult<List<Duty>> ReplaceCustomerId(string customerId, string customerIdToReplace)
+        {
+            var duties = _dutyDal.GetAll(x => x.CustomerId == customerId);
+            foreach (Duty duty in duties)
+            {
+                duty.CustomerId = customerIdToReplace;
+                _dutyDal.Update(duty);
+            }
+
+            return new SuccessDataResult<List<Duty>>(duties, "Customer IDs successfully replaced.");
+        }
         public IDataResult<List<Duty>> GetAllDetails(string userId)
         {
 
