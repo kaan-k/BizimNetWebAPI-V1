@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
 using Core.Configuration;
@@ -12,6 +13,8 @@ using Entities.Profiles.AutoMapperProfiles;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,24 +54,24 @@ builder.Services.AddCors(options =>
     });
 });
 
-//// ✅ JWT Authentication
-//var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-//builder.Services.AddAuthentication("Bearer")
-//    .AddJwtBearer(options =>
-//    {
-//        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateLifetime = true,
-//            ValidIssuer = tokenOptions.Issuer,
-//            ValidAudience = tokenOptions.Audience,
-//            ValidateIssuerSigningKey = true,
-//            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
-//            LifetimeValidator = (notBefore, expires, token, param) => expires != null ? expires > DateTime.UtcNow : false,
-//            NameClaimType = ClaimTypes.Name
-//        };
-//    });
+// ✅ JWT Authentication
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
+            LifetimeValidator = (notBefore, expires, token, param) => expires != null ? expires > DateTime.UtcNow : false,
+            NameClaimType = ClaimTypes.Name
+        };
+    });
 
 // ✅ AutoMapper config
 builder.Services.AddAutoMapper(typeof(EntitiesAutoMapperProfile));

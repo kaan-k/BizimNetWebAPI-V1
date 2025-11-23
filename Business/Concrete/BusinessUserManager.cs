@@ -40,6 +40,24 @@ namespace Business.Concrete
             return new SuccessDataResult<BusinessUser>(user, "Kayıt başarılı.");
         }
 
+        public IDataResult<BusinessUser> ResetPassword(BusinessUserPasswordResetDto businessUser)
+        {
+
+            var existingUser = _businessUserDal.Get(x => x.Email == businessUser.Email);
+            if (existingUser == null)
+                return new ErrorDataResult<BusinessUser>("Kullanıcı bulunamadı.");
+
+            HashingHelper.CreatePasswordHash(businessUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            existingUser.PasswordHash = passwordHash;
+            existingUser.PasswordSalt = passwordSalt;
+
+            _businessUserDal.Update(existingUser);
+
+            return new SuccessDataResult<BusinessUser>(existingUser, "Şifre sıfırlandı.");
+
+        }
+
         public IResult Delete(string id)
         {
             _businessUserDal.Delete(id);
@@ -87,5 +105,7 @@ namespace Business.Concrete
             _businessUserDal.Update(buisnessUser);
             return new SuccessResult("yay");
         }
+
+
     }
 }

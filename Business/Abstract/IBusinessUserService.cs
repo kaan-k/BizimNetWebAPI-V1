@@ -13,6 +13,8 @@ namespace Business.Abstract
     public interface IBusinessUserService
     {
         IDataResult<BusinessUser> Add(BusinessUserDto businessUser);
+        IDataResult<BusinessUser> ResetPassword(BusinessUserPasswordResetDto businessUser);
+
         IDataResult<BusinessUser> UserLogin(BusinessUserLoginDto userForLoginDto);
         IResult Update(BusinessUser businessUser, string id);
         IResult Delete(string id);

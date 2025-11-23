@@ -2,6 +2,7 @@
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace BizimNetWebAPI.Controllers
             _businessUserInterface = businessUserInterface;
         }
 
-
+        [Authorize]
         [HttpPost("Add")]
         public IActionResult Add(BusinessUserDto businessUser)
         {
@@ -46,6 +47,7 @@ namespace BizimNetWebAPI.Controllers
             }
             return BadRequest(res.Message);
         }
+        [Authorize]
         [HttpPost("Update")]
         public IActionResult Update(BusinessUser businessUser, string id)
         {
@@ -66,6 +68,7 @@ namespace BizimNetWebAPI.Controllers
             }
             return BadRequest();
         }
+        [Authorize]
         [HttpGet("GetById")]
         public IActionResult Get(string id)
         {
@@ -76,7 +79,7 @@ namespace BizimNetWebAPI.Controllers
             }
             return BadRequest();
         }
-
+        [Authorize]
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
