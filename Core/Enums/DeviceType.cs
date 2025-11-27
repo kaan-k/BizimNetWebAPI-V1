@@ -11,5 +11,6 @@ namespace Core.Enums
         Printer,
         Server,
         Client,
+        Software
     }
 }

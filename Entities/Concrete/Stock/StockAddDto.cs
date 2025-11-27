@@ -10,6 +10,9 @@ namespace Entities.Concrete.Stock
 {
     public class StockAddDto:IDto
     {
+        public string Name { get; set; }
+        //public string WarehouseId { get; set; }
+        public int Count { get; set; }
         public DeviceType DeviceType { get; set; }
     }
 }
