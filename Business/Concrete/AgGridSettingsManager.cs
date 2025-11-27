@@ -20,11 +20,11 @@ namespace Business.Concrete
             _agGridSettingsDal = agGridSettingsDal;
             _mapper = mapper;
         }
-        public IDataResult<AgGridSettings> Add(AgGridSettingsDto agGridSetting)
+        public IDataResult<Payment> Add(AgGridSettingsDto agGridSetting)
         {
-            var agGridDto = _mapper.Map<AgGridSettings>(agGridSetting);
+            var agGridDto = _mapper.Map<Payment>(agGridSetting);
             _agGridSettingsDal.Add(agGridDto);
-            return new SuccessDataResult<AgGridSettings>(agGridDto, "Grid ayarı eklendi.");
+            return new SuccessDataResult<Payment>(agGridDto, "Grid ayarı eklendi.");
         }
 
         public IResult Delete(string id)
@@ -32,17 +32,17 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<AgGridSettings>> GetAll()
+        public IDataResult<List<Payment>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<AgGridSettings> GetById(string id)
+        public IDataResult<Payment> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public IResult Update(AgGridSettings agGridSetting, string id)
+        public IResult Update(Payment agGridSetting, string id)
         {
             throw new NotImplementedException();
         }

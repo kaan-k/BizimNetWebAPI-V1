@@ -36,9 +36,20 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IDataResult<Aggrement> RecieveBill(string aggrementId, int amount)
+        {
+            var aggrement = _aggrementDal.Get(a => a.Id == aggrementId);
+            if (aggrement == null)
+            {
+                return new ErrorDataResult<Aggrement>("Sözleşme bulunamadı.");
+            }
+            _aggrementDal.Update(aggrement);
+            return new SuccessDataResult<Aggrement>(aggrement, "Ödeme alındı ve sözleşme güncellendi.");
+        }
+
         public IDataResult<List<Aggrement>> GetAll()
         {
-            var aggrements = _aggrementDal.GetAll();
+            var aggrements = _aggrementDal.GetAllAggrementDetails();
             return new SuccessDataResult<List<Aggrement>>(aggrements);
         }
 
@@ -51,6 +62,65 @@ namespace Business.Concrete
         public IResult Update(Aggrement aggrement, string id)
         {
             throw new NotImplementedException();
+        }
+
+        public IResult RegisterPayment(string agreementId, string billingId, int amount)
+        {
+            // 1. Get the Agreement
+            var agreement = _aggrementDal.Get(a => a.Id == agreementId);
+            if (agreement == null)
+            {
+                return new ErrorResult("Sözleşme bulunamadı.");
+            }
+
+            // 2. Initialize list if it's null (MongoDB specific safety)
+            if (agreement.billings == null)
+            {
+                agreement.billings = new List<string>();
+            }
+
+            // 3. Add the Billing ID
+            agreement.billings.Add(billingId);
+
+            // 4. Update the Paid Amount
+            agreement.PaidAmount += amount;
+
+            // 5. Check if fully paid (Optional logic)
+            // if (agreement.PaidAmount >= agreement.AgreedAmount) ...
+
+            // 6. Update Database
+            _aggrementDal.Update(agreement);
+
+            return new SuccessResult();
+        }
+
+        public IResult CancelPayment(string agreementId, string billingId, int amount)
+        {
+            var agreement = _aggrementDal.Get(a => a.Id == agreementId);
+            if (agreement == null)
+            {
+                return new ErrorResult("İlgili sözleşme bulunamadı.");
+            }
+
+            // 1. Remove the Billing ID from the list
+            if (agreement.billings != null)
+            {
+                agreement.billings.Remove(billingId);
+            }
+
+            // 2. Subtract the amount from PaidAmount (Reverse the math)
+            agreement.PaidAmount -= amount;
+
+            // Safety check: Prevent negative numbers if data was out of sync
+            if (agreement.PaidAmount < 0)
+            {
+                agreement.PaidAmount = 0;
+            }
+
+            // 3. Update Database
+            _aggrementDal.Update(agreement);
+
+            return new SuccessResult();
         }
     }
 }

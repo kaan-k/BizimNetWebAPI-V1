@@ -30,7 +30,7 @@ namespace DataAccess.Concrete
 
             foreach (var item in data)
             {
-                var filter = Builders<Customer>.Filter.Eq(k => k.Id, item.CustomerId);
+                var filter = Builders<Customer>.Filter.Eq(k => k.Id, item.CustomerId.Trim());
                 var customer = customerCollection.Find(filter).FirstOrDefault();
 
                 var businessUserCreatedFilter = Builders<BusinessUser>.Filter.Eq(k => k.Id, item.CreatedBy);

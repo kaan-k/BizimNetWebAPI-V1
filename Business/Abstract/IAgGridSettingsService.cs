@@ -11,10 +11,10 @@ namespace Business.Abstract
 {
     public interface IAgGridSettingsService
     {
-        IDataResult<AgGridSettings> Add(AgGridSettingsDto agGridSetting);
-        IResult Update(AgGridSettings agGridSetting, string id);
+        IDataResult<Payment> Add(AgGridSettingsDto agGridSetting);
+        IResult Update(Payment agGridSetting, string id);
         IResult Delete(string id);
-        IDataResult<AgGridSettings> GetById(string id);
-        IDataResult<List<AgGridSettings>> GetAll();
+        IDataResult<Payment> GetById(string id);
+        IDataResult<List<Payment>> GetAll();
     }
 }
