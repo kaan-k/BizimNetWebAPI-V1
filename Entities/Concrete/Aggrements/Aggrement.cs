@@ -15,9 +15,15 @@ namespace Entities.Concrete.Aggrements
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public string AggrementTitle{ get; set; }
+
         public string CustomerId { get; set; }
 
         public string AggrementType { get; set; }
+        public int AgreedAmount { get; set; }
+        public int PaidAmount{ get; set; }
+
+        public List<string> billings { get; set; }
         public DateTime? ExpirationDate { get; set; }
         public bool isActive { get; set; }
 

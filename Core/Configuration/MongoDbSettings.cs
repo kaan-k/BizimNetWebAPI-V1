@@ -10,6 +10,8 @@ namespace Core.Configuration
     {
         public string CustomerCollectionName { get; set; } = "Customers";
         public string AggrementsCollectionName { get; set; } = "Aggrements";
+        public string BillingsCollectionName { get; set; } = "Billings";
+
 
         public string DocumentsCollectionName { get; set; } = "DocumentFiles";
         public string AgGridSettingsCollectionName { get; set; } = "AgGridSettings";

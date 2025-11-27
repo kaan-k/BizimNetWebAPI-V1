@@ -12,5 +12,8 @@ namespace Business.Abstract
         IResult Delete(string id);
         IDataResult<Aggrement> GetById(string id);
         IDataResult<List<Aggrement>> GetAll();
+        IDataResult<Aggrement> RecieveBill(string aggrementId, int amount);
+        IResult RegisterPayment(string agreementId, string billingId, int amount);
+        IResult CancelPayment(string agreementId, string billingId, int amount);
     }
 }

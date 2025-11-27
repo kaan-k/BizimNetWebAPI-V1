@@ -18,6 +18,12 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<CustomerManager>().As<ICustomerService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_CustomerDal>().As<ICustomerDal>().InstancePerLifetimeScope();
 
+            builder.RegisterType<AggrementManager>().As<IAggrementService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_AggrementDal>().As<IAggrementDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<BillingManager>().As<IBillingService>().InstancePerLifetimeScope();
+            builder.RegisterType<Mongo_BillingDal>().As<IBillingDal>().InstancePerLifetimeScope();
+
             builder.RegisterType<BusinessUserManager>().As<IBusinessUserService>().InstancePerLifetimeScope();
             builder.RegisterType<Mongo_BusinessUserDal>().As<IBusinessUserDal>().InstancePerLifetimeScope();
 

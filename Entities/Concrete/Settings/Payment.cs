@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete.Settings
 {
-    public class AgGridSettings:IEntity
+    public class Payment:IEntity
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
