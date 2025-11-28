@@ -19,13 +19,8 @@ namespace Business.Abstract
         IDataResult<List<Offer>> GetAllDetails();
 
         IDataResult<List<Offer>> GetByCustomerId(string customerId);
-        IDataResult<List<Offer>> GetByEmployeeId(string employeeId);
-        IDataResult<List<Offer>> GetByStatus(string status);
         IDataResult<List<Offer>> GetByDateRange(DateTime start, DateTime end);
         IResult Approve(string offerId);
-        IResult Reject(string offerId, string reason);
-        IDataResult<int> GetOfferCountByStatus(string status);
-        IDataResult<List<Offer>> WorkerCalculateEscelation();
 
     }
 

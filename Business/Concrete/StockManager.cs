@@ -52,5 +52,10 @@ namespace Business.Concrete
         {
             throw new NotImplementedException();
         }
+        public IDataResult<List<Stock>> GetAll()
+        {
+            var result = _stockDal.GetAll(); // Assuming your generic DAL has GetAll()
+            return new SuccessDataResult<List<Stock>>(result);
+        }
     }
 }

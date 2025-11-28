@@ -325,55 +325,55 @@ public class PdfGeneratorManager : IPdfGeneratorService
     // =================================================================================================
     // 4. OFFER REPORT (Detailed Proposal)
     // =================================================================================================
-    public byte[] GenerateOfferPdf(Offer offer)
-    {
-        SetupLicense();
-        var tr = new CultureInfo("tr-TR");
+    //public byte[] GenerateOfferPdf(Offer offer)
+    //{
+    //    SetupLicense();
+    //    var tr = new CultureInfo("tr-TR");
 
-        // FIX: Apply Timezone Shift
-        var createdDate = ToTrTime(offer.CreatedAt ?? DateTime.Now).ToString("dd.MM.yyyy", tr);
+    //    // FIX: Apply Timezone Shift
+    //    var createdDate = ToTrTime(offer.CreatedAt ?? DateTime.Now).ToString("dd.MM.yyyy", tr);
 
-        var document = Document.Create(container =>
-        {
-            container.Page(page =>
-            {
-                SetupPage(page);
-                page.Header().Element(e => ComposeHeader(e, "RESMİ TEKLİF BELGESİ", $"Tarih: {createdDate}"));
+    //    var document = Document.Create(container =>
+    //    {
+    //        container.Page(page =>
+    //        {
+    //            SetupPage(page);
+    //            page.Header().Element(e => ComposeHeader(e, "RESMİ TEKLİF BELGESİ", $"Tarih: {createdDate}"));
 
-                page.Content().PaddingVertical(20f).Column(col =>
-                {
-                    col.Spacing(20f);
+    //            page.Content().PaddingVertical(20f).Column(col =>
+    //            {
+    //                col.Spacing(20f);
 
-                    col.Item().Border(1f).BorderColor(ColorBorder).Padding(20f).Background(ColorLight).Column(c => {
-                        c.Spacing(10f);
-                        c.Item().Text("Teklif Başlığı").FontSize(10f).FontColor(ColorAccent).Bold();
-                        c.Item().Text(offer.OfferTitle).FontSize(14f).SemiBold().FontColor(ColorText);
+    //                col.Item().Border(1f).BorderColor(ColorBorder).Padding(20f).Background(ColorLight).Column(c => {
+    //                    c.Spacing(10f);
+    //                    c.Item().Text("Teklif Başlığı").FontSize(10f).FontColor(ColorAccent).Bold();
+    //                    c.Item().Text(offer.OfferTitle).FontSize(14f).SemiBold().FontColor(ColorText);
 
-                        c.Item().PaddingTop(10f).Text("Detaylar").FontSize(10f).FontColor(ColorAccent).Bold();
-                        c.Item().Text(offer.OfferDetails).FontSize(10f).LineHeight(1.4f).FontColor(ColorText);
-                    });
+    //                    c.Item().PaddingTop(10f).Text("Detaylar").FontSize(10f).FontColor(ColorAccent).Bold();
+    //                    c.Item().Text(offer.OfferDetails).FontSize(10f).LineHeight(1.4f).FontColor(ColorText);
+    //                });
 
-                    col.Item().Row(r => {
-                        r.RelativeItem().Column(c => { c.Item().Text("Müşteri ID").Bold().FontSize(9f); c.Item().Text(offer.CustomerId).FontSize(10f); });
-                        r.RelativeItem().Column(c => { c.Item().Text("Personel ID").Bold().FontSize(9f); c.Item().Text(offer.EmployeeId).FontSize(10f); });
-                    });
+    //                col.Item().Row(r => {
+    //                    r.RelativeItem().Column(c => { c.Item().Text("Müşteri ID").Bold().FontSize(9f); c.Item().Text(offer.CustomerId).FontSize(10f); });
+    //                    r.RelativeItem().Column(c => { c.Item().Text("Personel ID").Bold().FontSize(9f); c.Item().Text(offer.EmployeeId).FontSize(10f); });
+    //                });
 
-                    col.Item().Background("#F0FDF4").Border(1f).BorderColor("#4ADE80").Padding(15f).AlignCenter().Column(c => {
-                        c.Item().Text("TOPLAM TUTAR").FontSize(10f).Bold().FontColor("#15803D");
-                        c.Item().Text($"{offer.TotalAmount:C}").FontSize(20f).Bold().FontColor("#166534");
-                    });
+    //                col.Item().Background("#F0FDF4").Border(1f).BorderColor("#4ADE80").Padding(15f).AlignCenter().Column(c => {
+    //                    c.Item().Text("TOPLAM TUTAR").FontSize(10f).Bold().FontColor("#15803D");
+    //                    c.Item().Text($"{offer.TotalAmount:C}").FontSize(20f).Bold().FontColor("#166534");
+    //                });
 
-                    col.Item().PaddingTop(40f).AlignRight().Width(150f).Column(c => {
-                        c.Spacing(40f);
-                        c.Item().Text("Yetkili İmza / Kaşe").FontSize(10f).Bold().AlignCenter();
-                        c.Item().LineHorizontal(1f);
-                    });
-                });
-                page.Footer().Element(ComposeFooter);
-            });
-        });
-        return document.GeneratePdf();
-    }
+    //                col.Item().PaddingTop(40f).AlignRight().Width(150f).Column(c => {
+    //                    c.Spacing(40f);
+    //                    c.Item().Text("Yetkili İmza / Kaşe").FontSize(10f).Bold().AlignCenter();
+    //                    c.Item().LineHorizontal(1f);
+    //                });
+    //            });
+    //            page.Footer().Element(ComposeFooter);
+    //        });
+    //    });
+    //    return document.GeneratePdf();
+    //}
 
     // =================================================================================================
     //                                     PRIVATE HELPERS

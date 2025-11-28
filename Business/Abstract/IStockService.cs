@@ -16,5 +16,6 @@ namespace Business.Abstract
         IDataResult<Stock> Update(Stock servicing);
         IDataResult<List<Stock>> GetByDeviceType(DeviceType devicetype);
         IResult Delete(string id);
+        IDataResult<List<Stock>> GetAll();
     }
 }

@@ -25,6 +25,9 @@ namespace DataAccess.Concrete
         }
         public List<Offer> GetAllOfferDetails()
         {
+
+            //throw new NotImplementedException();
+
             var list = new List<Offer>();
             var data = base.GetAll();
             var customerCollection = base._dataBase.GetCollection<Customer>("Customers");
@@ -37,18 +40,18 @@ namespace DataAccess.Concrete
 
                 var Empfilter = Builders<Employee>.Filter.Eq(k => k.Id, item.CustomerId);
                 var employee = employeeCollection.Find(Empfilter).FirstOrDefault();
+
+
+
                 list?.Add(new Offer
                 {
                     Id = item?.Id,
-                    CustomerId = customer?.Name,
-                    Status = item?.Status,
+                    CustomerId = customer?.CompanyName,
                     OfferTitle = item?.OfferTitle,
-                    RejectionReason = item?.RejectionReason,
                     CreatedAt = item?.CreatedAt,
-                    EmployeeId = employee?.Id,
-                    OfferDetails = item?.OfferDetails,
                     TotalAmount = item.TotalAmount,
-                    UpdatedAt = item?.UpdatedAt
+                    UpdatedAt = item?.UpdatedAt,
+                    items = item.OfferDetails,
                 });
             }
             return list;

@@ -45,5 +45,11 @@ namespace BizimNetWebAPI.Controllers
             var result = _stockService.Delete(id);
             return Ok(result);
         }
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            var result = _stockService.GetAll();
+            return Ok(result);
+        }
     }
 }

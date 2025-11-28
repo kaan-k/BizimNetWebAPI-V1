@@ -6,6 +6,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.Customer;
 using Entities.Concrete.Device;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,9 +74,25 @@ namespace Business.Concrete
 
         public IDataResult<Customer> GetById(string id)
         {
-            var customer = _customerDal.Get(x=> x.Id == id);
+            bool isValidId = ObjectId.TryParse(id, out _);
+            if (!isValidId)
+            {
+                // It is NOT a valid ID format, so treat it as a Company Name
+                var customer = _customerDal.Get(x => x.CompanyName == id);
 
-            return new SuccessDataResult<Customer>(customer);
+
+
+                return new SuccessDataResult<Customer>(customer);
+            }
+            else
+            {
+                // It IS a valid ID format, so search by Id
+                var customer = _customerDal.Get(x => x.Id == id);
+
+
+
+                return new SuccessDataResult<Customer>(customer);
+            }
         }
 
         public IResult GetCustomerCountByStatus(CustomerStatus status)

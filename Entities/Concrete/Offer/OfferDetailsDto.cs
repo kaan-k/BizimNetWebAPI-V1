@@ -12,13 +12,13 @@ namespace Entities.Concrete.Offer
     public class OfferDetailsDto:IDto
     {
         public string CustomerId { get; set; }
-        public string EmployeeId { get; set; }
         public string OfferTitle { get; set; }
-        public string OfferDetails { get; set; }
-        public string? RejectionReason { get; set; }
+        public string Description { get; set; }
         public decimal TotalAmount { get; set; }
-        public string Status { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public List<OfferItemDto> items { get; set; }
+        public DateTime ExpirationDate { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
     }
 }
+

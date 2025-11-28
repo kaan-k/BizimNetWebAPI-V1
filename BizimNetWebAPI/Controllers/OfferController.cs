@@ -34,12 +34,7 @@ namespace BizimNetWebAPI.Controllers
             var result = _offerService.Approve(id);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        [HttpGet("Reject")]
-        public IActionResult Reject(string id, string reason)
-        {
-            var result = _offerService.Reject(id, reason);
-            return result.Success ? Ok(result) : BadRequest(result.Message);
-        }
+
         [HttpGet("Delete")]
         public IActionResult Delete(string id)
         {
@@ -64,24 +59,8 @@ namespace BizimNetWebAPI.Controllers
             var result = _offerService.GetByCustomerId(customerId);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-        [HttpGet("GetByEmployeeId")]
-        public IActionResult GetByEmployeeId(string employeeId)
-        {
-            var result = _offerService.GetByEmployeeId(employeeId);
-            return result.Success ? Ok(result) : BadRequest(result.Message);
-        }
-        [HttpGet("GetByStatus")]
-        public IActionResult GetByStatus(string status)
-        {
-            var result = _offerService.GetByStatus(status);
-            return result.Success ? Ok(result) : BadRequest(result.Message);
-        }
-        [HttpGet("CountByStatus")]
-        public IActionResult GetOfferCountByStatus(string status)
-        {
-            var result = _offerService.GetOfferCountByStatus(status);
-            return result.Success ? Ok(result) : BadRequest(result.Message);
-        }
+
+
         [HttpGet("GetAllDetails")]
         public IActionResult GetAllDetails()
         {

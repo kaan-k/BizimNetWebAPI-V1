@@ -42,29 +42,32 @@ namespace Business.Concrete
 
         public IResult Approve(string offerId)
         {
-            var offer = _offerDal.Get(x=> x.Id == offerId);
-            if(offer== null)
-            {
-                return new ErrorResult();
-            }
-            offer.Status = "Approved";
-            var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
-            var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
-            File.WriteAllBytes(filePath, pdfBytes);
-            _offerDal.Update(offer);
+            //var offer = _offerDal.Get(x=> x.Id == offerId);
+            //if(offer== null)
+            //{
+            //    return new ErrorResult();
+            //}
+            ////offer.Status = "Approved";
+            //var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
+            //var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
+            //File.WriteAllBytes(filePath, pdfBytes);
+            //_offerDal.Update(offer);
 
-            var instRequest = new InstallationRequestDto
-            {
-                CreatedAt = DateTime.Now,
-                OfferId = offerId,
-                CustomerId = offer.CustomerId,
-                IsAssigned = false,
-                InstallationNote = "",
-                IsCompleted = false,
-            };
-            _installationRequestService.Add(instRequest);
+            //var instRequest = new InstallationRequestDto
+            //{
+            //    CreatedAt = DateTime.Now,
+            //    OfferId = offerId,
+            //    CustomerId = offer.CustomerId,
+            //    IsAssigned = false,
+            //    InstallationNote = "",
+            //    IsCompleted = false,
+            //};
+            //_installationRequestService.Add(instRequest);
 
-            return new SuccessResult();
+            //return new SuccessResult();
+
+            throw new NotImplementedException();
+
         }
 
         public IResult Delete(string id)
@@ -98,12 +101,7 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<Offer>> GetByEmployeeId(string employeeId)
-        {
-            var offer = _offerDal.GetAll(X => X.EmployeeId == employeeId);
-
-            return new SuccessDataResult<List<Offer>>(offer);
-        }
+        
 
         public IDataResult<Offer> GetById(string id)
         {
@@ -111,31 +109,8 @@ namespace Business.Concrete
             return new SuccessDataResult<Offer>(offer);
         }
 
-        public IDataResult<List<Offer>> GetByStatus(string status)
-        {
-            var offer = _offerDal.GetAll(x => x.Status == status);
-            return new SuccessDataResult<List<Offer>>(offer);
-        }
 
-        public IDataResult<int> GetOfferCountByStatus(string status)
-        {
-            var offer = _offerDal.GetAll(x => x.Status == status);
 
-            return new SuccessDataResult<int>(offer.Count, "Teklif sayısı getirildi.");
-        }
-
-        public IResult Reject(string offerId, string reason)
-        {
-            var offer = _offerDal.Get(x => x.Id == offerId);
-            if (offer == null)
-            {
-                return new ErrorResult();
-            }
-            offer.Status = "Rejected";
-            offer.RejectionReason = reason;
-            _offerDal.Update(offer);
-            return new SuccessResult();
-        }
 
         public IResult Update(Offer offer)
         { 
@@ -149,24 +124,6 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<List<Offer>> WorkerCalculateEscelation()
-        {
-            var results = _offerDal.GetAll(x => x.Status == "Approved");
-            var today = DateTime.Now;
-
-            var escalatedOffers = new List<Offer>();
-
-            foreach (var offer in results)
-            {
-                var daysPassed = (today - offer.CreatedAt)?.TotalDays;
-
-                if (daysPassed >= 3)
-                {
-                    escalatedOffers.Add(offer);
-                }
-            }
-
-            return new SuccessDataResult<List<Offer>>(escalatedOffers);
-        }
+        
     }
 }
