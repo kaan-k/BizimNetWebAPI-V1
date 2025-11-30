@@ -8,6 +8,7 @@ using Entities.Concrete.Customer;
 using Entities.Concrete.Device;
 using MongoDB.Bson;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,6 +71,14 @@ namespace Business.Concrete
             }
 
             return new SuccessDataResult<List<Customer>>(query, "Seçilen statüde müşteri bulundu.");
+        }
+
+        public IDataResult<List<Customer>> GetBranchesAsync(string parentId)
+        {
+            var branches = _customerDal.GetAll(x => x.ParentCustomerId == parentId);
+
+            return new SuccessDataResult<List<Customer>>(branches, "Şubeler bulundu.");
+
         }
 
         public IDataResult<Customer> GetById(string id)

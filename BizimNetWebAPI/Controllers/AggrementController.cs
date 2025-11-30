@@ -32,6 +32,16 @@ namespace BizimNetWebAPI.Controllers
             var result = _aggrementService.Update(aggrement, id);
             return Ok(result);
         }
+        [HttpPost("CreateFromOffer")]
+        public IActionResult CreateFromOffer(string offerId)
+        {
+            var result = _aggrementService.CreateAgreementFromOffer(offerId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
         [HttpGet("Delete")]
         public IActionResult Delete(string id)

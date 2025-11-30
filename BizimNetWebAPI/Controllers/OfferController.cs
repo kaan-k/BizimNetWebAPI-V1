@@ -28,6 +28,12 @@ namespace BizimNetWebAPI.Controllers
             var result = _offerService.Update(offer);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
+        [HttpPost("GenerateOfferReport")]
+        public IActionResult GenerateOfferReport(OfferDto offer)
+        {
+            var result = _offerService.GenerateOfferReport(offer);
+            return result.Success ? Ok(result) : BadRequest(result.Message);
+        }
         [HttpGet("Approve")]
         public IActionResult Approve(string id)
         {
@@ -39,6 +45,12 @@ namespace BizimNetWebAPI.Controllers
         public IActionResult Delete(string id)
         {
             var result = _offerService.Delete(id);
+            return result.Success ? Ok(result) : BadRequest(result.Message);
+        }
+        [HttpGet("GetByStatus")]
+        public IActionResult GetByStatus(string status)
+        {
+            var result = _offerService.GetByStatus(status);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
         [HttpGet("GetAll")]

@@ -15,6 +15,11 @@ namespace Entities.Concrete.Customer
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+
+        public string? ParentCustomerId { get; set; } 
+
+        public bool IsHeadquarters { get; set; } 
+        public string? BranchName { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }
         public List<string>? DeviceIds { get; set; }

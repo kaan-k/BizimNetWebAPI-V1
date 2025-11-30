@@ -42,6 +42,12 @@ namespace BizimNetWebAPI.Controllers
             var result = _customerService.GetById(id);
             return Ok(result);
         }
+        [HttpGet("GetBranchByHqId")]
+        public IActionResult GetBranchesAsync(string id)
+        {
+            var result = _customerService.GetBranchesAsync(id);
+            return Ok(result);
+        }
         [HttpGet("GetAllDevicesByCustomerId")]
         public IActionResult GetAllDevicesByCustomerId(string id)
         {

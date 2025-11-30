@@ -49,11 +49,50 @@ namespace DataAccess.Concrete
                     CustomerId = customer?.CompanyName,
                     OfferTitle = item?.OfferTitle,
                     CreatedAt = item?.CreatedAt,
+                    ExpirationDate= (DateTime)(item?.ExpirationDate),
                     TotalAmount = item.TotalAmount,
                     UpdatedAt = item?.UpdatedAt,
-                    items = item.OfferDetails,
+                    Status = item?.Status,
+                    Description = item?.Description,
+                    items = item.items,
                 });
             }
+            return list;
+        }
+
+        public List<Offer> GetByStatus(string s)
+        {
+            var list = new List<Offer>();
+            // Fetch all data first (or pass expression to GetAll if supported)
+            var data = base.GetAll();
+            var customerCollection = base._dataBase.GetCollection<Customer>("Customers");
+
+            foreach (var item in data)
+            {
+                // LOGIC FIX: Add to list only if item.Status matches 's'
+                if (item.Status != s)
+                {
+                    continue;
+                }
+
+                var filter = Builders<Customer>.Filter.Eq(k => k.Id, item.CustomerId);
+                var customer = customerCollection.Find(filter).FirstOrDefault();
+
+                list.Add(new Offer
+                {
+                    Id = item?.Id,
+                    CustomerId = customer?.CompanyName, // Maps CustomerId to CompanyName for UI display
+                    OfferTitle = item?.OfferTitle,
+                    CreatedAt = item?.CreatedAt,
+                    ExpirationDate = (DateTime)(item?.ExpirationDate),
+                    TotalAmount = item.TotalAmount,
+                    UpdatedAt = item?.UpdatedAt,
+                    Status = item?.Status,
+                    Description = item?.Description,
+                    items = item.items,
+                });
+            }
+
             return list;
         }
     }

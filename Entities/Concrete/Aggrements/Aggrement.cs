@@ -15,15 +15,21 @@ namespace Entities.Concrete.Aggrements
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string OfferId { get; set; }
+
         public string AggrementTitle{ get; set; }
 
+        [BsonRepresentation(BsonType.ObjectId)]
         public string CustomerId { get; set; }
 
         public string AggrementType { get; set; }
-        public int AgreedAmount { get; set; }
+        public int AgreedAmount { get; set; }// Match Offer.TotalAmount
         public int PaidAmount{ get; set; }
 
         public List<string> billings { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
         public DateTime? ExpirationDate { get; set; }
         public bool isActive { get; set; }
 

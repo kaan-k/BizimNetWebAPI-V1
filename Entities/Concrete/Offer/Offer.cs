@@ -17,8 +17,9 @@ namespace Entities.Concrete.Offer
         public string Id { get; set; }
         public string CustomerId { get; set; }
         public string OfferTitle { get; set; }
+        public string Status { get; set; } = "Pending";
         public string Description{ get; set; }
-        public decimal TotalAmount { get; set; }
+        public int TotalAmount { get; set; }
         public List<OfferItemDto> items { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

@@ -14,7 +14,10 @@ namespace Business.Abstract
         IResult Add(OfferDto offer);
         IResult Update(Offer offer);
         IResult Delete(string id);
+        IDataResult<string> GenerateOfferReport(OfferDto offer);
         IDataResult<Offer> GetById(string id);
+        IDataResult<List<Offer>> GetByStatus(string status);
+
         IDataResult<List<Offer>> GetAll();
         IDataResult<List<Offer>> GetAllDetails();
 

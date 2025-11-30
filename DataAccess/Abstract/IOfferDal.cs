@@ -12,6 +12,7 @@ namespace DataAccess.Abstract
     public interface IOfferDal:IMongoRepository<Offer>
     {
         public List<Offer> GetAllOfferDetails();
+        public List<Offer> GetByStatus(string status);
 
     }
 }

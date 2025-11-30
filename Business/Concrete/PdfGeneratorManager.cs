@@ -376,6 +376,187 @@ public class PdfGeneratorManager : IPdfGeneratorService
     //}
 
     // =================================================================================================
+    // 5. OFFER / SALES INFO FORM (Using User's Offer Entity)
+    // =================================================================================================
+    public byte[] GenerateOfferPdf(OfferDto offer)
+    {
+        SetupLicense();
+        var tr = new CultureInfo("tr-TR");
+
+        // 1. Fetch Data
+        var customer = _customerDal.Get(c => c.Id == offer.CustomerId);
+        var companyName = customer?.CompanyName ?? "Bilinmeyen Müşteri";
+        var companyPhone = customer?.PhoneNumber ?? "-"; // Assuming PhoneNumber exists on Customer entity
+        var authPerson = "Yetkili Belirtilmedi"; // Customer entity might need an AuthorizedPerson field
+
+        // 2. Calculate Totals available in the Offer entity
+        // Since OfferItemDto only has Sales Price, Cost is assumed 0 for the visual layout
+        decimal totalSales = offer.TotalAmount;
+        decimal totalCost = 0; // Data not available in Offer entity
+        decimal totalVat = totalSales * 0.20m; // Assuming 20% VAT standard, can be adjusted
+        decimal netProfit = totalSales - totalCost; // Purely sales revenue since cost is unknown
+
+        var document = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                SetupPage(page);
+
+                // Replicate the "Red/Teal Border" layout
+                page.Content().Border(2f).BorderColor(ColorPrimary).Padding(20f).Column(col =>
+                {
+                    col.Spacing(15f);
+
+                    // --- HEADER SECTION ---
+                    col.Item().Column(c =>
+                    {
+                        c.Item().Text("TEKLİF BİLGİ FORMU").FontSize(16f).ExtraBold().FontColor(ColorText);
+                        // Using substring of ObjectId for a shorter "Record No" look
+                    });
+
+                    // --- INFO BLOCK (Key-Value) ---
+                    col.Item().Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.ConstantColumn(100f); // Label width
+                            columns.RelativeColumn();     // Value width
+                        });
+
+                        void InfoRow(string label, string value, bool isStriped = false)
+                        {
+                            table.Cell().Element(c => isStriped ? c.Background(ColorLight) : c)
+                                 .PaddingVertical(4f).PaddingHorizontal(2f)
+                                 .Text(label).Bold().FontSize(9f).FontColor(ColorText);
+
+                            table.Cell().Element(c => isStriped ? c.Background(ColorLight) : c)
+                                 .PaddingVertical(4f).PaddingHorizontal(2f)
+                                 .Text(value).FontSize(9f).FontColor(ColorText);
+                        }
+
+                        // Mapping Offer + Customer Data to the Form
+                        InfoRow("Firma", $"{companyName}\n{companyPhone}", true);
+                        InfoRow("Firma Yetkilisi", authPerson);
+                        InfoRow("Tarihi - Tipi", $"{ToTrTime(offer.CreatedAt)?.ToString("dd.MM.yyyy") ?? "-"} / Teklif");
+                        InfoRow("Personel", "Sistem", true); // Personnel info not in Offer entity
+                        InfoRow("Ödeme", offer.OfferTitle); // Using Title as Payment/Main desc
+                        InfoRow("Genel Açıklama", offer.Description);
+                        InfoRow("Para birimi - Kur", "TL - KDV Dahil", true);
+                    });
+
+                    // --- ITEMS TABLE ---
+                    col.Item().PaddingTop(10f).Table(table =>
+                    {
+                        table.ColumnsDefinition(c =>
+                        {
+                            c.RelativeColumn(3f);   // Donanım
+                            c.RelativeColumn(0.8f); // Adet (Increased from 0.5f to fix layout crash)
+                            c.RelativeColumn(1.2f); // Brm Maliyet (Empty)
+                            c.RelativeColumn(1.2f); // Brm Satış
+                            c.RelativeColumn(1.2f); // Maliyet (Empty)
+                            c.RelativeColumn(1.2f); // Satış
+                            c.RelativeColumn(1f);   // Teslim
+                        });
+
+
+
+                        // Header
+                        table.Header(h =>
+                        {
+                            h.Cell().Element(CellStyleTableBorder).Text("Donanım").Bold();
+                            h.Cell().Element(CellStyleTableBorder).AlignCenter().Text("Adet").Bold();
+                            h.Cell().Element(CellStyleTableBorder).AlignRight().Text("Brm Maliyet").Bold();
+                            h.Cell().Element(CellStyleTableBorder).AlignRight().Text("Brm Satış").Bold();
+                            h.Cell().Element(CellStyleTableBorder).AlignRight().Text("Maliyet").Bold();
+                            h.Cell().Element(CellStyleTableBorder).AlignRight().Text("Satış").Bold();
+                            h.Cell().Element(CellStyleTableBorder).AlignCenter().Text("Teslim").Bold();
+                        });
+
+                        // Rows
+                        if (offer.items != null)
+                        {
+                            foreach (var item in offer.items)
+                            {
+                                table.Cell().Element(CellStyleTableBorder).Text(item.StockName);
+                                table.Cell().Element(CellStyleTableBorder).AlignCenter().Text(item.Quantity.ToString());
+
+                                // Cost columns are "-" because OfferItemDto lacks cost data
+                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
+
+                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.UnitPrice).ToString("N2", tr));
+
+                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
+
+                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.TotalPrice).ToString("N2", tr));
+                                table.Cell().Element(CellStyleTableBorder).AlignCenter().Text("-");
+                            }
+                        }
+
+                        // Table Footer (Totals)
+                        table.Footer(f =>
+                        {
+                            f.Cell().ColumnSpan(4).Element(CellStyleTableBorder).AlignRight().Text("Toplamlar:").Bold();
+                            f.Cell().Element(CellStyleTableBorder).AlignRight().Text("-"); // Total Cost Unknown
+                            f.Cell().Element(CellStyleTableBorder).AlignRight().Text(totalSales.ToString("N2", tr)).Bold();
+                            f.Cell().Element(CellStyleTableBorder);
+                        });
+                    });
+
+                    // --- SUMMARY BOX (Orange Box) ---
+                    col.Item().Width(250f).Background("#FFF7ED") // Light Orange
+                       .Padding(10f)
+                       .Table(table =>
+                       {
+                           table.ColumnsDefinition(c =>
+                           {
+                               c.RelativeColumn(2f);
+                               c.RelativeColumn(1f);
+                           });
+
+                           void SummaryRow(string label, string value, bool isRed = false)
+                           {
+                               table.Cell().PaddingBottom(5).Text(label + " :").FontSize(9f).Bold().FontColor(ColorText);
+                               string valColor = isRed ? "#DC2626" : "#EA580C";
+                               table.Cell().PaddingBottom(5).AlignRight().Text(value).FontSize(9f).Bold().FontColor(valColor);
+                           }
+
+                           SummaryRow("Toplam Satış (TL)", totalSales.ToString("N2", tr));
+                           SummaryRow("Donanım Maliyet(TL)", "-"); // Data missing
+                           SummaryRow("Kdv Toplamı (TL)", totalVat.ToString("N2", tr)); // Calculated 20% assumption
+                           SummaryRow("Kdv Toplamı(Maliyet)", "-"); // Data missing
+
+                           // Divider
+                           table.Cell().ColumnSpan(2).PaddingVertical(5).LineHorizontal(1f).LineColor("#FDBA74");
+
+                           // Net Result
+                           table.Cell().Text("NET (TL):").FontSize(10f).ExtraBold().FontColor(ColorText);
+                           table.Cell().AlignRight().Text(totalSales.ToString("N2", tr)).FontSize(10f).ExtraBold().FontColor("#DC2626");
+                       });
+                });
+
+                page.Footer().Element(ComposeFooter);
+            });
+        });
+
+        return document.GeneratePdf();
+    }
+
+    // Helper for table borders (Keep inside the class)
+    private IContainer CellStyleTableBorder(IContainer container)
+    {
+        return container
+            .Border(1f)
+            .BorderColor(ColorBorder)
+            .Padding(4f) // Reduced padding complexity to ensure fit
+                         // Removed .PaddingHorizontal(6f) to prevent padding stacking (4+6=10) which caused the crash
+            .DefaultTextStyle(x => x.FontSize(9f));
+    }
+
+
+
+
+
+    // =================================================================================================
     //                                     PRIVATE HELPERS
     // =================================================================================================
 

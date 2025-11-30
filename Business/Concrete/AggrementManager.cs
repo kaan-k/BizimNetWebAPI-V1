@@ -6,6 +6,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.Aggrements;
 using Entities.Concrete.Department;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,12 @@ namespace Business.Concrete
     {
         private readonly IMapper _mapper;
         private readonly IAggrementDal _aggrementDal;
-        public AggrementManager(IMapper mapper, IAggrementDal aggrementDal) {
+        private readonly IOfferDal _offerDal;
+        public AggrementManager(IMapper mapper, IAggrementDal aggrementDal, IOfferDal offerDal = null)
+        {
             _mapper = mapper;
             _aggrementDal = aggrementDal;
+            _offerDal = offerDal;
         }
         public IDataResult<Aggrement> Add(AggrementDto aggrement)
         {
@@ -92,6 +96,42 @@ namespace Business.Concrete
             _aggrementDal.Update(agreement);
 
             return new SuccessResult();
+        }
+
+        public IResult CreateAgreementFromOffer(string offerId)
+        {
+            // 1. Fetch the Approved Offer
+            var offer = _offerDal.Get(o => o.Id == offerId);
+            if (offer == null) return new ErrorResult("Teklif bulunamadı.");
+
+            if (offer.Status != "Approved") return new ErrorResult("Sadece onaylanmış teklifler sözleşmeye dönüştürülebilir.");
+
+            // 2. Check if agreement already exists
+            var existing = _aggrementDal.Get(a => a.OfferId == offerId);
+            if (existing != null) return new ErrorResult("Bu teklif için zaten bir sözleşme var.");
+
+            // 3. Map Offer Data to Agreement
+            var agreement = new Aggrement
+            {
+                Id = ObjectId.GenerateNewId().ToString(),
+                OfferId = offerId,
+                CustomerId = offer.CustomerId,
+                AggrementTitle = $"{offer.OfferTitle}",
+                AggrementType = "Sales", // Or determine based on items
+                AgreedAmount = offer.TotalAmount, // decimal
+                PaidAmount = 0,
+                billings = new List<string>(),
+                isActive = true,
+                CreatedAt = DateTime.UtcNow,
+                ExpirationDate = DateTime.UtcNow.AddYears(1) 
+            };
+            offer.Status = "Agreement";
+            _offerDal.Update(offer);
+
+            // 4. Save
+            _aggrementDal.Add(agreement);
+
+            return new SuccessResult("Teklif başarıyla sözleşmeye dönüştürüldü.");
         }
 
         public IResult CancelPayment(string agreementId, string billingId, int amount)

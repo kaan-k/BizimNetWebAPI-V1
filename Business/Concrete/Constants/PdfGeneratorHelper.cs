@@ -27,7 +27,7 @@ namespace Business.Concrete.Constants
             return filePath;
         }
 
-        public static string CreateOfferPdfStructure(Offer offer)
+        public static string CreateOfferPdfStructure(OfferDto offer)
         {
             var now = DateTime.Now;
             var monthName = now.ToString("MMMM", new System.Globalization.CultureInfo("tr-TR"));
@@ -55,6 +55,7 @@ namespace Business.Concrete.Constants
 
             return filePath;
         }
+
 
     }
 }

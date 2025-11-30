@@ -10,6 +10,10 @@ namespace Entities.Concrete.Customer
 {
     public class CustomerDto:IDto
     {
+        public string? ParentCustomerId { get; set; }
+
+        public bool IsHeadquarters { get; set; }
+        public string? BranchName { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }
         public string Email { get; set; }

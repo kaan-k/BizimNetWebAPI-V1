@@ -5,6 +5,8 @@ using Core.Entities.Concrete;
 using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete.DocumentFile;
+using Entities.Concrete.Duty;
 using Entities.Concrete.InstallationRequest;
 using Entities.Concrete.Offer;
 using System;
@@ -21,13 +23,17 @@ namespace Business.Concrete
         private readonly IPdfGeneratorService _pdfGeneratorService;
         private readonly IMapper _mapper;
         private readonly IInstallationRequestService _installationRequestService;
-        public OfferManager(IOfferDal offerDal, IMapper mapper, IInstallationRequestService installationRequestService, IPdfGeneratorService dfGeneratorService)
+        private readonly ICustomerService _customerService;
+        private readonly IDocumentFileUploadService _documentFileUploadService;
+
+        public OfferManager(IOfferDal offerDal, IMapper mapper, IInstallationRequestService installationRequestService, IPdfGeneratorService dfGeneratorService, ICustomerService customerService, IDocumentFileUploadService documentFileUploadService)
         {
             _offerDal = offerDal;
             _mapper = mapper;
             _installationRequestService = installationRequestService;
             _pdfGeneratorService = dfGeneratorService;
-
+            _customerService = customerService;
+            _documentFileUploadService = documentFileUploadService;
         }
         public IResult Add(OfferDto offer)
         {
@@ -42,31 +48,18 @@ namespace Business.Concrete
 
         public IResult Approve(string offerId)
         {
-            //var offer = _offerDal.Get(x=> x.Id == offerId);
-            //if(offer== null)
-            //{
-            //    return new ErrorResult();
-            //}
-            ////offer.Status = "Approved";
-            //var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
-            //var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
-            //File.WriteAllBytes(filePath, pdfBytes);
-            //_offerDal.Update(offer);
+            var offer = _offerDal.Get(x => x.Id == offerId);
+            if (offer == null)
+            {
+                return new ErrorResult("Teklif bulunamadı.");
+            }
 
-            //var instRequest = new InstallationRequestDto
-            //{
-            //    CreatedAt = DateTime.Now,
-            //    OfferId = offerId,
-            //    CustomerId = offer.CustomerId,
-            //    IsAssigned = false,
-            //    InstallationNote = "",
-            //    IsCompleted = false,
-            //};
-            //_installationRequestService.Add(instRequest);
+            // 2. Change Status
+            offer.Status = "Approved";
+            offer.UpdatedAt = DateTime.Now;
+            _offerDal.Update(offer);
 
-            //return new SuccessResult();
-
-            throw new NotImplementedException();
+            return new SuccessResult("Teklif onaylandı.");
 
         }
 
@@ -76,6 +69,35 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+        public IDataResult<string> GenerateOfferReport(OfferDto offer)
+        {
+            var customer = offer.CustomerId;
+            var name = _customerService.GetById(customer);
+
+            // 1. Generate the PDF Bytes
+            var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
+
+            // 2. Keep your existing logic (Save to Disk & DB)
+            var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
+            File.WriteAllBytes(filePath, pdfBytes);
+
+            var documentFile = new DocumentFile
+            {
+                CreatedAt = DateTime.Now,
+                DocumentName = name.Data.CompanyName + "-" + DateTime.Today.ToString(),
+                DocumentPath = filePath,
+                DocumentFullName = $"{name.Data.CompanyName}.pdf",
+                LastModifiedAt = DateTime.Now,
+                DocumentType = "Teklif Raporu",
+            };
+            _documentFileUploadService.DocumentFileCreateServicing(documentFile);
+
+            // 3. Convert to Base64 and Return Data
+            // This allows the Angular frontend to display/download it immediately
+            string pdfBase64 = Convert.ToBase64String(pdfBytes);
+
+            return new SuccessDataResult<string>(pdfBase64, "Teklif raporu başarıyla oluşturuldu.");
+        }
         public IDataResult<List<Offer>> GetAll()
         {
             var offers = _offerDal.GetAll();
@@ -109,8 +131,12 @@ namespace Business.Concrete
             return new SuccessDataResult<Offer>(offer);
         }
 
+        public IDataResult<List<Offer>> GetByStatus(string status)
+        {
+            var offers = _offerDal.GetByStatus(status);
 
-
+            return new SuccessDataResult<List<Offer>>(offers);
+        }
 
         public IResult Update(Offer offer)
         { 

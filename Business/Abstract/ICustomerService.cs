@@ -1,5 +1,6 @@
 ﻿using Core.Enums;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete.Customer;
 using Entities.Concrete.Device;
 using System;
@@ -21,5 +22,7 @@ namespace Business.Abstract
         IDataResult<List<Customer>> GetCustomersByField(string field);
         IDataResult<Customer> GetById(string id);
         IDataResult<List<Device>> GetAllDevicesByCustomerId(string id);
+        IDataResult<List<Customer>> GetBranchesAsync(string parentId);
+
     }
 }
