@@ -15,12 +15,12 @@ namespace Entities.Concrete.Offer
         public int Id { get; set; } // Added Id
         public int CustomerId { get; set; } // ✅ int
         public string OfferTitle { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public decimal TotalAmount { get; set; } // ✅ decimal
 
         public List<OfferItemDto> Items { get; set; }
 
-        public DateTime ExpirationDate { get; set; }
+        public DateTime? ExpirationDate { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }

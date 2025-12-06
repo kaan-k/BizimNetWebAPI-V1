@@ -3,6 +3,7 @@ using Business.Abstract;
 using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.Stocks; // ✅ Plural Namespace
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,12 @@ namespace Business.Concrete
     {
         private readonly IStockDal _stockDal;
         private readonly IMapper _mapper;
-
-        public StockManager(IStockDal stockDal, IMapper mapper)
+        private readonly BizimNetContext _context;
+        public StockManager(IStockDal stockDal, IMapper mapper, BizimNetContext context)
         {
             _stockDal = stockDal;
             _mapper = mapper;
+            _context = context;
         }
 
         public IDataResult<StockAddDto> Add(StockAddDto stockDto)
@@ -26,6 +28,8 @@ namespace Business.Concrete
             var stockEntity = _mapper.Map<Stock>(stockDto);
             // SQL generates ID automatically
             _stockDal.Add(stockEntity);
+
+            _context.SaveChanges();
 
             return new SuccessDataResult<StockAddDto>(stockDto, "Stok eklendi.");
         }

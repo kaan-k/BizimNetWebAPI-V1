@@ -4,6 +4,7 @@ using Entities.Concrete.Customers;  // ✅ Import Customer
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Entities.Concrete.Payments // ✅ Changed to PLURAL
 {
@@ -15,6 +16,8 @@ namespace Entities.Concrete.Payments // ✅ Changed to PLURAL
         // ✅ Customer Relationship
         public int CustomerId { get; set; }
         [ForeignKey("CustomerId")]
+        [JsonIgnore]
+
         public virtual Customer Customer { get; set; }
 
         // ✅ Money must be decimal
@@ -33,6 +36,8 @@ namespace Entities.Concrete.Payments // ✅ Changed to PLURAL
         public int AgreementId { get; set; }
 
         [ForeignKey("AgreementId")]
+        [JsonIgnore]
+
         public virtual Aggrement Agreement { get; set; } // Navigation Property
     }
 }

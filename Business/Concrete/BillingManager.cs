@@ -2,7 +2,9 @@
 using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.Payments;
+using Entities.DTOs.BillingDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace Business.Concrete
         private readonly IMapper _mapper;
         private readonly IBillingDal _billingDal;
         private readonly IAggrementService _aggrementService;
-        public BillingManager(IMapper mapper, IBillingDal billingDal, IAggrementService aggrementService)
+        private readonly BizimNetContext _context;
+        public BillingManager(IMapper mapper, IBillingDal billingDal, IAggrementService aggrementService, BizimNetContext context)
         {
+            _context = context;
             _mapper = mapper;
             _billingDal = billingDal;
             _aggrementService = aggrementService;
@@ -26,21 +30,41 @@ namespace Business.Concrete
         {
             var billingEntity = _mapper.Map<Billing>(billingDto);
 
-            billingEntity.BillingDate = DateTime.Now;
+            // ✅ FORCE UTC
+            billingEntity.BillingDate = DateTime.SpecifyKind(
+                billingEntity.BillingDate,
+                DateTimeKind.Utc
+            );
 
+            billingEntity.DueDate = DateTime.SpecifyKind(
+                billingEntity.DueDate,
+                DateTimeKind.Utc
+            );
+
+            // ✅ 1. SAVE BILLING FIRST
             _billingDal.Add(billingEntity);
+            _context.SaveChanges();   // ✅ ID IS GENERATED HERE
+
+            // ✅ 2. NOW billingEntity.Id IS VALID
             var updateResult = _aggrementService.RegisterPayment(
-                billingEntity.Id,
+                billingEntity.AgreementId,   // ✅ USE AGREEMENT ID
                 billingEntity.Amount
             );
 
             if (!updateResult.Success)
             {
-                return new SuccessDataResult<Billing>(billingEntity, "Ödeme alındı fakat sözleşme güncellenemedi.");
+                return new SuccessDataResult<Billing>(
+                    billingEntity,
+                    "Ödeme alındı fakat sözleşme güncellenemedi."
+                );
             }
 
-            return new SuccessDataResult<Billing>(billingEntity, "Ödeme bilgisi eklendi ve sözleşme güncellendi.");
+            return new SuccessDataResult<Billing>(
+                billingEntity,
+                "Ödeme bilgisi eklendi ve sözleşme güncellendi."
+            );
         }
+
 
 
 

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Concrete.Aggrements;
 using Entities.Concrete.Devices;
+using System.Text.Json.Serialization;
 namespace Entities.Concrete.Customers
 {
     public class Customer : IEntity
@@ -38,6 +39,7 @@ namespace Entities.Concrete.Customers
         public string? LastAction { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Aggrement>? Agreements { get; set; }
     }
 }

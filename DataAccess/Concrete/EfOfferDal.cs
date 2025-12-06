@@ -1,7 +1,7 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
-using Entities.Concrete.Offers; // ✅ Use Plural Namespace
-using Microsoft.EntityFrameworkCore; // ✅ Needed for .Include()
+using Entities.Concrete.Offers;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,29 +9,42 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfOfferDal : EfEntityRepositoryBase<Offer, BizimNetContext>, IOfferDal
     {
+        private readonly BizimNetContext _context;
+
+        public EfOfferDal(BizimNetContext context) : base(context)
+        {
+            _context = context;
+        }
+
         public List<Offer> GetAllOfferDetails()
         {
-            using (var context = new BizimNetContext())
-            {
-                // ✅ SQL Way: Single Query with Joins
-                return context.Offers
-                    .Include(o => o.Customer)   // Join Customer Table
-                    .Include(o => o.OfferItems) // Join OfferItems Table (List of products)
-                    .ToList();
-            }
+            return _context.Offers
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(o => o.Customer)
+                .Include(o => o.Items)
+                .ToList();
         }
 
         public List<Offer> GetByStatus(string status)
         {
-            using (var context = new BizimNetContext())
-            {
-                // ✅ SQL Way: Filter is done in the Database, not in Memory
-                return context.Offers
-                    .Include(o => o.Customer)
-                    .Include(o => o.OfferItems)
-                    .Where(o => o.Status == status) // Generates "WHERE Status = 'Pending'" SQL
-                    .ToList();
-            }
+            return _context.Offers
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Include(o => o.Customer)
+                .Include(o => o.Items)
+                .Where(o => o.Status == status)
+                .ToList();
         }
+
+        public Offer GetByIdWithDetails(int id)
+        {
+            return _context.Offers
+                .AsSplitQuery()
+                .Include(o => o.Customer)
+                .Include(o => o.Items)
+                .FirstOrDefault(o => o.Id == id);
+        }
+
     }
 }

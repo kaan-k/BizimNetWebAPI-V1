@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete.Offers; // ✅ Plural Namespace
+using Entities.Concrete.Offers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BizimNetWebAPI.Controllers
@@ -29,22 +29,23 @@ namespace BizimNetWebAPI.Controllers
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
 
-        [HttpPost("GenerateOfferReport")]
-        public IActionResult GenerateOfferReport(OfferDto offer)
+        [HttpGet("GenerateOfferReport")]
+        public IActionResult GenerateOfferReport(int offerId)
         {
-            var result = _offerService.GenerateOfferReport(offer);
+            var result = _offerService.GenerateOfferReport(offerId);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
 
+
         [HttpGet("Approve")]
-        public IActionResult Approve(int id) // ✅ Changed string -> int
+        public IActionResult Approve(int id)
         {
             var result = _offerService.Approve(id);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(int id) // ✅ Changed string -> int
+        public IActionResult Delete(int id)
         {
             var result = _offerService.Delete(id);
             return result.Success ? Ok(result) : BadRequest(result.Message);
@@ -65,14 +66,15 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(int id) // ✅ Changed string -> int
+        public IActionResult GetById(int id)
         {
             var result = _offerService.GetById(id);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
 
+
         [HttpGet("GetByCustomerId")]
-        public IActionResult GetByCustomerId(int customerId) // ✅ Changed string -> int
+        public IActionResult GetByCustomerId(int customerId)
         {
             var result = _offerService.GetByCustomerId(customerId);
             return result.Success ? Ok(result) : BadRequest(result.Message);

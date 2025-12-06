@@ -7,6 +7,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfAgGridSettingsDal : EfEntityRepositoryBase<AgGridSettings, BizimNetContext>, IAgGridSettingsDal
     {
-        // No constructor needed. Base class handles the Context.
+        public EfAgGridSettingsDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
     }
 }

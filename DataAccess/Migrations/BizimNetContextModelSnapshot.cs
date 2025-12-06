@@ -78,7 +78,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("AgreementType")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -87,21 +86,26 @@ namespace DataAccess.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool?>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("OfferId")
+                    b.Property<int?>("OfferId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("PaidAmount")
+                    b.Property<decimal?>("PaidAmount")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("OfferId");
 
                     b.ToTable("Aggrements");
                 });
@@ -209,7 +213,6 @@ namespace DataAccess.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AnyDeskId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
@@ -321,7 +324,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("EndsAt")
@@ -332,7 +334,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Priority")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("SignatureBase64")
@@ -445,10 +446,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ExpirationDate")
+                    b.Property<DateTime?>("ExpirationDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("OfferTitle")
@@ -480,7 +480,7 @@ namespace DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("OfferId")
+                    b.Property<int?>("OfferId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
@@ -503,7 +503,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("OfferId");
 
-                    b.ToTable("OfferItem");
+                    b.ToTable("OfferItems");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Payments.Billing", b =>
@@ -639,11 +639,19 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.Aggrements.Aggrement", b =>
                 {
-                    b.HasOne("Entities.Concrete.Customers.Customer", null)
+                    b.HasOne("Entities.Concrete.Customers.Customer", "Customer")
                         .WithMany("Agreements")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entities.Concrete.Offers.Offer", "Offer")
+                        .WithMany()
+                        .HasForeignKey("OfferId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Customers.Customer", b =>
@@ -721,13 +729,9 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.Offers.OfferItem", b =>
                 {
-                    b.HasOne("Entities.Concrete.Offers.Offer", "Offer")
-                        .WithMany("OfferItems")
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Offer");
+                    b.HasOne("Entities.Concrete.Offers.Offer", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OfferId");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Payments.Billing", b =>
@@ -774,7 +778,7 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.Offers.Offer", b =>
                 {
-                    b.Navigation("OfferItems");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,6 +10,10 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfDutyDal : EfEntityRepositoryBase<Duty, BizimNetContext>, IDutyDal
     {
+        public EfDutyDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
         public List<Duty> GetAllDutyDetails(int requesterId)
         {
             using (var context = new BizimNetContext())

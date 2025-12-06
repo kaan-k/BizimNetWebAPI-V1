@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 // This replaces the old MongoDB connection logic.
 // Ensure "PostgreSQL" exists in your appsettings.json under "ConnectionStrings".
 builder.Services.AddDbContext<BizimNetContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")), ServiceLifetime.Scoped);
 
 // ✅ 2. Autofac Dependency Injection Setup
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());

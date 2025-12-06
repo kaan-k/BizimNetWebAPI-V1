@@ -12,12 +12,12 @@ namespace Entities.Concrete.Duties
         public int Id { get; set; }
 
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public int CustomerId { get; set; } // Foreign Key
         [ForeignKey("CustomerId")]
         public virtual Customer? Customer { get; set; }
 
-        public string Priority { get; set; }
+        public string? Priority { get; set; }
 
         public DateTime? Deadline { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

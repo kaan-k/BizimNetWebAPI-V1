@@ -8,6 +8,9 @@ namespace DataAccess.Concrete.EntityFramework
     // Inherit from the generic EF Repository
     public class EfDepartmentDal : EfEntityRepositoryBase<Department, BizimNetContext>, IDepartmentDal
     {
-        // No constructor needed; the base class handles the context creation internally.
+        public EfDepartmentDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
     }
 }

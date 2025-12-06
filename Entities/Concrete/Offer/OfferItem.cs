@@ -1,24 +1,20 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Concrete.Stocks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Entities.Concrete.Offers
 {
     public class OfferItem : IEntity
     {
-        [Key]
         public int Id { get; set; }
-
-        // ✅ Link to the Offer Table
+        public int StockId { get; set; }
         public int OfferId { get; set; }
-        [ForeignKey("OfferId")]
-        public virtual Offer Offer { get; set; }
-
-        public int StockId { get; set; } // Assuming you will fix Stock entity later
-        public string StockName { get; set; } // Snapshot of name at time of offer
+        public string StockName { get; set; }
 
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; } // ✅ Decimal
-        public decimal TotalPrice { get; set; } // ✅ Decimal
+        public decimal UnitPrice { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

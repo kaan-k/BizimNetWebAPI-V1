@@ -2,7 +2,9 @@
 using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.Aggrements;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
@@ -11,38 +13,46 @@ namespace Business.Concrete
     public class AgreementManager : IAggrementService
     {
         private readonly IMapper _mapper;
-        private readonly IAggrementDal _agreementDal; // ✅ Make sure DAL interface is renamed too
+        private readonly IAggrementDal _agreementDal;
         private readonly IOfferDal _offerDal;
+        private readonly BizimNetContext _context;
 
-        public AgreementManager(IMapper mapper, IAggrementDal agreementDal, IOfferDal offerDal)
+        public AgreementManager(IMapper mapper, IAggrementDal agreementDal, IOfferDal offerDal, BizimNetContext context)
         {
             _mapper = mapper;
             _agreementDal = agreementDal;
             _offerDal = offerDal;
+            _context = context;
         }
 
         public IDataResult<Aggrement> Add(AggrementDto agreementDto)
         {
             var agreement = _mapper.Map<Aggrement>(agreementDto);
 
-            // ⚠️ SQL Difference: Do NOT set agreement.Id here.
-            // The database will generate the int ID automatically.
+            _agreementDal.Add(agreement); // SaveChanges içeride
 
-            _agreementDal.Add(agreement);
-
-            // After .Add(), 'agreement.Id' will be populated with the new Integer ID
-            return new SuccessDataResult<   Aggrement>(agreement);
+            return new SuccessDataResult<Aggrement>(agreement);
         }
 
         public IResult Delete(int id)
         {
-            // You might need to check if it exists first, depending on your DAL implementation
+            // 1. Sözleşmeyi bul
             var agreement = _agreementDal.Get(a => a.Id == id);
-            if (agreement == null) return new ErrorResult("Sözleşme bulunamadı");
+            if (agreement == null)
+                return new ErrorResult("Sözleşme bulunamadı");
 
-            _agreementDal.Delete(agreement); // EF Core usually deletes by Entity, not just ID
-            return new SuccessResult();
+            // 2. Bu sözleşmeye bağlı Billing var mı?
+            bool hasBilling = _context.Billings.Any(b => b.AgreementId == id);
+
+            if (hasBilling)
+                return new ErrorResult("Bu sözleşmeye bağlı ödemeler mevcut, silinemez!");
+
+            // 3. Sil
+            _agreementDal.Delete(agreement);
+
+            return new SuccessResult("Sözleşme başarıyla silindi.");
         }
+
 
         public IResult Update(Aggrement agreement)
         {
@@ -50,11 +60,20 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<Aggrement> GetById(int id)
+        public IDataResult<AggrementDto> GetById(int id)
         {
-            var agreement = _agreementDal.Get(x => x.Id == id);
-            return new SuccessDataResult<Aggrement>(agreement);
+            var agreement = _agreementDal.GetAllAgreementDetails(id);
+
+            if (agreement == null)
+                return new ErrorDataResult<AggrementDto>("Agreement not found");
+
+            var dto = _mapper.Map<AggrementDto>(agreement);
+
+            return new SuccessDataResult<AggrementDto>(dto);
         }
+
+
+
 
         public IDataResult<List<Aggrement>> GetAll()
         {
@@ -67,16 +86,16 @@ namespace Business.Concrete
         {
             var agreement = _agreementDal.Get(a => a.Id == agreementId);
             if (agreement == null)
-            {
                 return new ErrorDataResult<Aggrement>("Sözleşme bulunamadı.");
-            }
 
-            // Logic: Update the calculated amount
+            agreement.PaidAmount ??= 0;
             agreement.PaidAmount += amount;
 
             _agreementDal.Update(agreement);
+
             return new SuccessDataResult<Aggrement>(agreement, "Ödeme alındı ve sözleşme güncellendi.");
         }
+
 
         public IResult RegisterPayment(int agreementId, decimal amount)
         {
@@ -118,43 +137,37 @@ namespace Business.Concrete
 
         public IResult CreateAgreementFromOffer(int offerId)
         {
-            // 1. Fetch the Approved Offer
             var offer = _offerDal.Get(o => o.Id == offerId);
-            if (offer == null) return new ErrorResult("Teklif bulunamadı.");
+            if (offer == null)
+                return new ErrorResult("Teklif bulunamadı.");
 
-            if (offer.Status != "Approved") return new ErrorResult("Sadece onaylanmış teklifler sözleşmeye dönüştürülebilir.");
+            if (offer.Status != "Approved")
+                return new ErrorResult("Sadece onaylanmış teklifler sözleşmeye dönüştürülebilir.");
 
-            // 2. Check if agreement already exists (By OfferId)
             var existing = _agreementDal.Get(a => a.OfferId == offerId);
-            if (existing != null) return new ErrorResult("Bu teklif için zaten bir sözleşme var.");
+            if (existing != null)
+                return new ErrorResult("Bu teklif için zaten bir sözleşme var.");
 
-            // 3. Map Offer Data to Agreement
             var agreement = new Aggrement
             {
-                // Id = ... ❌ REMOVED. Let SQL handle auto-increment.
-
                 OfferId = offerId,
                 CustomerId = offer.CustomerId,
-                AgreementTitle = offer.OfferTitle, // Fixed spelling
+                AgreementTitle = offer.OfferTitle,
                 AgreementType = "Sales",
-                AgreedAmount = offer.TotalAmount, // decimal
+                AgreedAmount = offer.TotalAmount,
                 PaidAmount = 0,
-
-                // billings = ... ❌ REMOVED. EF Core manages this via Navigation Property.
-
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow,
                 ExpirationDate = DateTime.UtcNow.AddYears(1)
             };
 
-            // 4. Update Offer Status
             offer.Status = "Agreement";
-            _offerDal.Update(offer);
 
-            // 5. Save Agreement
-            _agreementDal.Add(agreement);
+            _offerDal.Update(offer);     // SaveChanges içeride (OfferDAL)
+            _agreementDal.Add(agreement); // SaveChanges içeride (AggrementDAL)
 
             return new SuccessResult("Teklif başarıyla sözleşmeye dönüştürüldü.");
         }
+
     }
 }

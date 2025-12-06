@@ -9,6 +9,10 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfDeviceDal : EfEntityRepositoryBase<Device, BizimNetContext>, IDeviceDal
     {
+        public EfDeviceDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
         public List<Device> GetAllDeviceDetails()
         {
             using (var context = new BizimNetContext())

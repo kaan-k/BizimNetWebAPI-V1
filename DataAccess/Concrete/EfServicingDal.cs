@@ -9,6 +9,10 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfServicingDal : EfEntityRepositoryBase<Servicing, BizimNetContext>, IServicingDal
     {
+        public EfServicingDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
         public List<Servicing> GetAllServicingDetails()
         {
             using (var context = new BizimNetContext())

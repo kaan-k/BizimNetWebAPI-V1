@@ -20,7 +20,7 @@ namespace Business.Abstract
         IDataResult<List<Customer>> GetCustomersByField(string field);
 
         // ✅ Changed string -> int
-        IDataResult<Customer> GetById(int id);
+        IDataResult<CustomerDto> GetById(int id);
         IDataResult<List<Device>> GetAllDevicesByCustomerId(int id);
         IDataResult<List<Customer>> GetBranchesAsync(int parentId);
 

@@ -10,7 +10,7 @@ namespace Business.Abstract
         IDataResult<Aggrement> Add(AggrementDto agreementDto);
         IResult Update(Aggrement agreement); // Removed 'id' param, it's inside the object
         IResult Delete(int id);
-        IDataResult<Aggrement> GetById(int id);
+        IDataResult<AggrementDto> GetById(int id);
         IDataResult<List<Aggrement>> GetAll();
 
         // Custom Logic

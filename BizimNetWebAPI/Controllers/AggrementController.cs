@@ -8,7 +8,7 @@ namespace BizimNetWebAPI.Controllers
     [ApiController]
     public class AgreementController : ControllerBase
     {
-        private readonly IAggrementService _agreementService; // ✅ Fixed Typo
+        private readonly IAggrementService _agreementService;
 
         public AgreementController(IAggrementService agreementService)
         {
@@ -38,7 +38,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpPost("CreateFromOffer")]
-        public IActionResult CreateFromOffer(int offerId) // ✅ Changed string -> int
+        public IActionResult CreateFromOffer(int offerId)
         {
             var result = _agreementService.CreateAgreementFromOffer(offerId);
             if (result.Success)
@@ -48,8 +48,8 @@ namespace BizimNetWebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("Delete")]
-        public IActionResult Delete(int id) // ✅ Changed string -> int
+        [HttpPost("Delete")]
+        public IActionResult Delete(int id)
         {
             var result = _agreementService.Delete(id);
             if (result.Success)
@@ -60,15 +60,13 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(int id) // ✅ Changed string -> int
+        public IActionResult GetById(int id)
         {
             var result = _agreementService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+
+            return result.Success ? Ok(result) : BadRequest(result.Message);
         }
+
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
@@ -80,9 +78,6 @@ namespace BizimNetWebAPI.Controllers
             }
             return BadRequest(result);
         }
-
-        // ✅ Fixed Typo (Recieve -> Receive)
-        // ✅ Fixed Types (string -> int for ID, int -> decimal for Amount)
         [HttpPost("ReceiveBill")]
         public IActionResult ReceiveBill(int agreementId, decimal amount)
         {

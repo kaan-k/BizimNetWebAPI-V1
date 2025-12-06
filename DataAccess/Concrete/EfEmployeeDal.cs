@@ -7,6 +7,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfEmployeeDal : EfEntityRepositoryBase<Employee, BizimNetContext>, IEmployeeDal
     {
-        // No constructor needed. Base class handles the Context.
+        public EfEmployeeDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
     }
 }

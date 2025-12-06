@@ -1,20 +1,21 @@
-﻿using Core.Entities.Abstract;
-using System;
+﻿using System;
 
-namespace Entities.Concrete.Payments // ✅ Changed to PLURAL
+namespace Entities.DTOs.BillingDtos
 {
-    public class BillingDto : IDto
+    public class BillingDto
     {
-        public int Id { get; set; } // Added Id
+        public int Id { get; set; }
+        public int CustomerId { get; set; }
+        public int AgreementId { get; set; }
 
-        public int CustomerId { get; set; } // ✅ int
-
-        public decimal Amount { get; set; } // ✅ decimal
-        public decimal PaidAmount { get; set; } // ✅ decimal
+        public decimal Amount { get; set; }
+        public decimal PaidAmount { get; set; }
 
         public DateTime BillingDate { get; set; }
-        public string BillingMethod { get; set; }
+        public DateTime DueDate { get; set; }
 
-        public int AgreementId { get; set; } // ✅ Spelling fixed & int
+        public DateTime? PaymentDate { get; set; }
+        public string BillingMethod { get; set; }
     }
+
 }

@@ -9,6 +9,10 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfInstallationRequestDal : EfEntityRepositoryBase<InstallationRequest, BizimNetContext>, IInstallationRequestDal
     {
+        public EfInstallationRequestDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
         public List<InstallationRequest> GetAllInstallationRequestDetails()
         {
             using (var context = new BizimNetContext())

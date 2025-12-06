@@ -360,20 +360,20 @@ public class PdfGeneratorManager : IPdfGeneratorService
     // =================================================================================================
     // 4. OFFER / SALES INFO FORM (Using User's Offer Entity)
     // =================================================================================================
-    public byte[] GenerateOfferPdf(OfferDto offer)
+    public byte[] GenerateOfferPdf(int id)
     {
         SetupLicense();
         var tr = new CultureInfo("tr-TR");
 
         // 1. Fetch Customer using int ID
         // Note: OfferDto.CustomerId should now be 'int'
-        var customer = _customerDal.Get(c => c.Id == offer.CustomerId);
+        var customer = _customerDal.Get(c => c.Id == id);
 
         var companyName = customer?.CompanyName ?? "Bilinmeyen Müşteri";
         var companyPhone = customer?.PhoneNumber ?? "-";
         var authPerson = "Yetkili Belirtilmedi";
 
-        decimal totalSales = offer.TotalAmount;
+        decimal totalSales = customer.Id;
         decimal totalVat = totalSales * 0.20m;
 
         var document = Document.Create(container =>
@@ -412,10 +412,8 @@ public class PdfGeneratorManager : IPdfGeneratorService
 
                         InfoRow("Firma", $"{companyName}\n{companyPhone}", true);
                         InfoRow("Firma Yetkilisi", authPerson);
-                        InfoRow("Tarihi - Tipi", $"{ToTrTime(offer.CreatedAt)?.ToString("dd.MM.yyyy") ?? "-"} / Teklif");
                         InfoRow("Personel", "Sistem", true);
-                        InfoRow("Ödeme", offer.OfferTitle);
-                        InfoRow("Genel Açıklama", offer.Description);
+                        //InfoRow("Ödeme", offer.OfferTitle);
                         InfoRow("Para birimi - Kur", "TL - KDV Dahil", true);
                     });
 
@@ -443,19 +441,19 @@ public class PdfGeneratorManager : IPdfGeneratorService
                             h.Cell().Element(CellStyleTableBorder).AlignCenter().Text("Teslim").Bold();
                         });
 
-                        if (offer.Items != null) // Note: PascalCase Items
-                        {
-                            foreach (var item in offer.Items)
-                            {
-                                table.Cell().Element(CellStyleTableBorder).Text(item.StockName);
-                                table.Cell().Element(CellStyleTableBorder).AlignCenter().Text(item.Quantity.ToString());
-                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
-                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.UnitPrice).ToString("N2", tr));
-                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
-                                table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.TotalPrice).ToString("N2", tr));
-                                table.Cell().Element(CellStyleTableBorder).AlignCenter().Text("-");
-                            }
-                        }
+                        //if (offer.Items != null) // Note: PascalCase Items
+                        //{
+                        //    foreach (var item in offer.Items)
+                        //    {
+                        //        table.Cell().Element(CellStyleTableBorder).Text(item.StockName);
+                        //        table.Cell().Element(CellStyleTableBorder).AlignCenter().Text(item.Quantity.ToString());
+                        //        table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
+                        //        table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.UnitPrice).ToString("N2", tr));
+                        //        table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
+                        //        table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.TotalPrice).ToString("N2", tr));
+                        //        table.Cell().Element(CellStyleTableBorder).AlignCenter().Text("-");
+                        //    }
+                        //}
 
                         table.Footer(f =>
                         {

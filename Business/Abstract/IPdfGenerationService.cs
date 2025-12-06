@@ -9,5 +9,5 @@ public interface IPdfGeneratorService
     byte[] GenerateServicingPdf(Servicing servicing);
     byte[] GenerateDailyDutiesPdf(List<Duty> duties, DateTime reportDate);
     byte[] GenerateDutiesByCustomerPdf(List<Duty> duties, DateTime reportDate);
-    byte[] GenerateOfferPdf(OfferDto offer);
+    byte[] GenerateOfferPdf(int id);
 }

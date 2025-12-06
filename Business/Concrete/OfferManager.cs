@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Business.Concrete.Constants; // Ensure PdfGeneratorHelper is here
+using Business.Concrete.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete.DocumentFile;
-using Entities.Concrete.Offers; // ✅ Plural
+using Entities.Concrete.Offers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.IO; // Needed for File.WriteAllBytes
-using System.Linq;
+using System.IO;
 
 namespace Business.Concrete
 {
@@ -20,6 +21,7 @@ namespace Business.Concrete
         private readonly IInstallationRequestService _installationRequestService;
         private readonly ICustomerService _customerService;
         private readonly IDocumentFileUploadService _documentFileUploadService;
+        private readonly BizimNetContext _context;
 
         public OfferManager(
             IOfferDal offerDal,
@@ -27,7 +29,7 @@ namespace Business.Concrete
             IInstallationRequestService installationRequestService,
             IPdfGeneratorService pdfGeneratorService,
             ICustomerService customerService,
-            IDocumentFileUploadService documentFileUploadService)
+            IDocumentFileUploadService documentFileUploadService, BizimNetContext context)
         {
             _offerDal = offerDal;
             _mapper = mapper;
@@ -35,35 +37,68 @@ namespace Business.Concrete
             _pdfGeneratorService = pdfGeneratorService;
             _customerService = customerService;
             _documentFileUploadService = documentFileUploadService;
+            _context = context;
         }
+
+        public IDataResult<OfferDto> GetById(int id)
+        {
+            var entity = _offerDal.GetByIdWithDetails(id);
+
+            if (entity == null)
+                return new ErrorDataResult<OfferDto>("Teklif bulunamadı.");
+
+            var dto = _mapper.Map<OfferDto>(entity);
+
+            return new SuccessDataResult<OfferDto>(dto);
+        }
+
 
         public IResult Add(OfferDto offerDto)
         {
             if (offerDto == null)
+                return new ErrorResult("Teklif verisi boş olamaz.");
+
+            // DTO → Entity
+            var offer = _mapper.Map<Offer>(offerDto);
+
+            offer.CreatedAt = DateTime.UtcNow;
+
+            if (offerDto.ExpirationDate.HasValue)
+                offer.ExpirationDate = DateTime.SpecifyKind(offerDto.ExpirationDate.Value, DateTimeKind.Utc);
+
+            // OFFER SAVE
+            _offerDal.Add(offer);
+            _context.SaveChanges();               // 🔥 ID burada oluşur
+
+            // OFFER ITEMS SAVE
+            if (offerDto.Items != null)
             {
-                return new ErrorResult("Teklif boş olamaz.");
+                foreach (var itemDto in offerDto.Items)
+                {
+                    var item = _mapper.Map<OfferItem>(itemDto);
+                    item.OfferId = offer.Id;
+
+                    _context.Add(item);
+                }
             }
 
-            var mappedOffer = _mapper.Map<Offer>(offerDto);
+            _context.SaveChanges();
 
-            // Set initial dates
-            mappedOffer.CreatedAt = DateTime.UtcNow; // ✅ Use UtcNow
-
-            _offerDal.Add(mappedOffer);
-            return new SuccessResult("Teklif başarıyla eklendi.");
+            return new SuccessResult("Teklif başarıyla oluşturuldu.");
         }
+
 
         public IResult Approve(int offerId)
         {
             var offer = _offerDal.Get(x => x.Id == offerId);
             if (offer == null)
-            {
                 return new ErrorResult("Teklif bulunamadı.");
-            }
 
-            // 2. Change Status
+            if (offer.Status == "Approved")
+                return new ErrorResult("Teklif zaten onaylanmış.");
+
             offer.Status = "Approved";
-            offer.UpdatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+            offer.UpdatedAt = DateTime.UtcNow;
 
             _offerDal.Update(offer);
 
@@ -73,43 +108,48 @@ namespace Business.Concrete
         public IResult Delete(int id)
         {
             _offerDal.Delete(id);
-            return new SuccessResult();
+            return new SuccessResult("Teklif silindi.");
         }
 
-        public IDataResult<string> GenerateOfferReport(OfferDto offer)
+        public IDataResult<string> GenerateOfferReport(int offerId)
         {
-            // 1. Get Customer Name (CustomerId is now int)
-            var customerResult = _customerService.GetById(offer.CustomerId);
-            if (customerResult.Data == null) return new ErrorDataResult<string>("Müşteri bulunamadı");
+            // 1️⃣ Offer entity'sini full include ile çek
+            var offer = _offerDal.GetByIdWithDetails(offerId);
 
-            var companyName = customerResult.Data.CompanyName;
+            if (offer == null)
+                return new ErrorDataResult<string>("Teklif bulunamadı.");
 
-            // 2. Generate the PDF Bytes
-            var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
+            // 2️⃣ Customer bilgisini entity’den al
+            var customerName = offer.Customer?.CompanyName ?? "Müşteri";
 
-            // 3. Save to Disk
-            var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
+            // 3️⃣ PDF üretimi → entity ile yapılır
+            var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer.Id);
+
+            // 4️⃣ Fiziksel dosya oluşturma
+            var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(_mapper.Map<OfferDto>(offer));
             File.WriteAllBytes(filePath, pdfBytes);
 
-            // 4. Save to DB (DocumentFiles)
+            // 5️⃣ DocumentFile kaydı
             var documentFile = new DocumentFile
             {
                 CreatedAt = DateTime.UtcNow,
-                DocumentName = $"{companyName}-{DateTime.UtcNow:yyyyMMdd}",
+                DocumentName = $"{customerName}-{DateTime.UtcNow:yyyyMMdd}",
                 DocumentPath = filePath,
-                DocumentFullName = $"{companyName}.pdf",
+                DocumentFullName = $"{customerName}.pdf",
                 LastModifiedAt = DateTime.UtcNow,
                 DocumentType = "Teklif Raporu",
-                CustomerId = offer.CustomerId // ✅ Assign int ID directly
+                CustomerId = offer.CustomerId
             };
 
             _documentFileUploadService.DocumentFileCreateServicing(documentFile);
 
-            // 5. Convert to Base64 and Return Data
+            // 6️⃣ Base64 döndürme
             string pdfBase64 = Convert.ToBase64String(pdfBytes);
 
             return new SuccessDataResult<string>(pdfBase64, "Teklif raporu başarıyla oluşturuldu.");
         }
+
+
 
         public IDataResult<List<Offer>> GetAll()
         {
@@ -130,16 +170,11 @@ namespace Business.Concrete
 
         public IDataResult<List<Offer>> GetByDateRange(DateTime start, DateTime end)
         {
-            // Simple SQL date range query
             var offers = _offerDal.GetAll(x => x.CreatedAt >= start && x.CreatedAt <= end);
             return new SuccessDataResult<List<Offer>>(offers);
         }
 
-        public IDataResult<Offer> GetById(int id)
-        {
-            var offer = _offerDal.Get(x => x.Id == id);
-            return new SuccessDataResult<Offer>(offer);
-        }
+
 
         public IDataResult<List<Offer>> GetByStatus(string status)
         {
@@ -150,13 +185,11 @@ namespace Business.Concrete
         public IResult Update(Offer offer)
         {
             if (offer == null)
-            {
                 return new ErrorResult("Teklif boş olamaz.");
-            }
 
-            offer.UpdatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+            offer.UpdatedAt = DateTime.UtcNow;
             _offerDal.Update(offer);
-            return new SuccessResult();
+            return new SuccessResult("Teklif güncellendi.");
         }
     }
 }

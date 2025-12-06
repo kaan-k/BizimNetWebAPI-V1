@@ -78,14 +78,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(branches, "Şubeler bulundu.");
         }
 
-        public IDataResult<Customer> GetById(int id)
+        public IDataResult<CustomerDto> GetById(int id)
         {
-            // Simple primary key lookup
             var customer = _customerDal.Get(x => x.Id == id);
-            if (customer == null) return new ErrorDataResult<Customer>("Müşteri bulunamadı");
+            if (customer == null)
+                return new ErrorDataResult<CustomerDto>("Customer not found");
 
-            return new SuccessDataResult<Customer>(customer);
+            var dto = _mapper.Map<CustomerDto>(customer);
+            return new SuccessDataResult<CustomerDto>(dto);
         }
+
 
         // ✅ New method for searching by name (replaces the ObjectId logic)
         public IDataResult<Customer> GetByCompanyName(string companyName)

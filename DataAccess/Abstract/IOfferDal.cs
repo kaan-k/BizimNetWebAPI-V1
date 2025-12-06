@@ -1,5 +1,5 @@
-﻿using Core.DataAccess; // ✅ Where IEntityRepository is located
-using Entities.Concrete.Offers; // ✅ Use the Plural Namespace
+﻿using Core.DataAccess;
+using Entities.Concrete.Offers;
 using System.Collections.Generic;
 
 namespace DataAccess.Abstract
@@ -8,5 +8,6 @@ namespace DataAccess.Abstract
     {
         List<Offer> GetAllOfferDetails();
         List<Offer> GetByStatus(string status);
+        Offer GetByIdWithDetails(int id);
     }
 }

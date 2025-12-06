@@ -24,7 +24,7 @@ namespace Entities.Concrete.Devices
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
 
-        public string AnyDeskId { get; set; }
+        public string? AnyDeskId { get; set; }
         public string? PublicIp { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

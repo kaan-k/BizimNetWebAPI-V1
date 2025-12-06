@@ -9,6 +9,10 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfBusinessUserDal : EfEntityRepositoryBase<BusinessUser, BizimNetContext>, IBusinessUserDal
     {
+        public EfBusinessUserDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
         public List<BusinessUser> GetAllBusinessUserDetails()
         {
             using (var context = new BizimNetContext())

@@ -17,7 +17,10 @@ namespace DataAccess.Concrete
 {
     public class EfBillingDal : EfEntityRepositoryBase<Billing, BizimNetContext>, IBillingDal
     {
-      
-    
+        public EfBillingDal(BizimNetContext context) : base(context)
+        {
+            // Any specific logic for EfOfferDal can go here, but usually it's left empty.
+        }
+
     }
 }

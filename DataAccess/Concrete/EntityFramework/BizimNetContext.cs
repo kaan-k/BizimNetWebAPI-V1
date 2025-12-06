@@ -53,6 +53,8 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<BusinessUser> BusinessUsers { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<AgGridSettings> Settings { get; set; }
+        public DbSet<OfferItem> OfferItems { get; set; } 
+
 
 
 
