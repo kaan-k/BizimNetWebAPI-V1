@@ -1,11 +1,6 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete.Device;
-using Entities.Concrete.Duty;
-using System;
+using Entities.Concrete.Duties; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -14,24 +9,26 @@ namespace Business.Abstract
         IDataResult<Duty> Add(DutyDto request);
         IDataResult<Duty> AddCompleted(DutyDto request);
 
-        IResult Delete(string id);
+        // ✅ Changed string -> int
+        IResult Delete(int id);
         IResult Update(Duty request);
+
         IDataResult<List<Duty>> GetAll();
-        IDataResult<List<Duty>> GetAllDetails(string userId);
 
-        IDataResult <List<Duty>> GetTodaysDuties();
-        IDataResult<List<Duty>> GetAllByCustomerIdReport(string customerId);
+        // ✅ Changed string -> int
+        IDataResult<List<Duty>> GetAllDetails(int userId);
 
-        IDataResult<List<Duty>> ReplaceCustomerId(string customerId, string customerIdToReplace);
-        IDataResult<List<Duty>> GetAllByCustomerId(string customerId);
-        IDataResult<List<Duty>> GetAllByEmployeeId(string employeeId);
+        IDataResult<List<Duty>> GetTodaysDuties();
+        IDataResult<List<Duty>> GetAllByCustomerIdReport(int customerId);
+
+        // ✅ Changed string -> int
+        IDataResult<List<Duty>> ReplaceCustomerId(int customerId, int customerIdToReplace);
+        IDataResult<List<Duty>> GetAllByCustomerId(int customerId);
+        IDataResult<List<Duty>> GetAllByEmployeeId(int employeeId);
 
         IDataResult<List<Duty>> GetAllByStatus(string status);
-        IDataResult<Duty> UpdateStatusById(string id, string newStatus);
-        IDataResult<Duty> GetById(string id);
-        IDataResult<Duty> MarkAsCompleted(string id);
-
-
-
+        IDataResult<Duty> UpdateStatusById(int id, string newStatus);
+        IDataResult<Duty> GetById(int id);
+        IDataResult<Duty> MarkAsCompleted(int id);
     }
 }

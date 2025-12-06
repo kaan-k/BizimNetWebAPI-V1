@@ -1,27 +1,26 @@
-﻿using Core.Enums;
-using Core.Utilities.Results;
-using Entities.Concrete.Department;
-using Entities.Concrete.Device;
-using Entities.Concrete.InstallationRequest;
-using System;
+﻿using Core.Utilities.Results;
+using Entities.Concrete.Devices; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IDeviceService
     {
-        IResult Add(DeviceDto request);
-        IResult Delete(string id);
+        IResult Add(Device request);
+
+        // ✅ Changed string -> int
+        IResult Delete(int id);
+
         IResult Update(Device request);
 
+        IDataResult<List<Device>> GetByDeviceType(string deviceType);
 
-        IDataResult <List<Device>>GetByDeviceType(string deviceType);
-        IDataResult<List<Device>> GetAllByCustomerId(string id);
+        // ✅ Changed string -> int
+        IDataResult<List<Device>> GetAllByCustomerId(int id);
+
         IDataResult<List<Device>> GetAllDetails();
-        IDataResult<Device> GetById(string id);
 
+        // ✅ Changed string -> int
+        IDataResult<Device> GetById(int id);
     }
 }

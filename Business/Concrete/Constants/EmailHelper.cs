@@ -1,4 +1,4 @@
-﻿using Entities.Concrete.Customer;
+﻿using Entities.Concrete.Customers;
 using Entities.Concrete.Email;
 using System;
 using System.Collections.Generic;

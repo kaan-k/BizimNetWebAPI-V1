@@ -1,23 +1,24 @@
 ﻿using Core.Entities.Abstract;
 using Core.Enums;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities.Concrete.Stock
+namespace Entities.Concrete.Stocks // ✅ Changed to PLURAL to avoid CS0118 error
 {
     public class Stock : IEntity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        [Key]
+        public int Id { get; set; } // ✅ Changed from string to int for SQL
+
         public string Name { get; set; }
-        //public string WarehouseId { get; set; }
+
+        // If you uncomment this later, make sure it is an int!
+        // public int WarehouseId { get; set; } 
+
         public int Count { get; set; }
+
+        // EF Core handles Enums automatically (usually stores them as int in the DB)
         public DeviceType DeviceType { get; set; }
     }
 }

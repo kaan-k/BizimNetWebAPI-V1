@@ -1,19 +1,14 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Business.Concrete.Constants;
-using Core.Entities.Concrete;
-using Core.Enums;
+using Business.Concrete.Constants; // Ensure PdfGeneratorHelper is here
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.DocumentFile;
-using Entities.Concrete.Duty;
-using Entities.Concrete.InstallationRequest;
-using Entities.Concrete.Offer;
+using Entities.Concrete.Offers; // ✅ Plural
 using System;
 using System.Collections.Generic;
+using System.IO; // Needed for File.WriteAllBytes
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -26,27 +21,39 @@ namespace Business.Concrete
         private readonly ICustomerService _customerService;
         private readonly IDocumentFileUploadService _documentFileUploadService;
 
-        public OfferManager(IOfferDal offerDal, IMapper mapper, IInstallationRequestService installationRequestService, IPdfGeneratorService dfGeneratorService, ICustomerService customerService, IDocumentFileUploadService documentFileUploadService)
+        public OfferManager(
+            IOfferDal offerDal,
+            IMapper mapper,
+            IInstallationRequestService installationRequestService,
+            IPdfGeneratorService pdfGeneratorService,
+            ICustomerService customerService,
+            IDocumentFileUploadService documentFileUploadService)
         {
             _offerDal = offerDal;
             _mapper = mapper;
             _installationRequestService = installationRequestService;
-            _pdfGeneratorService = dfGeneratorService;
+            _pdfGeneratorService = pdfGeneratorService;
             _customerService = customerService;
             _documentFileUploadService = documentFileUploadService;
         }
-        public IResult Add(OfferDto offer)
+
+        public IResult Add(OfferDto offerDto)
         {
-            if(offer== null)
+            if (offerDto == null)
             {
-                return new ErrorResult();
+                return new ErrorResult("Teklif boş olamaz.");
             }
-            var mappedOffer = _mapper.Map<Offer>(offer);
+
+            var mappedOffer = _mapper.Map<Offer>(offerDto);
+
+            // Set initial dates
+            mappedOffer.CreatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+
             _offerDal.Add(mappedOffer);
-            return new SuccessResult();
+            return new SuccessResult("Teklif başarıyla eklendi.");
         }
 
-        public IResult Approve(string offerId)
+        public IResult Approve(int offerId)
         {
             var offer = _offerDal.Get(x => x.Id == offerId);
             if (offer == null)
@@ -56,14 +63,14 @@ namespace Business.Concrete
 
             // 2. Change Status
             offer.Status = "Approved";
-            offer.UpdatedAt = DateTime.Now;
+            offer.UpdatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+
             _offerDal.Update(offer);
 
             return new SuccessResult("Teklif onaylandı.");
-
         }
 
-        public IResult Delete(string id)
+        public IResult Delete(int id)
         {
             _offerDal.Delete(id);
             return new SuccessResult();
@@ -71,37 +78,42 @@ namespace Business.Concrete
 
         public IDataResult<string> GenerateOfferReport(OfferDto offer)
         {
-            var customer = offer.CustomerId;
-            var name = _customerService.GetById(customer);
+            // 1. Get Customer Name (CustomerId is now int)
+            var customerResult = _customerService.GetById(offer.CustomerId);
+            if (customerResult.Data == null) return new ErrorDataResult<string>("Müşteri bulunamadı");
 
-            // 1. Generate the PDF Bytes
+            var companyName = customerResult.Data.CompanyName;
+
+            // 2. Generate the PDF Bytes
             var pdfBytes = _pdfGeneratorService.GenerateOfferPdf(offer);
 
-            // 2. Keep your existing logic (Save to Disk & DB)
+            // 3. Save to Disk
             var filePath = PdfGeneratorHelper.CreateOfferPdfStructure(offer);
             File.WriteAllBytes(filePath, pdfBytes);
 
+            // 4. Save to DB (DocumentFiles)
             var documentFile = new DocumentFile
             {
-                CreatedAt = DateTime.Now,
-                DocumentName = name.Data.CompanyName + "-" + DateTime.Today.ToString(),
+                CreatedAt = DateTime.UtcNow,
+                DocumentName = $"{companyName}-{DateTime.UtcNow:yyyyMMdd}",
                 DocumentPath = filePath,
-                DocumentFullName = $"{name.Data.CompanyName}.pdf",
-                LastModifiedAt = DateTime.Now,
+                DocumentFullName = $"{companyName}.pdf",
+                LastModifiedAt = DateTime.UtcNow,
                 DocumentType = "Teklif Raporu",
+                CustomerId = offer.CustomerId // ✅ Assign int ID directly
             };
+
             _documentFileUploadService.DocumentFileCreateServicing(documentFile);
 
-            // 3. Convert to Base64 and Return Data
-            // This allows the Angular frontend to display/download it immediately
+            // 5. Convert to Base64 and Return Data
             string pdfBase64 = Convert.ToBase64String(pdfBytes);
 
             return new SuccessDataResult<string>(pdfBase64, "Teklif raporu başarıyla oluşturuldu.");
         }
+
         public IDataResult<List<Offer>> GetAll()
         {
             var offers = _offerDal.GetAll();
-
             return new SuccessDataResult<List<Offer>>(offers);
         }
 
@@ -110,22 +122,20 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Offer>>(_offerDal.GetAllOfferDetails());
         }
 
-        public IDataResult<List<Offer>> GetByCustomerId(string customerId)
+        public IDataResult<List<Offer>> GetByCustomerId(int customerId)
         {
-            var offer = _offerDal.GetAll(X=> X.CustomerId == customerId);
-
-            return new SuccessDataResult<List<Offer>>(offer);
-
+            var offers = _offerDal.GetAll(x => x.CustomerId == customerId);
+            return new SuccessDataResult<List<Offer>>(offers);
         }
 
         public IDataResult<List<Offer>> GetByDateRange(DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            // Simple SQL date range query
+            var offers = _offerDal.GetAll(x => x.CreatedAt >= start && x.CreatedAt <= end);
+            return new SuccessDataResult<List<Offer>>(offers);
         }
 
-        
-
-        public IDataResult<Offer> GetById(string id)
+        public IDataResult<Offer> GetById(int id)
         {
             var offer = _offerDal.Get(x => x.Id == id);
             return new SuccessDataResult<Offer>(offer);
@@ -134,22 +144,19 @@ namespace Business.Concrete
         public IDataResult<List<Offer>> GetByStatus(string status)
         {
             var offers = _offerDal.GetByStatus(status);
-
             return new SuccessDataResult<List<Offer>>(offers);
         }
 
         public IResult Update(Offer offer)
-        { 
+        {
             if (offer == null)
             {
-                return new ErrorResult();
-
+                return new ErrorResult("Teklif boş olamaz.");
             }
-            offer.UpdatedAt = DateTime.Now; 
-            _offerDal.Update(offer); 
+
+            offer.UpdatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+            _offerDal.Update(offer);
             return new SuccessResult();
         }
-
-        
     }
 }

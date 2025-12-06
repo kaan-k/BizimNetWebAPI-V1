@@ -1,16 +1,10 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.Aggrements;
-using Entities.Concrete.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.DataAccess; // ✅ Where IEntityRepository is located
+using Entities.Concrete.Settings; // ✅ Matches the entity namespace
 
 namespace DataAccess.Abstract
 {
-    
-    public interface IAgGridSettingsDal: IMongoRepository<Payment>
+    // 1. Inherit from IEntityRepository, not IMongoRepository
+    public interface IAgGridSettingsDal : IEntityRepository<AgGridSettings>
     {
     }
 }

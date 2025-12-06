@@ -1,104 +1,122 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete;
 using Entities.Concrete.Aggrements;
-using Entities.Concrete.Department;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class AggrementManager : IAggrementService
+    public class AgreementManager : IAggrementService
     {
         private readonly IMapper _mapper;
-        private readonly IAggrementDal _aggrementDal;
+        private readonly IAggrementDal _agreementDal; // ✅ Make sure DAL interface is renamed too
         private readonly IOfferDal _offerDal;
-        public AggrementManager(IMapper mapper, IAggrementDal aggrementDal, IOfferDal offerDal = null)
+
+        public AgreementManager(IMapper mapper, IAggrementDal agreementDal, IOfferDal offerDal)
         {
             _mapper = mapper;
-            _aggrementDal = aggrementDal;
+            _agreementDal = agreementDal;
             _offerDal = offerDal;
         }
-        public IDataResult<Aggrement> Add(AggrementDto aggrement)
-        {
-            var aggrementToAdd = _mapper.Map<Aggrement>(aggrement);
-            _aggrementDal.Add(aggrementToAdd);
-            return new SuccessDataResult<Aggrement>(aggrementToAdd);
 
+        public IDataResult<Aggrement> Add(AggrementDto agreementDto)
+        {
+            var agreement = _mapper.Map<Aggrement>(agreementDto);
+
+            // ⚠️ SQL Difference: Do NOT set agreement.Id here.
+            // The database will generate the int ID automatically.
+
+            _agreementDal.Add(agreement);
+
+            // After .Add(), 'agreement.Id' will be populated with the new Integer ID
+            return new SuccessDataResult<   Aggrement>(agreement);
         }
 
-        public IResult Delete(string id)
+        public IResult Delete(int id)
         {
-            _aggrementDal.Delete(id);
+            // You might need to check if it exists first, depending on your DAL implementation
+            var agreement = _agreementDal.Get(a => a.Id == id);
+            if (agreement == null) return new ErrorResult("Sözleşme bulunamadı");
+
+            _agreementDal.Delete(agreement); // EF Core usually deletes by Entity, not just ID
             return new SuccessResult();
         }
 
-        public IDataResult<Aggrement> RecieveBill(string aggrementId, int amount)
+        public IResult Update(Aggrement agreement)
         {
-            var aggrement = _aggrementDal.Get(a => a.Id == aggrementId);
-            if (aggrement == null)
-            {
-                return new ErrorDataResult<Aggrement>("Sözleşme bulunamadı.");
-            }
-            _aggrementDal.Update(aggrement);
-            return new SuccessDataResult<Aggrement>(aggrement, "Ödeme alındı ve sözleşme güncellendi.");
+            _agreementDal.Update(agreement);
+            return new SuccessResult();
+        }
+
+        public IDataResult<Aggrement> GetById(int id)
+        {
+            var agreement = _agreementDal.Get(x => x.Id == id);
+            return new SuccessDataResult<Aggrement>(agreement);
         }
 
         public IDataResult<List<Aggrement>> GetAll()
         {
-            var aggrements = _aggrementDal.GetAllAggrementDetails();
-            return new SuccessDataResult<List<Aggrement>>(aggrements);
+            // Assuming GetAllAgreementDetails includes related entities like Customer
+            var agreements = _agreementDal.GetAll(null);
+            return new SuccessDataResult<List<Aggrement>>(agreements);
         }
 
-        public IDataResult<Aggrement> GetById(string id)
+        public IDataResult<Aggrement> ReceiveBill(int agreementId, decimal amount)
         {
-            var aggrement = _aggrementDal.Get(x => x.Id == id);
-            return new SuccessDataResult<Aggrement>(aggrement);
-        }
-
-        public IResult Update(Aggrement aggrement, string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IResult RegisterPayment(string agreementId, string billingId, int amount)
-        {
-            // 1. Get the Agreement
-            var agreement = _aggrementDal.Get(a => a.Id == agreementId);
+            var agreement = _agreementDal.Get(a => a.Id == agreementId);
             if (agreement == null)
             {
-                return new ErrorResult("Sözleşme bulunamadı.");
+                return new ErrorDataResult<Aggrement>("Sözleşme bulunamadı.");
             }
 
-            // 2. Initialize list if it's null (MongoDB specific safety)
-            if (agreement.billings == null)
-            {
-                agreement.billings = new List<string>();
-            }
-
-            // 3. Add the Billing ID
-            agreement.billings.Add(billingId);
-
-            // 4. Update the Paid Amount
+            // Logic: Update the calculated amount
             agreement.PaidAmount += amount;
 
-            // 5. Check if fully paid (Optional logic)
-            // if (agreement.PaidAmount >= agreement.AgreedAmount) ...
+            _agreementDal.Update(agreement);
+            return new SuccessDataResult<Aggrement>(agreement, "Ödeme alındı ve sözleşme güncellendi.");
+        }
 
-            // 6. Update Database
-            _aggrementDal.Update(agreement);
+        public IResult RegisterPayment(int agreementId, decimal amount)
+        {
+            // 1. Get the Agreement
+            var agreement = _agreementDal.Get(a => a.Id == agreementId);
+            if (agreement == null) return new ErrorResult("Sözleşme bulunamadı.");
+
+            // 2. Update the Paid Amount
+            agreement.PaidAmount += amount;
+
+            // ⚠️ SQL Difference: 
+            // We DO NOT add billingId to a list here. 
+            // The Billing Entity itself holds the 'AgreementId'. 
+            // The relationship is already established when the Billing was created.
+
+            // 3. Update Database
+            _agreementDal.Update(agreement);
 
             return new SuccessResult();
         }
 
-        public IResult CreateAgreementFromOffer(string offerId)
+        public IResult CancelPayment(int agreementId, decimal amount)
+        {
+            var agreement = _agreementDal.Get(a => a.Id == agreementId);
+            if (agreement == null) return new ErrorResult("İlgili sözleşme bulunamadı.");
+
+            // 1. Reverse the math
+            agreement.PaidAmount -= amount;
+
+            // Safety check
+            if (agreement.PaidAmount < 0) agreement.PaidAmount = 0;
+
+            // ⚠️ SQL Difference: No need to remove billingId from a list.
+
+            _agreementDal.Update(agreement);
+
+            return new SuccessResult();
+        }
+
+        public IResult CreateAgreementFromOffer(int offerId)
         {
             // 1. Fetch the Approved Offer
             var offer = _offerDal.Get(o => o.Id == offerId);
@@ -106,61 +124,37 @@ namespace Business.Concrete
 
             if (offer.Status != "Approved") return new ErrorResult("Sadece onaylanmış teklifler sözleşmeye dönüştürülebilir.");
 
-            // 2. Check if agreement already exists
-            var existing = _aggrementDal.Get(a => a.OfferId == offerId);
+            // 2. Check if agreement already exists (By OfferId)
+            var existing = _agreementDal.Get(a => a.OfferId == offerId);
             if (existing != null) return new ErrorResult("Bu teklif için zaten bir sözleşme var.");
 
             // 3. Map Offer Data to Agreement
             var agreement = new Aggrement
             {
-                Id = ObjectId.GenerateNewId().ToString(),
+                // Id = ... ❌ REMOVED. Let SQL handle auto-increment.
+
                 OfferId = offerId,
                 CustomerId = offer.CustomerId,
-                AggrementTitle = $"{offer.OfferTitle}",
-                AggrementType = "Sales", // Or determine based on items
+                AgreementTitle = offer.OfferTitle, // Fixed spelling
+                AgreementType = "Sales",
                 AgreedAmount = offer.TotalAmount, // decimal
                 PaidAmount = 0,
-                billings = new List<string>(),
-                isActive = true,
+
+                // billings = ... ❌ REMOVED. EF Core manages this via Navigation Property.
+
+                IsActive = true,
                 CreatedAt = DateTime.UtcNow,
-                ExpirationDate = DateTime.UtcNow.AddYears(1) 
+                ExpirationDate = DateTime.UtcNow.AddYears(1)
             };
+
+            // 4. Update Offer Status
             offer.Status = "Agreement";
             _offerDal.Update(offer);
 
-            // 4. Save
-            _aggrementDal.Add(agreement);
+            // 5. Save Agreement
+            _agreementDal.Add(agreement);
 
             return new SuccessResult("Teklif başarıyla sözleşmeye dönüştürüldü.");
-        }
-
-        public IResult CancelPayment(string agreementId, string billingId, int amount)
-        {
-            var agreement = _aggrementDal.Get(a => a.Id == agreementId);
-            if (agreement == null)
-            {
-                return new ErrorResult("İlgili sözleşme bulunamadı.");
-            }
-
-            // 1. Remove the Billing ID from the list
-            if (agreement.billings != null)
-            {
-                agreement.billings.Remove(billingId);
-            }
-
-            // 2. Subtract the amount from PaidAmount (Reverse the math)
-            agreement.PaidAmount -= amount;
-
-            // Safety check: Prevent negative numbers if data was out of sync
-            if (agreement.PaidAmount < 0)
-            {
-                agreement.PaidAmount = 0;
-            }
-
-            // 3. Update Database
-            _aggrementDal.Update(agreement);
-
-            return new SuccessResult();
         }
     }
 }

@@ -1,15 +1,12 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.Service;
-using System;
+﻿using Core.DataAccess;
+using Entities.Concrete.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IServicingDal:IMongoRepository<Servicing>
+    public interface IServicingDal : IEntityRepository<Servicing>
     {
+
         List<Servicing> GetAllServicingDetails();
     }
 }

@@ -1,5 +1,6 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.Payment;
+﻿using Core.DataAccess;
+using Core.DataAccess.MongoDB;
+using Entities.Concrete.Payments;
 using Entities.Concrete.Settings;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IBillingDal: IMongoRepository<Billing>
+    public interface IBillingDal: IEntityRepository<Billing>
     {
     }
 }

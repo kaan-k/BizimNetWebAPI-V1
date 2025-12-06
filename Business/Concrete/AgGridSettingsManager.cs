@@ -2,7 +2,7 @@
 using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete.Customer;
+using Entities.Concrete.Customers;
 using Entities.Concrete.Settings;
 using System;
 using System.Collections.Generic;
@@ -20,11 +20,11 @@ namespace Business.Concrete
             _agGridSettingsDal = agGridSettingsDal;
             _mapper = mapper;
         }
-        public IDataResult<Payment> Add(AgGridSettingsDto agGridSetting)
+        public IDataResult<AgGridSettings> Add(AgGridSettingsDto agGridSetting)
         {
-            var agGridDto = _mapper.Map<Payment>(agGridSetting);
+            var agGridDto = _mapper.Map<AgGridSettings>(agGridSetting);
             _agGridSettingsDal.Add(agGridDto);
-            return new SuccessDataResult<Payment>(agGridDto, "Grid ayarı eklendi.");
+            return new SuccessDataResult<AgGridSettings>(agGridDto, "Grid ayarı eklendi.");
         }
 
         public IResult Delete(string id)
@@ -32,17 +32,17 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<Payment>> GetAll()
+        public IDataResult<List<AgGridSettings>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<Payment> GetById(string id)
+        public IDataResult<AgGridSettings> GetById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public IResult Update(Payment agGridSetting, string id)
+        public IResult Update(AgGridSettings agGridSetting, string id)
         {
             throw new NotImplementedException();
         }

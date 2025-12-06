@@ -1,14 +1,10 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.Department;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.DataAccess; // ✅ Where IEntityRepository is located
+using Entities.Concrete.Departments; // ✅ Use the fixed Plural Namespace
 
 namespace DataAccess.Abstract
 {
-    public interface IDepartmentDal:IMongoRepository<Department>
+    // Switch inheritance from IMongoRepository to IEntityRepository
+    public interface IDepartmentDal : IEntityRepository<Department>
     {
     }
 }

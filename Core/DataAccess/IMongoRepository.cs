@@ -10,7 +10,7 @@ namespace Core.DataAccess.MongoDB
         T Get(Expression<Func<T, bool>> filter);
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
         void Update(T entity);
-        void Delete(string id);
+        void Delete(int id);
         void DeleteMany(Expression<Func<T, bool>> filter);
         List<T> GetAllWithPage(int page, int limit);
     }

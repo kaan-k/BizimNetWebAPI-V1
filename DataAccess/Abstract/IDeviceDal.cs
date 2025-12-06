@@ -1,15 +1,11 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.Device;
-using Entities.Concrete.DocumentFile;
-using System;
+﻿using Core.DataAccess;
+using Entities.Concrete.Devices;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IDeviceDal: IMongoRepository<Device>
+    // 1. Inherit from IEntityRepository, not IMongoRepository
+    public interface IDeviceDal : IEntityRepository<Device>
     {
         List<Device> GetAllDeviceDetails();
     }

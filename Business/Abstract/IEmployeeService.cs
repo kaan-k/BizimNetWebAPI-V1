@@ -1,34 +1,33 @@
-﻿using Core.Entities.Concrete;
-using Core.Utilities.Results;
+﻿using Core.Utilities.Results;
 using Entities.Concrete;
-using System;
+using Entities.Concrete.Employees; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IEmployeeService
     {
-        IDataResult<Employee> GetById(string id);
+        // ✅ Changed string -> int
+        IDataResult<Employee> GetById(int id);
         IDataResult<List<Employee>> GetAll();
         IResult Add(EmployeeDto employee);
-        IResult Update(EmployeeDto employee, string employeeId);
-        IResult Delete(string id);
 
-        IDataResult<List<Employee>> GetByDepartmentId(string departmentId);
-        IResult AssignToDepartment(string employeeId, string departmentId);
+        // ✅ Changed string -> int
+        IResult Update(EmployeeDto employee, int employeeId);
+        IResult Delete(int id);
+
+        IDataResult<List<Employee>> GetByDepartmentId(int departmentId);
+        IResult AssignToDepartment(int employeeId, int departmentId);
 
         IDataResult<List<Employee>> GetByRole(string role);
-        IDataResult<Employee> GetManagerByDepartment(string departmentId);
-        IResult AssignRole(string employeeId, string role);
+        IDataResult<Employee> GetManagerByDepartment(int departmentId);
+        IResult AssignRole(int employeeId, string role);
 
-        IResult ReturnEmployeeEmail(string employeeId);
+        IResult ReturnEmployeeEmail(int employeeId);
 
         IDataResult<int> GetTotalEmployeeCount();
         IDataResult<int> GetCountByRole(string role);
-        IDataResult<int> GetCountByDepartment(string departmentId);
+        IDataResult<int> GetCountByDepartment(int departmentId);
 
         IResult AddRange(List<EmployeeDto> employees);
         IResult UpdateRange(List<Employee> employees);

@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Enums;
-using Entities.Concrete.Customer;
-using Microsoft.AspNetCore.Http;
+using Entities.Concrete.Customers; // ✅ Plural Namespace
 using Microsoft.AspNetCore.Mvc;
 
 namespace BizimNetWebAPI.Controllers
@@ -18,42 +17,47 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(CustomerDto customer)
+        public IActionResult Add([FromBody] CustomerDto customer)
         {
-            var result  = _customerService.Add(customer);
+            var result = _customerService.Add(customer);
             return Ok(result);
         }
+
         [HttpPost("Update")]
         public IActionResult Update(Customer customer)
         {
             var result = _customerService.Update(customer);
             return Ok(result);
         }
+
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var result = _customerService.GetAll();
             return Ok(result);
         }
-        
+
         [HttpGet("GetById")]
-        public IActionResult GetById(string id)
+        public IActionResult GetById(int id) // ✅ Changed string -> int
         {
             var result = _customerService.GetById(id);
             return Ok(result);
         }
+
         [HttpGet("GetBranchByHqId")]
-        public IActionResult GetBranchesAsync(string id)
+        public IActionResult GetBranchesAsync(int id) // ✅ Changed string -> int
         {
             var result = _customerService.GetBranchesAsync(id);
             return Ok(result);
         }
+
         [HttpGet("GetAllDevicesByCustomerId")]
-        public IActionResult GetAllDevicesByCustomerId(string id)
+        public IActionResult GetAllDevicesByCustomerId(int id) // ✅ Changed string -> int
         {
             var result = _customerService.GetAllDevicesByCustomerId(id);
             return Ok(result);
         }
+
         [HttpGet("GetAllFiltered")]
         public IActionResult GetAllFiltered(CustomerStatus status)
         {
@@ -62,17 +66,17 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id) // ✅ Changed string -> int
         {
             var result = _customerService.Delete(id);
             return Ok(result);
         }
+
         [HttpGet("GetCustomerCountByStatus")]
         public IActionResult GetCustomerCountByStatus(CustomerStatus status)
         {
             var result = _customerService.GetCustomerCountByStatus(status);
             return Ok(result);
         }
-       
     }
 }

@@ -1,14 +1,10 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.Stock;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.DataAccess; // ✅ Where IEntityRepository is located
+using Entities.Concrete.Stocks; // ✅ Use the fixed Plural Namespace
 
 namespace DataAccess.Abstract
 {
-    public interface IStockDal:IMongoRepository<Stock>
+    // 1. Inherit from IEntityRepository, not IMongoRepository
+    public interface IStockDal : IEntityRepository<Stock>
     {
     }
 }

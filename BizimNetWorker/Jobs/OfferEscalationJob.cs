@@ -23,7 +23,7 @@ namespace BizimNetWorker.Jobs
             try
             {
                 Console.WriteLine("OfferEscalationJob başladı");
-                _offerService.WorkerCalculateEscelation();
+                //_offerService.WorkerCalculateEscelation();
             }
             catch (Exception ex)
             {

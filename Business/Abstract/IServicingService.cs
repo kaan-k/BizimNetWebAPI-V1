@@ -1,11 +1,6 @@
-﻿using Autofac.Core;
-using Core.Utilities.Results;
-using Entities.Concrete.Service;
-using System;
+﻿using Core.Utilities.Results;
+using Entities.Concrete.Services; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -13,12 +8,15 @@ namespace Business.Abstract
     {
         IDataResult<ServicingAddDto> Add(ServicingAddDto service);
         IDataResult<Servicing> Update(Servicing servicing);
+
         IDataResult<Servicing> GetByTrackingId(string trackingId);
-        IDataResult<Servicing> GetById(string id);
-        IResult MarkAsCompleted(string id);
-        IResult MarkAsInProgress(string id);
+
+        // ✅ Changed string -> int
+        IDataResult<Servicing> GetById(int id);
+        IResult MarkAsCompleted(int id);
+        IResult MarkAsInProgress(int id);
+
         IResult SendCompletionMail(Servicing servicing);
         IDataResult<List<Servicing>> GetAll();
-
     }
 }

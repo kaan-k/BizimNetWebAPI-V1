@@ -19,9 +19,9 @@ namespace Core.Extensions
             claims.Add(new Claim(ClaimTypes.Name, name));
         }
 
-        public static void AddNameIdentifier(this ICollection<Claim> claims, string nameIdentifier)
+        public static void AddNameIdentifier(this ICollection<Claim> claims, int nameIdentifier)
         {
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, nameIdentifier));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, nameIdentifier.ToString()));
         }
 
         public static void AddRoles(this ICollection<Claim> claims, string[] roles)

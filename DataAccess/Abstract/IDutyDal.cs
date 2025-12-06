@@ -1,21 +1,14 @@
-﻿using Core.DataAccess.MongoDB;
-using Core.Entities.Concrete;
-using Entities.Concrete.Duty;
-using Entities.Concrete.Offer;
-using System;
+﻿using Core.DataAccess;
+using Entities.Concrete.Duties;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IDutyDal: IMongoRepository<Duty>
+    public interface IDutyDal : IEntityRepository<Duty>
     {
-        public List<Duty> GetAllDutyDetails(string requesterId);
-        public List<Duty> GetAllDutyDetailsPerEmployee(string employeeId);
-        public List<Duty> GetAllDutyDetailsPerStatus(string employeeId, string status);
-
-
+        // ✅ Changed string IDs to int
+        List<Duty> GetAllDutyDetails(int requesterId);
+        List<Duty> GetAllDutyDetailsPerEmployee(int employeeId);
+        List<Duty> GetAllDutyDetailsPerStatus(int employeeId, string status);
     }
 }

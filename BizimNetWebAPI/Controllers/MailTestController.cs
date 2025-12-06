@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Business.Abstract;
 using Entities.Concrete.Email;
+using System.Collections.Generic;
 
 namespace BizimNetWebAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace BizimNetWebAPI.Controllers
                 Port = 587,
                 From = "kaannkale@gmail.com",
                 Username = "kaannkale@gmail.com",
-                Password = "pkho hrxk adwx oxkf ",
+                Password = "pkho hrxk adwx oxkf ", // ⚠️ Use AppSettings!
                 To = new List<string> { "MauriceS@blueplanet-tv.de" }
             };
 

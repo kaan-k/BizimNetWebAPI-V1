@@ -1,20 +1,15 @@
-﻿using Autofac.Core;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Abstract;
-using Business.Concrete.Constants;
+using Business.Concrete.Constants; // Ensure PdfGeneratorHelper/EmailHelper is here
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.DocumentFile;
 using Entities.Concrete.Email;
-using Entities.Concrete.Offer;
-using Entities.Concrete.Service;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
+using Entities.Concrete.Services; // ✅ Plural
 using System;
 using System.Collections.Generic;
+using System.IO; // Required for File.WriteAllBytes
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -28,7 +23,14 @@ namespace Business.Concrete
         private readonly ICustomerService _customerService;
         private readonly IMapper _mapper;
 
-        public ServicingManager(IServicingDal serviceDal, IMapper mapper, ICustomerService customer, ICustomerDal customerDal, IMailManager mailManager, IPdfGeneratorService pdfGeneratorService, IDocumentFileUploadService documentFileUploadService)
+        public ServicingManager(
+            IServicingDal serviceDal,
+            IMapper mapper,
+            ICustomerService customer,
+            ICustomerDal customerDal,
+            IMailManager mailManager,
+            IPdfGeneratorService pdfGeneratorService,
+            IDocumentFileUploadService documentFileUploadService)
         {
             _serviceDal = serviceDal;
             _mailManager = mailManager;
@@ -38,75 +40,63 @@ namespace Business.Concrete
             _pdfGeneratorService = pdfGeneratorService;
             _documentFileUploadService = documentFileUploadService;
         }
-        public IDataResult<ServicingAddDto> Add(ServicingAddDto service)
+
+        public IDataResult<ServicingAddDto> Add(ServicingAddDto serviceDto)
         {
-            var servicingToAdd = _mapper.Map<Servicing>(service);
+            var servicingToAdd = _mapper.Map<Servicing>(serviceDto);
+
+            // Set Initial Dates
+            servicingToAdd.CreatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+
             _serviceDal.Add(servicingToAdd);
 
+            // Generate PDF logic
             var pdfBytes = _pdfGeneratorService.GenerateServicingPdf(servicingToAdd);
             var filePath = PdfGeneratorHelper.CreateServicingPdfStructure(servicingToAdd);
+
             File.WriteAllBytes(filePath, pdfBytes);
 
             var documentFile = new DocumentFile
             {
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 DocumentName = servicingToAdd.Name,
                 DocumentPath = filePath,
                 DocumentFullName = $"{servicingToAdd.Name}.pdf",
-                LastModifiedAt = DateTime.Now,
+                LastModifiedAt = DateTime.UtcNow,
                 DocumentType = "Servis",
-                CustomerId = servicingToAdd.CustomerId
+                CustomerId = servicingToAdd.CustomerId, // Now it's an int, perfect
+                // ServiceId = servicingToAdd.Id // Ideally link it back to the service
             };
 
-
             _documentFileUploadService.DocumentFileCreateServicing(documentFile);
-            return new SuccessDataResult<ServicingAddDto>(service, "Servis başarıyla eklendi.");
 
+            return new SuccessDataResult<ServicingAddDto>(serviceDto, "Servis başarıyla eklendi.");
         }
 
         public IDataResult<List<Servicing>> GetAll()
         {
+            // Uses the custom .Include() method
             return new SuccessDataResult<List<Servicing>>(_serviceDal.GetAllServicingDetails());
         }
 
-        public IDataResult<Servicing> GetById(string id)
+        public IDataResult<Servicing> GetById(int id)
         {
             return new SuccessDataResult<Servicing>(_serviceDal.Get(x => x.Id == id));
         }
 
         public IDataResult<Servicing> GetByTrackingId(string trackingId)
         {
-            var service = _serviceDal.GetAll(x => x.TrackingId == trackingId).FirstOrDefault();
+            // GetAll(filter) is better than GetAll().FirstOrDefault() for SQL performance
+            var service = _serviceDal.Get(x => x.TrackingId == trackingId);
+
             if (service == null)
             {
                 return new ErrorDataResult<Servicing>("Servis bulunamadı.");
             }
-            return new SuccessDataResult<Servicing>(service,"Servis bulundu.");
+            return new SuccessDataResult<Servicing>(service, "Servis bulundu.");
         }
 
-        public IResult MarkAsCompleted(string id)
-        {
-            var service = _serviceDal.Get(x=>x.Id == id);
-
-            if (service == null)
-            {
-                return new ErrorResult("Servis bulunamadı.");
-            }
-
-            service.Status = "Completed";
-            service.LastAction = "Servis tamamlandı.";
-            service.LastActionDate = DateTime.Now;
-            service.UpdatedAt = DateTime.Now;
-            _serviceDal.Update(service);
-
-            SendCompletionMail(service);
-
-            return new SuccessResult("Servis başarıyla tamamlandı.");
-
-        }
-        
-
-        public IResult MarkAsInProgress(string id)
+        public IResult MarkAsCompleted(int id)
         {
             var service = _serviceDal.Get(x => x.Id == id);
 
@@ -115,38 +105,66 @@ namespace Business.Concrete
                 return new ErrorResult("Servis bulunamadı.");
             }
 
-            service.Status = "IProgress";
-            service.LastAction = "Servis tamir aşamasında";
-            service.LastActionDate = DateTime.Now;
-            service.UpdatedAt = DateTime.Now;
+            service.Status = "Completed";
+            service.LastAction = "Servis tamamlandı.";
+            service.LastActionDate = DateTime.UtcNow; // ✅ Use UtcNow
+            service.UpdatedAt = DateTime.UtcNow;
+
             _serviceDal.Update(service);
+
+            // Send Mail (Wrap in try-catch to prevent crashing if mail fails)
+            try
+            {
+                SendCompletionMail(service);
+            }
+            catch
+            {
+                // Log error but don't fail the transaction
+            }
 
             return new SuccessResult("Servis başarıyla tamamlandı.");
         }
 
+        public IResult MarkAsInProgress(int id)
+        {
+            var service = _serviceDal.Get(x => x.Id == id);
+
+            if (service == null)
+            {
+                return new ErrorResult("Servis bulunamadı.");
+            }
+
+            service.Status = "InProgress"; // Fixed typo "IProgress" -> "InProgress"
+            service.LastAction = "Servis tamir aşamasında";
+            service.LastActionDate = DateTime.UtcNow;
+            service.UpdatedAt = DateTime.UtcNow;
+
+            _serviceDal.Update(service);
+
+            return new SuccessResult("Servis tamir aşamasına alındı.");
+        }
+
         public IResult SendCompletionMail(Servicing servicing)
         {
+            // Ensure CustomerId is valid int
             var customer = _customerDal.Get(x => x.Id == servicing.CustomerId);
+            if (customer == null) return new ErrorResult("Müşteri bulunamadı");
 
             var config = EmailHelper.config(customer.Email);
-            
-
-            //var customer = _customerService.GetById(request.CustomerId).Data;
 
             var content = new EMailContent
             {
-                Subject = customer.Name + " Kurulum İsteği",
+                Subject = customer.Name + " Servis Tamamlandı",
                 Body = $@"
     <div style='font-family: Arial, sans-serif; color: #333;'>
-        <h2 style='color: #2c3e50;'>Kurulum Talebi</h2>
-        <p><strong>Müşteri Adresi:</strong> {customer.Address}</p>
-        <p><strong>Telefon Numarası:</strong> {customer.PhoneNumber}</p>
+        <h2 style='color: #2c3e50;'>Servis Tamamlandı</h2>
+        <p><strong>Cihaz:</strong> {servicing.Name}</p>
+        <p><strong>Takip Kodu:</strong> {servicing.TrackingId}</p>
         <hr style='margin-top: 20px;'>
         <p style='font-size: 12px; color: #999;'>Bu e-posta otomatik olarak oluşturulmuştur.</p>
     </div>",
                 IsBodyHtml = true
             };
-
 
             _mailManager.SendMail(config, content);
             return new SuccessResult("Mail başarıyla gönderildi.");
@@ -154,10 +172,9 @@ namespace Business.Concrete
 
         public IDataResult<Servicing> Update(Servicing servicing)
         {
-            servicing.UpdatedAt = DateTime.Now; 
+            servicing.UpdatedAt = DateTime.UtcNow;
             _serviceDal.Update(servicing);
             return new SuccessDataResult<Servicing>(servicing, "Servis başarıyla güncellendi.");
-
         }
     }
 }

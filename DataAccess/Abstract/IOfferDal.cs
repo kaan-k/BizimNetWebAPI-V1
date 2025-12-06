@@ -1,18 +1,12 @@
-﻿using Core.DataAccess.MongoDB;
-using DataAccess.Repositories;
-using Entities.Concrete.Offer;
-using System;
+﻿using Core.DataAccess; // ✅ Where IEntityRepository is located
+using Entities.Concrete.Offers; // ✅ Use the Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IOfferDal:IMongoRepository<Offer>
+    public interface IOfferDal : IEntityRepository<Offer>
     {
-        public List<Offer> GetAllOfferDetails();
-        public List<Offer> GetByStatus(string status);
-
+        List<Offer> GetAllOfferDetails();
+        List<Offer> GetByStatus(string status);
     }
 }

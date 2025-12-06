@@ -1,41 +1,46 @@
 ﻿using Business.Abstract;
-using Core.Utilities.Results;
-using Entities.Concrete;
 using Entities.Concrete.Aggrements;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BizimNetWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AggrementController : ControllerBase
+    public class AgreementController : ControllerBase
     {
-        private readonly IAggrementService _aggrementService;
+        private readonly IAggrementService _agreementService; // ✅ Fixed Typo
 
-        public AggrementController(IAggrementService aggrementService)
+        public AgreementController(IAggrementService agreementService)
         {
-            _aggrementService = aggrementService;
+            _agreementService = agreementService;
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(AggrementDto aggrementDto)
+        public IActionResult Add(AggrementDto agreementDto)
         {
-            var result = _aggrementService.Add(aggrementDto);
-            return Ok(result);
+            var result = _agreementService.Add(agreementDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpPost("Update")]
-        public IActionResult Update(Aggrement aggrement, string id)
+        public IActionResult Update(Aggrement agreement)
         {
-            var result = _aggrementService.Update(aggrement, id);
-            return Ok(result);
+            var result = _agreementService.Update(agreement);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
+
         [HttpPost("CreateFromOffer")]
-        public IActionResult CreateFromOffer(string offerId)
+        public IActionResult CreateFromOffer(int offerId) // ✅ Changed string -> int
         {
-            var result = _aggrementService.CreateAgreementFromOffer(offerId);
+            var result = _agreementService.CreateAgreementFromOffer(offerId);
             if (result.Success)
             {
                 return Ok(result);
@@ -44,31 +49,49 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id) // ✅ Changed string -> int
         {
-            var result = _aggrementService.Delete(id);
-            return Ok(result);
+            var result = _agreementService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(string id)
+        public IActionResult GetById(int id) // ✅ Changed string -> int
         {
-            var result = _aggrementService.GetById(id);
-            return Ok(result);
+            var result = _agreementService.GetById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var result = _aggrementService.GetAll();
-            return Ok(result);
+            var result = _agreementService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
-        [HttpPost("RecieveBill")]
-        public IActionResult RecieveBill(string aggrementId, int amount)
+        // ✅ Fixed Typo (Recieve -> Receive)
+        // ✅ Fixed Types (string -> int for ID, int -> decimal for Amount)
+        [HttpPost("ReceiveBill")]
+        public IActionResult ReceiveBill(int agreementId, decimal amount)
         {
-            var result = _aggrementService.RecieveBill(aggrementId, amount);
-            return Ok(result);
+            var result = _agreementService.ReceiveBill(agreementId, amount);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

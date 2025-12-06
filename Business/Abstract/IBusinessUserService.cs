@@ -1,12 +1,8 @@
-﻿using Core.Entities.Concrete;
+﻿using Core.Entities.Concrete; // Where BusinessUser entity is
 using Core.Utilities.Results;
 using Core.Utilities.Security.JWT;
 using Entities.Concrete;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -16,10 +12,16 @@ namespace Business.Abstract
         IDataResult<BusinessUser> ResetPassword(BusinessUserPasswordResetDto businessUser);
 
         IDataResult<BusinessUser> UserLogin(BusinessUserLoginDto userForLoginDto);
-        IResult Update(BusinessUser businessUser, string id);
-        IResult Delete(string id);
+
+        // ✅ Changed string -> int
+        IResult Update(BusinessUser businessUser, int id);
+        IResult Delete(int id);
+
         IDataResult<AccessToken> CreateAccessToken(BusinessUser user);
-        IDataResult<BusinessUser>GetById(string id);
-        IDataResult<List<BusinessUserDetailsDto>> GetAll();
+
+        // ✅ Changed string -> int
+        IDataResult<BusinessUser> GetById(int id);
+
+        IDataResult<List<BusinessUser>> GetAll();
     }
 }

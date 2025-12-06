@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using Entities.Concrete.Aggrements;
-using Entities.Concrete.Customer;
-using Entities.Concrete.Device;
+using Entities.Concrete.Customers;
+using Entities.Concrete.Devices;
 using Entities.Concrete.DocumentFile;
-using Entities.Concrete.Duty;
-using Entities.Concrete.InstallationRequest;
+using Entities.Concrete.Duties;
+using Entities.Concrete.InstallationRequests;
 using Entities.Concrete.Offer;
-using Entities.Concrete.Payment;
-using Entities.Concrete.Service;
+using Entities.Concrete.Offers;
+using Entities.Concrete.Payments;
+using Entities.Concrete.Services;
 using Entities.Concrete.Settings;
-using Entities.Concrete.Stock;
+using Entities.Concrete.Stocks;
 
 namespace Entities.Profiles.AutoMapperProfiles
 {
@@ -30,7 +31,7 @@ namespace Entities.Profiles.AutoMapperProfiles
             CreateMap<StockAddDto, Stock>();
             CreateMap<CustomerDto, Customer>();
             CreateMap<DutyDto, Duty>();
-            CreateMap<AgGridSettingsDto, Payment>();
+            CreateMap<AgGridSettingsDto, AgGridSettings>();
 
 
         }

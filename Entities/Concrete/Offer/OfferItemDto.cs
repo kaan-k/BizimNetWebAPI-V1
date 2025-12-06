@@ -1,20 +1,14 @@
 ﻿using Core.Entities.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Entities.Concrete.Offer
+namespace Entities.Concrete.Offers
 {
-    public class OfferItemDto:IDto
+    public class OfferItemDto : IDto
     {
-        public string StockId { get; set; }
+        public int Id { get; set; } // Added ID
+        public int StockId { get; set; }
         public string StockName { get; set; }
         public int Quantity { get; set; }
-        public int UnitPrice { get; set; }
-        public int TotalPrice { get; set; }
-
-
+        public decimal UnitPrice { get; set; } // ✅ Decimal
+        public decimal TotalPrice { get; set; } // ✅ Decimal
     }
 }

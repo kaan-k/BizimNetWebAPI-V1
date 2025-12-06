@@ -1,72 +1,93 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Core.Enums;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete.Device;
-using Entities.Concrete.Offer;
+using Entities.Concrete.Devices; // ✅ Plural Namespace
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Business.Concrete.Constants
+namespace Business.Concrete // ✅ Fixed Namespace (was .Constants)
 {
     public class DeviceManager : IDeviceService
     {
-
         private readonly IMapper _mapper;
         private readonly IDeviceDal _deviceDal;
-        public DeviceManager(IDeviceDal deviceDal, IMapper mapper) {
-        
+
+        public DeviceManager(IDeviceDal deviceDal, IMapper mapper)
+        {
             _deviceDal = deviceDal;
             _mapper = mapper;
         }
 
-        public IResult Add(DeviceDto request)
+        public IResult Add(Device request)
         {
             var mappedRequest = _mapper.Map<Device>(request);
-            _deviceDal.Add(mappedRequest);
-            return new SuccessResult();
 
+            // Optional: Set creation date if not handled in DTO/Mapper
+            mappedRequest.CreatedAt = DateTime.UtcNow;
+
+            _deviceDal.Add(mappedRequest);
+            return new SuccessResult("Cihaz eklendi.");
         }
 
-        public IResult Delete(string id)
+        public IResult Delete(int id)
         {
-            _deviceDal.Delete(id);
-            return new SuccessResult();
+            // Optional: Check if exists
+            var device = _deviceDal.Get(x => x.Id == id);
+            if (device == null) return new ErrorResult("Cihaz bulunamadı.");
 
+            _deviceDal.Delete(id);
+            return new SuccessResult("Cihaz silindi.");
+        }
+
+        public IDataResult<List<Device>> GetAllByCustomerId(int id)
+        {
+            var devices = _deviceDal.GetAll(x => x.CustomerId == id);
+            return new SuccessDataResult<List<Device>>(devices);
         }
 
         public IDataResult<List<Device>> GetAllDetails()
         {
+            // Uses the .Include() method we wrote in EfDeviceDal
             return new SuccessDataResult<List<Device>>(_deviceDal.GetAllDeviceDetails());
         }
 
         public IDataResult<List<Device>> GetByDeviceType(string deviceType)
         {
-            var devices = _deviceDal.GetAll(x=> x.DeviceType == deviceType);
-
-            return new SuccessDataResult<List<Device>>(devices);
-        }
-        public IDataResult<List<Device>> GetAllByCustomerId(string id)
-        {
-            var devices = _deviceDal.GetAll(x => x.CustomerId == id);
-
+            var devices = _deviceDal.GetAll(x => x.DeviceType == deviceType);
             return new SuccessDataResult<List<Device>>(devices);
         }
 
-        public IDataResult<Device> GetById(string id)
+        public IDataResult<Device> GetById(int id)
         {
-            return new SuccessDataResult<Device>(_deviceDal.Get(x => x.Id == id));
+            var device = _deviceDal.Get(x => x.Id == id);
+            if (device == null) return new ErrorDataResult<Device>("Cihaz bulunamadı.");
+
+            return new SuccessDataResult<Device>(device);
         }
 
         public IResult Update(Device request)
         {
-            request.UpdatedAt = DateTime.Now;
-            _deviceDal.Update(request);
-            return new SuccessResult();
+            // 1. Fetch existing record to ensure it exists
+            var existingDevice = _deviceDal.Get(x => x.Id == request.Id);
+
+            if (existingDevice == null)
+            {
+                return new ErrorResult("Güncellenecek cihaz bulunamadı.");
+            }
+
+            // 2. Update properties
+            existingDevice.Name = request.Name;
+            existingDevice.DeviceType = request.DeviceType;
+            existingDevice.CustomerId = request.CustomerId;
+            existingDevice.AnyDeskId = request.AnyDeskId;
+            existingDevice.PublicIp = request.PublicIp;
+            existingDevice.UpdatedAt = DateTime.UtcNow; // ✅ Use UtcNow
+
+            // 3. Save
+            _deviceDal.Update(existingDevice);
+
+            return new SuccessResult("Cihaz güncellendi.");
         }
     }
 }

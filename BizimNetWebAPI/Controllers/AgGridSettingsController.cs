@@ -1,7 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete.Customer;
 using Entities.Concrete.Settings;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BizimNetWebAPI.Controllers
@@ -11,10 +9,11 @@ namespace BizimNetWebAPI.Controllers
     public class AgGridSettingsController : ControllerBase
     {
         private readonly IAgGridSettingsService _agGridSettingsService;
-        public AgGridSettingsController(IAgGridSettingsService agGridSettingsService ) {
+
+        public AgGridSettingsController(IAgGridSettingsService agGridSettingsService)
+        {
             _agGridSettingsService = agGridSettingsService;
         }
-
 
         [HttpPost("Add")]
         public IActionResult Add(AgGridSettingsDto agGridSetting)

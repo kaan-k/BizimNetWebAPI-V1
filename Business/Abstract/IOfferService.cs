@@ -1,11 +1,7 @@
-﻿using Core.Enums;
-using Core.Utilities.Results;
-using Entities.Concrete.Offer;
+﻿using Core.Utilities.Results;
+using Entities.Concrete.Offers; // ✅ Plural Namespace
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -13,18 +9,26 @@ namespace Business.Abstract
     {
         IResult Add(OfferDto offer);
         IResult Update(Offer offer);
-        IResult Delete(string id);
+
+        // ✅ Changed string -> int
+        IResult Delete(int id);
+
         IDataResult<string> GenerateOfferReport(OfferDto offer);
-        IDataResult<Offer> GetById(string id);
+
+        // ✅ Changed string -> int
+        IDataResult<Offer> GetById(int id);
+
         IDataResult<List<Offer>> GetByStatus(string status);
 
         IDataResult<List<Offer>> GetAll();
         IDataResult<List<Offer>> GetAllDetails();
 
-        IDataResult<List<Offer>> GetByCustomerId(string customerId);
+        // ✅ Changed string -> int
+        IDataResult<List<Offer>> GetByCustomerId(int customerId);
+
         IDataResult<List<Offer>> GetByDateRange(DateTime start, DateTime end);
-        IResult Approve(string offerId);
 
+        // ✅ Changed string -> int
+        IResult Approve(int offerId);
     }
-
 }

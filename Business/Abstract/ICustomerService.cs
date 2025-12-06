@@ -1,13 +1,8 @@
 ﻿using Core.Enums;
 using Core.Utilities.Results;
-using DataAccess.Abstract;
-using Entities.Concrete.Customer;
-using Entities.Concrete.Device;
-using System;
+using Entities.Concrete.Customers; // ✅ Plural Namespace
+using Entities.Concrete.Devices;   // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -15,14 +10,21 @@ namespace Business.Abstract
     {
         IDataResult<Customer> Add(CustomerDto customer);
         IResult Update(Customer customer);
-        IResult Delete(string id);
+
+        // ✅ Changed string -> int
+        IResult Delete(int id);
+
         IResult GetCustomerCountByStatus(CustomerStatus status);
         IDataResult<List<Customer>> GetAll();
         IDataResult<List<Customer>> GetAllFiltered(CustomerStatus status);
         IDataResult<List<Customer>> GetCustomersByField(string field);
-        IDataResult<Customer> GetById(string id);
-        IDataResult<List<Device>> GetAllDevicesByCustomerId(string id);
-        IDataResult<List<Customer>> GetBranchesAsync(string parentId);
 
+        // ✅ Changed string -> int
+        IDataResult<Customer> GetById(int id);
+        IDataResult<List<Device>> GetAllDevicesByCustomerId(int id);
+        IDataResult<List<Customer>> GetBranchesAsync(int parentId);
+
+        // ✅ New Method: Since GetById(int) can't handle names anymore, add this:
+        IDataResult<Customer> GetByCompanyName(string companyName);
     }
 }

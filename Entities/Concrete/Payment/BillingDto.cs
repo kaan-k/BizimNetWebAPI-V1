@@ -1,20 +1,20 @@
 ﻿using Core.Entities.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Entities.Concrete.Payment
+namespace Entities.Concrete.Payments // ✅ Changed to PLURAL
 {
-    public class BillingDto:IDto
+    public class BillingDto : IDto
     {
-        public string CustomerId { get; set; }
-        public int Amount { get; set; }
-        public int PaidAmount { get; set; }
+        public int Id { get; set; } // Added Id
+
+        public int CustomerId { get; set; } // ✅ int
+
+        public decimal Amount { get; set; } // ✅ decimal
+        public decimal PaidAmount { get; set; } // ✅ decimal
 
         public DateTime BillingDate { get; set; }
         public string BillingMethod { get; set; }
-        public string AggreementId { get; set; }
+
+        public int AgreementId { get; set; } // ✅ Spelling fixed & int
     }
 }

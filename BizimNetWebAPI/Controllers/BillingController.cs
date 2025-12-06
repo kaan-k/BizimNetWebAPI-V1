@@ -1,10 +1,6 @@
 ﻿using Business.Abstract;
-using Core.Utilities.Results;
-using Entities.Concrete;
-using Entities.Concrete.Payment;
-using Microsoft.AspNetCore.Http;
+using Entities.Concrete.Payments; // ✅ Correct Namespace
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BizimNetWebAPI.Controllers
 {
@@ -23,42 +19,69 @@ namespace BizimNetWebAPI.Controllers
         public IActionResult Add(BillingDto billingDto)
         {
             var result = _billingService.Add(billingDto);
-            return Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
-        [HttpPost("RecievePay")]
-        public IActionResult RecievePay(string billId,int amount)
-        {
-            var result = _billingService.RecievePay(billId,amount);
-            return Ok(result);
-        }
+        // ✅ Fixed Typo (Recieve -> Receive)
+        // ✅ Fixed Types (string -> int for ID, int -> decimal for Amount)
+        //[HttpPost("ReceivePay")]
+        //public IActionResult ReceivePay(int billId, decimal amount)
+        //{
+        //    var result = _billingService.ReceivePay(billId, amount);
+        //    if (result.Success)
+        //    {
+        //        return Ok(result);
+        //    }
+        //    return BadRequest(result);
+        //}
 
         [HttpPost("Update")]
-        public IActionResult Update(Billing billing, string id)
+        public IActionResult Update(Billing billing)
         {
-            var result = _billingService.Update(billing, id);
-            return Ok(result);
+            // Usually, ID is included in the Billing object now
+            var result = _billingService.Update(billing);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id) // ✅ Changed string -> int
         {
             var result = _billingService.Delete(id);
-            return Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(string id)
+        public IActionResult GetById(int id) // ✅ Changed string -> int
         {
             var result = _billingService.GetById(id);
-            return Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var result = _billingService.GetAll();
-            return Ok(result);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IBusinessUserDal:IMongoRepository<BusinessUser>
+    public interface IBusinessUserDal: IEntityRepository<BusinessUser>
     {
-        List<BusinessUserDetailsDto> GetAll();
+        List<BusinessUser> GetAllBusinessUserDetails();
     }
 }

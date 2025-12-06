@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete; // For BusinessUser
 using DataAccess.Abstract;
-using Entities.Concrete.Duty;
-using Entities.Concrete.Offer;
-using Entities.Concrete.Service;
+using Entities.Concrete.Duties;
+using Entities.Concrete.Offers;
+using Entities.Concrete.Services;
+using Entities.Concrete.Customers;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -17,12 +19,12 @@ public class PdfGeneratorManager : IPdfGeneratorService
     private readonly IBusinessUserDal _businessUserDal;
 
     // --- THEME COLORS ---
-    private readonly string ColorPrimary = "#203B46";      // Dark Teal (Brand)
-    private readonly string ColorAccent = "#26A69A";       // Bright Teal (Highlights)
-    private readonly string ColorLight = "#F8FAFC";        // Very Light Blue/Gray (Backgrounds)
-    private readonly string ColorText = "#1E293B";         // Slate (Main Text)
-    private readonly string ColorMuted = "#64748B";        // Muted Gray (Secondary Text)
-    private readonly string ColorBorder = "#E2E8F0";       // Light Border
+    private readonly string ColorPrimary = "#203B46";       // Dark Teal (Brand)
+    private readonly string ColorAccent = "#26A69A";        // Bright Teal (Highlights)
+    private readonly string ColorLight = "#F8FAFC";         // Very Light Blue/Gray (Backgrounds)
+    private readonly string ColorText = "#1E293B";          // Slate (Main Text)
+    private readonly string ColorMuted = "#64748B";         // Muted Gray (Secondary Text)
+    private readonly string ColorBorder = "#E2E8F0";        // Light Border
 
     public PdfGeneratorManager(ICustomerDal customerDal, IBusinessUserDal businessUserDal)
     {
@@ -40,11 +42,21 @@ public class PdfGeneratorManager : IPdfGeneratorService
 
         duties = duties?.Where(d => d != null).ToList() ?? new List<Duty>();
 
-        var customerIds = duties.Where(d => !string.IsNullOrEmpty(d.CustomerId)).Select(d => d.CustomerId).Distinct().ToList();
-        var customers = _customerDal.GetAll(c => customerIds.Contains(c.Id)).ToDictionary(c => c.Id, c => c);
+        // 1. Extract IDs (int)
+        var customerIds = duties.Select(d => d.CustomerId).Distinct().ToList();
 
-        var employeeIds = duties.Where(d => !string.IsNullOrEmpty(d.CompletedBy)).Select(d => d.CompletedBy).Distinct().ToList();
-        var employees = _businessUserDal.GetAll(e => employeeIds.Contains(e.Id)).ToDictionary(e => e.Id, e => e);
+        // Handle Nullable Int for Employees
+        var employeeIds = duties.Where(d => d.CompletedBy.HasValue)
+                                .Select(d => d.CompletedBy.Value)
+                                .Distinct()
+                                .ToList();
+
+        // 2. Fetch Data into Dictionaries (Key: int)
+        var customers = _customerDal.GetAll(c => customerIds.Contains(c.Id))
+                                    .ToDictionary(c => c.Id, c => c);
+
+        var employees = _businessUserDal.GetAll(e => employeeIds.Contains(e.Id))
+                                        .ToDictionary(e => e.Id, e => e);
 
         var completedCount = duties.Count(d => d.Status == "Tamamlandı");
         var pendingCount = duties.Count - completedCount;
@@ -103,8 +115,15 @@ public class PdfGeneratorManager : IPdfGeneratorService
                         for (int i = 0; i < duties.Count; i++)
                         {
                             var duty = duties[i];
-                            customers.TryGetValue(duty.CustomerId ?? "", out var customer);
-                            employees.TryGetValue(duty.CompletedBy ?? "", out var employee);
+
+                            // Safe Lookup using int keys
+                            customers.TryGetValue(duty.CustomerId, out var customer);
+
+                            BusinessUser employee = null;
+                            if (duty.CompletedBy.HasValue)
+                            {
+                                employees.TryGetValue(duty.CompletedBy.Value, out employee);
+                            }
 
                             IContainer CellStyleRow(IContainer c) => (i % 2 == 0) ? CellStyleEven(c) : CellStyleOdd(c);
 
@@ -137,12 +156,22 @@ public class PdfGeneratorManager : IPdfGeneratorService
 
         duties = duties?.Where(d => d != null).ToList() ?? new List<Duty>();
 
-        var customerIds = duties.Where(d => !string.IsNullOrEmpty(d.CustomerId)).Select(d => d.CustomerId).Distinct().ToList();
-        var customers = _customerDal.GetAll(c => customerIds.Contains(c.Id)).ToDictionary(c => c.Id, c => c);
+        // 1. Extract IDs (int)
+        var customerIds = duties.Select(d => d.CustomerId).Distinct().ToList();
 
-        var employeeIds = duties.Where(d => !string.IsNullOrEmpty(d.CompletedBy)).Select(d => d.CompletedBy).Distinct().ToList();
-        var employees = _businessUserDal.GetAll(e => employeeIds.Contains(e.Id)).ToDictionary(e => e.Id, e => e);
+        var employeeIds = duties.Where(d => d.CompletedBy.HasValue)
+                                .Select(d => d.CompletedBy.Value)
+                                .Distinct()
+                                .ToList();
 
+        // 2. Fetch Data into Dictionaries (Key: int)
+        var customers = _customerDal.GetAll(c => customerIds.Contains(c.Id))
+                                    .ToDictionary(c => c.Id, c => c);
+
+        var employees = _businessUserDal.GetAll(e => employeeIds.Contains(e.Id))
+                                        .ToDictionary(e => e.Id, e => e);
+
+        // Group by CustomerId (int)
         var dutiesByCustomer = duties.GroupBy(d => d.CustomerId);
 
         var document = Document.Create(container =>
@@ -164,7 +193,8 @@ public class PdfGeneratorManager : IPdfGeneratorService
 
                     foreach (var group in dutiesByCustomer)
                     {
-                        customers.TryGetValue(group.Key ?? "", out var customer);
+                        // group.Key is int CustomerId
+                        customers.TryGetValue(group.Key, out var customer);
                         var customerName = customer?.CompanyName ?? "Bilinmeyen Müşteri";
                         var count = group.Count();
 
@@ -205,10 +235,14 @@ public class PdfGeneratorManager : IPdfGeneratorService
 
                                 foreach (var duty in group)
                                 {
-                                    employees.TryGetValue(duty.CompletedBy ?? "", out var emp);
+                                    BusinessUser emp = null;
+                                    if (duty.CompletedBy.HasValue)
+                                    {
+                                        employees.TryGetValue(duty.CompletedBy.Value, out emp);
+                                    }
+
                                     var empName = emp?.FirstName ?? "-";
 
-                                    // FIX: Apply Timezone Shift
                                     var dateStr = ToTrTime(duty.CompletedAt)?.ToString("dd.MM.yyyy", tr) ?? "-";
                                     var timeStr = ToTrTime(duty.CompletedAt)?.ToString("HH:mm", tr) ?? "-";
 
@@ -271,7 +305,6 @@ public class PdfGeneratorManager : IPdfGeneratorService
                     {
                         info.Spacing(10f);
 
-                        // FIX: Apply Timezone Shift to Dates
                         var createdDate = ToTrTime(servicing.CreatedAt).ToString("g", tr);
                         var lastActionDate = ToTrTime(servicing.LastActionDate)?.ToString("g", tr) ?? "-";
 
@@ -292,9 +325,11 @@ public class PdfGeneratorManager : IPdfGeneratorService
                     col.Item().Column(dev => {
                         dev.Spacing(5f);
                         dev.Item().Text("İLGİLİ CİHAZLAR").FontSize(10f).Bold().FontColor(ColorAccent);
+
+                        // Note: Servicing.DeviceIds is List<int> now. EF might return null or empty unless mapped manually.
                         if (servicing.DeviceIds != null && servicing.DeviceIds.Any())
                         {
-                            foreach (var d in servicing.DeviceIds) dev.Item().PaddingLeft(10f).Text($"• {d}").FontSize(10f);
+                            foreach (var d in servicing.DeviceIds) dev.Item().PaddingLeft(10f).Text($"• Cihaz ID: {d}").FontSize(10f);
                         }
                         else
                         {
@@ -306,7 +341,7 @@ public class PdfGeneratorManager : IPdfGeneratorService
                     col.Item().Column(act => {
                         act.Spacing(5f);
                         act.Item().Text("YAPILAN İŞLEMLER").FontSize(10f).Bold().FontColor(ColorAccent);
-                        act.Item().Background(ColorLight).Padding(10f).Text(servicing.LastAction).FontSize(10f);
+                        act.Item().Background(ColorLight).Padding(10f).Text(servicing.LastAction ?? "İşlem girilmedi").FontSize(10f);
                     });
 
                     // Signatures
@@ -323,78 +358,23 @@ public class PdfGeneratorManager : IPdfGeneratorService
     }
 
     // =================================================================================================
-    // 4. OFFER REPORT (Detailed Proposal)
-    // =================================================================================================
-    //public byte[] GenerateOfferPdf(Offer offer)
-    //{
-    //    SetupLicense();
-    //    var tr = new CultureInfo("tr-TR");
-
-    //    // FIX: Apply Timezone Shift
-    //    var createdDate = ToTrTime(offer.CreatedAt ?? DateTime.Now).ToString("dd.MM.yyyy", tr);
-
-    //    var document = Document.Create(container =>
-    //    {
-    //        container.Page(page =>
-    //        {
-    //            SetupPage(page);
-    //            page.Header().Element(e => ComposeHeader(e, "RESMİ TEKLİF BELGESİ", $"Tarih: {createdDate}"));
-
-    //            page.Content().PaddingVertical(20f).Column(col =>
-    //            {
-    //                col.Spacing(20f);
-
-    //                col.Item().Border(1f).BorderColor(ColorBorder).Padding(20f).Background(ColorLight).Column(c => {
-    //                    c.Spacing(10f);
-    //                    c.Item().Text("Teklif Başlığı").FontSize(10f).FontColor(ColorAccent).Bold();
-    //                    c.Item().Text(offer.OfferTitle).FontSize(14f).SemiBold().FontColor(ColorText);
-
-    //                    c.Item().PaddingTop(10f).Text("Detaylar").FontSize(10f).FontColor(ColorAccent).Bold();
-    //                    c.Item().Text(offer.OfferDetails).FontSize(10f).LineHeight(1.4f).FontColor(ColorText);
-    //                });
-
-    //                col.Item().Row(r => {
-    //                    r.RelativeItem().Column(c => { c.Item().Text("Müşteri ID").Bold().FontSize(9f); c.Item().Text(offer.CustomerId).FontSize(10f); });
-    //                    r.RelativeItem().Column(c => { c.Item().Text("Personel ID").Bold().FontSize(9f); c.Item().Text(offer.EmployeeId).FontSize(10f); });
-    //                });
-
-    //                col.Item().Background("#F0FDF4").Border(1f).BorderColor("#4ADE80").Padding(15f).AlignCenter().Column(c => {
-    //                    c.Item().Text("TOPLAM TUTAR").FontSize(10f).Bold().FontColor("#15803D");
-    //                    c.Item().Text($"{offer.TotalAmount:C}").FontSize(20f).Bold().FontColor("#166534");
-    //                });
-
-    //                col.Item().PaddingTop(40f).AlignRight().Width(150f).Column(c => {
-    //                    c.Spacing(40f);
-    //                    c.Item().Text("Yetkili İmza / Kaşe").FontSize(10f).Bold().AlignCenter();
-    //                    c.Item().LineHorizontal(1f);
-    //                });
-    //            });
-    //            page.Footer().Element(ComposeFooter);
-    //        });
-    //    });
-    //    return document.GeneratePdf();
-    //}
-
-    // =================================================================================================
-    // 5. OFFER / SALES INFO FORM (Using User's Offer Entity)
+    // 4. OFFER / SALES INFO FORM (Using User's Offer Entity)
     // =================================================================================================
     public byte[] GenerateOfferPdf(OfferDto offer)
     {
         SetupLicense();
         var tr = new CultureInfo("tr-TR");
 
-        // 1. Fetch Data
+        // 1. Fetch Customer using int ID
+        // Note: OfferDto.CustomerId should now be 'int'
         var customer = _customerDal.Get(c => c.Id == offer.CustomerId);
-        var companyName = customer?.CompanyName ?? "Bilinmeyen Müşteri";
-        var companyPhone = customer?.PhoneNumber ?? "-"; // Assuming PhoneNumber exists on Customer entity
-        var authPerson = "Yetkili Belirtilmedi"; // Customer entity might need an AuthorizedPerson field
 
-        // 2. Calculate Totals available in the Offer entity
-        // Since OfferItemDto only has Sales Price, Cost is assumed 0 for the visual layout
+        var companyName = customer?.CompanyName ?? "Bilinmeyen Müşteri";
+        var companyPhone = customer?.PhoneNumber ?? "-";
+        var authPerson = "Yetkili Belirtilmedi";
+
         decimal totalSales = offer.TotalAmount;
-        decimal totalCost = 0; // Data not available in Offer entity
-        decimal totalVat = totalSales * 0.20m; // Assuming 20% VAT standard, can be adjusted
-        decimal netProfit = totalSales - totalCost; // Purely sales revenue since cost is unknown
+        decimal totalVat = totalSales * 0.20m;
 
         var document = Document.Create(container =>
         {
@@ -402,65 +382,56 @@ public class PdfGeneratorManager : IPdfGeneratorService
             {
                 SetupPage(page);
 
-                // Replicate the "Red/Teal Border" layout
                 page.Content().Border(2f).BorderColor(ColorPrimary).Padding(20f).Column(col =>
                 {
                     col.Spacing(15f);
 
-                    // --- HEADER SECTION ---
                     col.Item().Column(c =>
                     {
                         c.Item().Text("TEKLİF BİLGİ FORMU").FontSize(16f).ExtraBold().FontColor(ColorText);
-                        // Using substring of ObjectId for a shorter "Record No" look
                     });
 
-                    // --- INFO BLOCK (Key-Value) ---
                     col.Item().Table(table =>
                     {
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(100f); // Label width
-                            columns.RelativeColumn();     // Value width
+                            columns.ConstantColumn(100f);
+                            columns.RelativeColumn();
                         });
 
                         void InfoRow(string label, string value, bool isStriped = false)
                         {
                             table.Cell().Element(c => isStriped ? c.Background(ColorLight) : c)
-                                 .PaddingVertical(4f).PaddingHorizontal(2f)
-                                 .Text(label).Bold().FontSize(9f).FontColor(ColorText);
+                                     .PaddingVertical(4f).PaddingHorizontal(2f)
+                                     .Text(label).Bold().FontSize(9f).FontColor(ColorText);
 
                             table.Cell().Element(c => isStriped ? c.Background(ColorLight) : c)
-                                 .PaddingVertical(4f).PaddingHorizontal(2f)
-                                 .Text(value).FontSize(9f).FontColor(ColorText);
+                                     .PaddingVertical(4f).PaddingHorizontal(2f)
+                                     .Text(value).FontSize(9f).FontColor(ColorText);
                         }
 
-                        // Mapping Offer + Customer Data to the Form
                         InfoRow("Firma", $"{companyName}\n{companyPhone}", true);
                         InfoRow("Firma Yetkilisi", authPerson);
                         InfoRow("Tarihi - Tipi", $"{ToTrTime(offer.CreatedAt)?.ToString("dd.MM.yyyy") ?? "-"} / Teklif");
-                        InfoRow("Personel", "Sistem", true); // Personnel info not in Offer entity
-                        InfoRow("Ödeme", offer.OfferTitle); // Using Title as Payment/Main desc
+                        InfoRow("Personel", "Sistem", true);
+                        InfoRow("Ödeme", offer.OfferTitle);
                         InfoRow("Genel Açıklama", offer.Description);
                         InfoRow("Para birimi - Kur", "TL - KDV Dahil", true);
                     });
 
-                    // --- ITEMS TABLE ---
                     col.Item().PaddingTop(10f).Table(table =>
                     {
                         table.ColumnsDefinition(c =>
                         {
                             c.RelativeColumn(3f);   // Donanım
-                            c.RelativeColumn(0.8f); // Adet (Increased from 0.5f to fix layout crash)
-                            c.RelativeColumn(1.2f); // Brm Maliyet (Empty)
+                            c.RelativeColumn(0.8f); // Adet
+                            c.RelativeColumn(1.2f); // Brm Maliyet
                             c.RelativeColumn(1.2f); // Brm Satış
-                            c.RelativeColumn(1.2f); // Maliyet (Empty)
+                            c.RelativeColumn(1.2f); // Maliyet
                             c.RelativeColumn(1.2f); // Satış
                             c.RelativeColumn(1f);   // Teslim
                         });
 
-
-
-                        // Header
                         table.Header(h =>
                         {
                             h.Cell().Element(CellStyleTableBorder).Text("Donanım").Bold();
@@ -472,66 +443,56 @@ public class PdfGeneratorManager : IPdfGeneratorService
                             h.Cell().Element(CellStyleTableBorder).AlignCenter().Text("Teslim").Bold();
                         });
 
-                        // Rows
-                        if (offer.items != null)
+                        if (offer.Items != null) // Note: PascalCase Items
                         {
-                            foreach (var item in offer.items)
+                            foreach (var item in offer.Items)
                             {
                                 table.Cell().Element(CellStyleTableBorder).Text(item.StockName);
                                 table.Cell().Element(CellStyleTableBorder).AlignCenter().Text(item.Quantity.ToString());
-
-                                // Cost columns are "-" because OfferItemDto lacks cost data
                                 table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
-
                                 table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.UnitPrice).ToString("N2", tr));
-
                                 table.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
-
                                 table.Cell().Element(CellStyleTableBorder).AlignRight().Text(((decimal)item.TotalPrice).ToString("N2", tr));
                                 table.Cell().Element(CellStyleTableBorder).AlignCenter().Text("-");
                             }
                         }
 
-                        // Table Footer (Totals)
                         table.Footer(f =>
                         {
                             f.Cell().ColumnSpan(4).Element(CellStyleTableBorder).AlignRight().Text("Toplamlar:").Bold();
-                            f.Cell().Element(CellStyleTableBorder).AlignRight().Text("-"); // Total Cost Unknown
+                            f.Cell().Element(CellStyleTableBorder).AlignRight().Text("-");
                             f.Cell().Element(CellStyleTableBorder).AlignRight().Text(totalSales.ToString("N2", tr)).Bold();
                             f.Cell().Element(CellStyleTableBorder);
                         });
                     });
 
-                    // --- SUMMARY BOX (Orange Box) ---
-                    col.Item().Width(250f).Background("#FFF7ED") // Light Orange
-                       .Padding(10f)
-                       .Table(table =>
-                       {
-                           table.ColumnsDefinition(c =>
-                           {
-                               c.RelativeColumn(2f);
-                               c.RelativeColumn(1f);
-                           });
+                    col.Item().Width(250f).Background("#FFF7ED")
+                        .Padding(10f)
+                        .Table(table =>
+                        {
+                            table.ColumnsDefinition(c =>
+                            {
+                                c.RelativeColumn(2f);
+                                c.RelativeColumn(1f);
+                            });
 
-                           void SummaryRow(string label, string value, bool isRed = false)
-                           {
-                               table.Cell().PaddingBottom(5).Text(label + " :").FontSize(9f).Bold().FontColor(ColorText);
-                               string valColor = isRed ? "#DC2626" : "#EA580C";
-                               table.Cell().PaddingBottom(5).AlignRight().Text(value).FontSize(9f).Bold().FontColor(valColor);
-                           }
+                            void SummaryRow(string label, string value, bool isRed = false)
+                            {
+                                table.Cell().PaddingBottom(5).Text(label + " :").FontSize(9f).Bold().FontColor(ColorText);
+                                string valColor = isRed ? "#DC2626" : "#EA580C";
+                                table.Cell().PaddingBottom(5).AlignRight().Text(value).FontSize(9f).Bold().FontColor(valColor);
+                            }
 
-                           SummaryRow("Toplam Satış (TL)", totalSales.ToString("N2", tr));
-                           SummaryRow("Donanım Maliyet(TL)", "-"); // Data missing
-                           SummaryRow("Kdv Toplamı (TL)", totalVat.ToString("N2", tr)); // Calculated 20% assumption
-                           SummaryRow("Kdv Toplamı(Maliyet)", "-"); // Data missing
+                            SummaryRow("Toplam Satış (TL)", totalSales.ToString("N2", tr));
+                            SummaryRow("Donanım Maliyet(TL)", "-");
+                            SummaryRow("Kdv Toplamı (TL)", totalVat.ToString("N2", tr));
+                            SummaryRow("Kdv Toplamı(Maliyet)", "-");
 
-                           // Divider
-                           table.Cell().ColumnSpan(2).PaddingVertical(5).LineHorizontal(1f).LineColor("#FDBA74");
+                            table.Cell().ColumnSpan(2).PaddingVertical(5).LineHorizontal(1f).LineColor("#FDBA74");
 
-                           // Net Result
-                           table.Cell().Text("NET (TL):").FontSize(10f).ExtraBold().FontColor(ColorText);
-                           table.Cell().AlignRight().Text(totalSales.ToString("N2", tr)).FontSize(10f).ExtraBold().FontColor("#DC2626");
-                       });
+                            table.Cell().Text("NET (TL):").FontSize(10f).ExtraBold().FontColor(ColorText);
+                            table.Cell().AlignRight().Text(totalSales.ToString("N2", tr)).FontSize(10f).ExtraBold().FontColor("#DC2626");
+                        });
                 });
 
                 page.Footer().Element(ComposeFooter);
@@ -541,23 +502,18 @@ public class PdfGeneratorManager : IPdfGeneratorService
         return document.GeneratePdf();
     }
 
-    // Helper for table borders (Keep inside the class)
+    // Helper for table borders
     private IContainer CellStyleTableBorder(IContainer container)
     {
         return container
             .Border(1f)
             .BorderColor(ColorBorder)
-            .Padding(4f) // Reduced padding complexity to ensure fit
-                         // Removed .PaddingHorizontal(6f) to prevent padding stacking (4+6=10) which caused the crash
+            .Padding(4f)
             .DefaultTextStyle(x => x.FontSize(9f));
     }
 
-
-
-
-
     // =================================================================================================
-    //                                     PRIVATE HELPERS
+    //                              PRIVATE HELPERS
     // =================================================================================================
 
     private void SetupLicense()
@@ -565,7 +521,6 @@ public class PdfGeneratorManager : IPdfGeneratorService
         QuestPDF.Settings.License = LicenseType.Community;
     }
 
-    // *** NEW HELPER: Turkey Time Converter (+3 Hours) ***
     private DateTime ToTrTime(DateTime date) => date.AddHours(3);
     private DateTime? ToTrTime(DateTime? date) => date?.AddHours(3);
 

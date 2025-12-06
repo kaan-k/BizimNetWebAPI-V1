@@ -1,16 +1,12 @@
-﻿using Core.DataAccess.MongoDB;
-using Entities.Concrete.InstallationRequest;
-using System;
+﻿using Core.DataAccess; // ✅ Where IEntityRepository is
+using Entities.Concrete.InstallationRequests; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IInstallationRequestDal:IMongoRepository<InstallationRequest>
+    // Inherit from IEntityRepository (Generic)
+    public interface IInstallationRequestDal : IEntityRepository<InstallationRequest>
     {
-        public List<InstallationRequest> GetAllInstallationRequestDetails();
-
+        List<InstallationRequest> GetAllInstallationRequestDetails();
     }
 }

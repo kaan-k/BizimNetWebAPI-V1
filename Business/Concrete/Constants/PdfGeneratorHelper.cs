@@ -1,7 +1,8 @@
-﻿using Entities.Concrete.Duty;
-using Entities.Concrete.InstallationRequest;
+﻿using Entities.Concrete.Duties;
+using Entities.Concrete.InstallationRequests;
 using Entities.Concrete.Offer;
-using Entities.Concrete.Service;
+using Entities.Concrete.Offers;
+using Entities.Concrete.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

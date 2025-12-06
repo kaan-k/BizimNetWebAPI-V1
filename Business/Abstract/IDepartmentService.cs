@@ -1,27 +1,28 @@
-﻿using Core.Entities.Concrete;
-using Core.Utilities.Results;
-using Entities.Concrete.Department;
-using System;
+﻿using Core.Utilities.Results;
+using Entities.Concrete.Departments; // ✅ Plural Namespace
+using Entities.Concrete.Employees;   // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IDepartmentService
     {
         IDataResult<Department> Add(DepartmentDto department);
-        IResult Update(Department department, string departmentId);
-        IResult Delete(string id);
-        IDataResult<Department> GetById(string id);
+
+        // ✅ Changed string -> int
+        IResult Update(DepartmentDto department);
+        IResult Delete(int id);
+
+        IDataResult<Department> GetById(int id);
         IDataResult<List<Department>> GetAll();
         IDataResult<List<Department>> SearchByName(string name);
-        IDataResult<List<Employee>> GetEmployeesByDepartmentId(string departmentId);
-        IDataResult<int> GetEmployeeCount(string departmentId);
+
+        // ✅ Changed string -> int
+        IDataResult<List<Employee>> GetEmployeesByDepartmentId(int departmentId);
+        IDataResult<int> GetEmployeeCount(int departmentId);
         IResult IsDepartmentNameTaken(string name);
-        IDataResult<Employee> GetManagerOfDepartment(string departmentId);
-        IResult AssignManager(string departmentId, string employeeId);
-        IDataResult<List<Employee>> GetEmployeesByRole(string departmentId, string role);
+        IDataResult<Employee> GetManagerOfDepartment(int departmentId);
+        IResult AssignManager(int departmentId, int employeeId);
+        IDataResult<List<Employee>> GetEmployeesByRole(int departmentId, string role);
     }
 }

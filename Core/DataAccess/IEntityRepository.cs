@@ -11,11 +11,12 @@ namespace Core.DataAccess
     public interface IEntityRepository<T> where T : class, IEntity, new()
     {
         List<T> GetAll(Expression<Func<T, bool>> filter = null);
-        T Get(Expression<Func<T, bool>> filter = null);
+        T Get(Expression<Func<T, bool>> filter);
         void Add(T entity);
-        DeleteResult Delete(string id);
-        ReplaceOneResult Update(T entity);
-        DeleteResult DeleteMany(Expression<Func<T, bool>> filter = null);
+        void Update(T entity);
+        void Delete(T entity);
+        void Delete(int id); // Added int ID support
+        void DeleteMany(Expression<Func<T, bool>> filter);
         List<T> GetAllWithPage(int page, int limit);
     }
 }

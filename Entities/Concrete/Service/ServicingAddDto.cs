@@ -1,26 +1,28 @@
 ﻿using Core.Entities.Abstract;
-using Core.Enums;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Entities.Concrete.Service
+namespace Entities.Concrete.Services // ✅ Changed to PLURAL
 {
-    public class ServicingAddDto:IDto
+    public class ServicingAddDto : IDto
     {
-
         public string Name { get; set; }
-        //public string TrackingId { get; set; } = $"ARY{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
-        public List<string> DeviceIds { get; set; }
-        public string CustomerId { get; set; }
+
+        // Optional: You can keep TrackingId here if you want to allow manual override, 
+        // otherwise let the Entity handle the generation.
+        // public string TrackingId { get; set; } 
+
+        public List<int> DeviceIds { get; set; } // ✅ Changed string -> int
+
+        public int CustomerId { get; set; } // ✅ Changed string -> int
+
         public string Status { get; set; }
+
         public DateTime? LastActionDate { get; set; }
         public string? LastAction { get; set; }
-        public DateTime CreatedAt { get; set; }
+
+        // Usually, CreatedAt is set by the server, not the DTO, but leaving it here is fine.
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
     }
 }

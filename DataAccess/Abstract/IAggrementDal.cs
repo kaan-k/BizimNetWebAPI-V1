@@ -1,4 +1,5 @@
-﻿using Core.DataAccess.MongoDB;
+﻿using Core.DataAccess;
+using Core.DataAccess.MongoDB;
 using Core.Entities.Concrete;
 using Entities.Concrete.Aggrements;
 using System;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IAggrementDal: IMongoRepository<Aggrement>
+    public interface IAggrementDal: IEntityRepository<Aggrement>
     {
-        List<Aggrement> GetAllAggrementDetails();
+       
     }
 }

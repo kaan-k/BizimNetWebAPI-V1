@@ -1,15 +1,13 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using Entities.Concrete.Department;
+using Entities.Concrete.Departments; // ✅ Plural Namespace
+using Entities.Concrete.Employees; // ✅ Plural Namespace
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -18,15 +16,18 @@ namespace Business.Concrete
         private readonly IEmployeeDal _employeeDal;
         private readonly IMapper _mapper;
         private readonly IDepartmentDal _departmentDal;
-        public EmployeeManager(IEmployeeDal employeeDal, IDepartmentDal departmentDal, IMapper mapper) {
+
+        public EmployeeManager(IEmployeeDal employeeDal, IDepartmentDal departmentDal, IMapper mapper)
+        {
             _employeeDal = employeeDal;
             _departmentDal = departmentDal;
             _mapper = mapper;
         }
-        
-        public IResult Add(EmployeeDto employee)
+
+        public IResult Add(EmployeeDto employeeDto)
         {
-            var employeeMap = _mapper.Map<Employee>(employee);
+            var employeeMap = _mapper.Map<Employee>(employeeDto);
+            // SQL generates ID automatically
             _employeeDal.Add(employeeMap);
             return new SuccessResult("Eklendi");
         }
@@ -35,6 +36,7 @@ namespace Business.Concrete
         {
             if (employees == null || !employees.Any())
                 return new ErrorResult("Gönderilen çalışan listesi boş.");
+
             foreach (var employeeDto in employees)
             {
                 var employee = _mapper.Map<Employee>(employeeDto);
@@ -43,38 +45,41 @@ namespace Business.Concrete
             return new SuccessResult("Çalışanlar başarıyla eklendi.");
         }
 
-        public IResult AssignRole(string employeeId, string role)
-        {
-            var emp = _employeeDal.Get(x=>x.Id == employeeId);
-            if (emp == null)
-            {
-                return new ErrorResult("Çalışan bulunamadı.");
-            }
-            if(emp.Role == role)
-            {
-                return new ErrorResult("Çalışan zaten bu rolde.");
-            }
-            emp.Role = role;
-            emp.LastUpdated = DateTime.Now;
-            _employeeDal.Update(emp);
-            return new SuccessResult("Çalışan rolü güncellendi.");
-        }
-
-        public IResult AssignToDepartment(string employeeId, string departmentId)
+        public IResult AssignRole(int employeeId, string role)
         {
             var emp = _employeeDal.Get(x => x.Id == employeeId);
             if (emp == null)
             {
                 return new ErrorResult("Çalışan bulunamadı.");
             }
-            emp.DeparmentId = departmentId;
-            emp.LastUpdated = DateTime.Now;
-            _employeeDal.Update(emp);
-            return new SuccessResult("Çalışan departmanı güncellendi.");
+            if (emp.Role == role)
+            {
+                return new ErrorResult("Çalışan zaten bu rolde.");
+            }
+            emp.Role = role;
+            emp.LastUpdated = DateTime.UtcNow; // ✅ Use UtcNow
 
+            _employeeDal.Update(emp);
+            return new SuccessResult("Çalışan rolü güncellendi.");
         }
 
-        public IResult Delete(string id)
+        public IResult AssignToDepartment(int employeeId, int departmentId)
+        {
+            var emp = _employeeDal.Get(x => x.Id == employeeId);
+            if (emp == null)
+            {
+                return new ErrorResult("Çalışan bulunamadı.");
+            }
+
+            // ✅ Fixed Typo: DepartmentId
+            emp.DepartmentId = departmentId;
+            emp.LastUpdated = DateTime.UtcNow;
+
+            _employeeDal.Update(emp);
+            return new SuccessResult("Çalışan departmanı güncellendi.");
+        }
+
+        public IResult Delete(int id)
         {
             _employeeDal.Delete(id);
             return new SuccessResult("Silindi.");
@@ -86,72 +91,71 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Employee>>(allEmps);
         }
 
-        public IDataResult<List<Employee>> GetByDepartmentId(string departmentId)
+        public IDataResult<List<Employee>> GetByDepartmentId(int departmentId)
         {
-            var emps = _employeeDal.GetAll(x=>x.DeparmentId == departmentId);
-
+            // ✅ Fixed Typo: DepartmentId
+            var emps = _employeeDal.GetAll(x => x.DepartmentId == departmentId);
             return new SuccessDataResult<List<Employee>>(emps);
         }
 
-        public IDataResult<Employee> GetById(string id)
+        public IDataResult<Employee> GetById(int id)
         {
             var emp = _employeeDal.Get(x => x.Id == id);
             if (emp == null)
             {
-                return new ErrorDataResult<Employee>(emp,"Çalışan bulunamadı.");
+                return new ErrorDataResult<Employee>(emp, "Çalışan bulunamadı.");
             }
             return new SuccessDataResult<Employee>(emp);
         }
 
         public IDataResult<List<Employee>> GetByRole(string role)
         {
-            var emp = _employeeDal.GetAll(x => x.Role== role);
-            if (emp == null)
+            var emp = _employeeDal.GetAll(x => x.Role == role);
+            if (emp == null) // This check is technically redundant as GetAll returns empty list, not null
             {
                 return new ErrorDataResult<List<Employee>>(emp, "Çalışan bulunamadı.");
             }
             return new SuccessDataResult<List<Employee>>(emp);
         }
 
-        public IDataResult<int> GetCountByDepartment(string departmentId)
+        public IDataResult<int> GetCountByDepartment(int departmentId)
         {
-
-            var count = _employeeDal.GetAll(x => x.DeparmentId == departmentId).Count();
-
+            // ✅ Fixed Typo: DepartmentId
+            var count = _employeeDal.GetAll(x => x.DepartmentId == departmentId).Count;
             return new SuccessDataResult<int>(count);
         }
 
         public IDataResult<int> GetCountByRole(string role)
         {
-            var count = _employeeDal.GetAll(x => x.Role == role).Count();
-
+            var count = _employeeDal.GetAll(x => x.Role == role).Count;
             return new SuccessDataResult<int>(count);
         }
 
-
-
-        public IDataResult<Employee> GetManagerByDepartment(string departmentId)
+        public IDataResult<Employee> GetManagerByDepartment(int departmentId)
         {
-            var department= _departmentDal.Get(x=>x.Id ==departmentId);
-            var manager = _employeeDal.Get(x=>x.Id == department.ManagerId);
+            var department = _departmentDal.Get(x => x.Id == departmentId);
+            if (department == null) return new ErrorDataResult<Employee>("Departman bulunamadı");
 
+            // ManagerId is int now
+            var manager = _employeeDal.Get(x => x.Id == department.ManagerId);
             return new SuccessDataResult<Employee>(manager);
         }
 
         public IDataResult<int> GetTotalEmployeeCount()
         {
-            var count = _employeeDal.GetAll().Count();
-
+            var count = _employeeDal.GetAll().Count;
             return new SuccessDataResult<int>(count);
         }
 
-        public IResult ReturnEmployeeEmail(string employeeId)
+        public IResult ReturnEmployeeEmail(int employeeId)
         {
-            var email = _employeeDal.Get(X => X.Id == employeeId);
-            return new SuccessResult(email.Email);
+            var employee = _employeeDal.Get(X => X.Id == employeeId);
+            if (employee == null) return new ErrorResult("Çalışan bulunamadı");
+
+            return new SuccessResult(employee.Email);
         }
 
-        public IResult Update(EmployeeDto employee, string employeeId)
+        public IResult Update(EmployeeDto employee, int employeeId)
         {
             var existingEmployee = _employeeDal.Get(x => x.Id == employeeId);
             if (existingEmployee == null)
@@ -162,10 +166,10 @@ namespace Business.Concrete
             existingEmployee.Name = employee.Name;
             existingEmployee.Surname = employee.Surname;
             existingEmployee.Role = employee.Role;
-            existingEmployee.DeparmentId = employee.DeparmentId;
-            existingEmployee.LastUpdated = DateTime.Now;
-            _employeeDal.Update(existingEmployee);
+            existingEmployee.DepartmentId = employee.DeparmentId; // ✅ Fixed Typo in Entity
+            existingEmployee.LastUpdated = DateTime.UtcNow;
 
+            _employeeDal.Update(existingEmployee);
             return new SuccessResult("Çalışan başarıyla güncellendi.");
         }
 
@@ -176,7 +180,7 @@ namespace Business.Concrete
                 return new ErrorResult("Gönderilen çalışan listesi boş.");
             }
 
-            var notFoundIds = new List<string>();
+            var notFoundIds = new List<int>();
 
             foreach (var employee in employees)
             {
@@ -190,8 +194,8 @@ namespace Business.Concrete
                 existingEmployee.Name = employee.Name;
                 existingEmployee.Surname = employee.Surname;
                 existingEmployee.Role = employee.Role;
-                existingEmployee.DeparmentId = employee.DeparmentId;
-                existingEmployee.LastUpdated = DateTime.Now;
+                existingEmployee.DepartmentId = employee.DepartmentId; // ✅ Fixed Typo
+                existingEmployee.LastUpdated = DateTime.UtcNow;
 
                 _employeeDal.Update(existingEmployee);
             }

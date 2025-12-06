@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
 using Business.Abstract;
 using Business.Constants;
-using Castle.Core.Internal;
 using Core.Utilities.FileHelper;
-using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete.DocumentFile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security;
+using System.IO;
 
 namespace BizimNetWebAPI.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class DocumentFileUploadController : ControllerBase
@@ -60,8 +57,9 @@ namespace BizimNetWebAPI.Controllers
             }
             return Ok(result);
         }
+
         [HttpGet("GetByDocument")]
-        public IActionResult GetByDocument(string id)
+        public IActionResult GetByDocument(int id) // ✅ Changed string -> int
         {
             var result = _documentFileService.GetByDocument(id);
             if (!result.Success)
@@ -81,31 +79,23 @@ namespace BizimNetWebAPI.Controllers
             }
             return Ok(result);
         }
-        //allowanon kaldirmayi unutma!!
-
-       
 
         [HttpGet("DownloadDocument/{id}")]
         [AllowAnonymous]
-        public IActionResult DownloadDocument(string id)
+        public IActionResult DownloadDocument(int id) // ✅ Changed string -> int
         {
-            
             var document = _documentFileService.GetByDocument(id);
-            if (document == null)
+            if (document == null || !document.Success)
             {
                 return NotFound();
-            } 
+            }
 
-            // Belgeyi tarayıcıya indir
-            //var newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "DocumentFile" + Path.DirectorySeparatorChar + 
-                //document.Data.DocumentName + Path.DirectorySeparatorChar + document.Data.DocumentPath);
             var fileBytes = System.IO.File.ReadAllBytes(document.Data.DocumentPath);
             return File(fileBytes, "application/pdf", document.Data.DocumentName);
         }
 
-
         [HttpGet("Delete")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id) // ✅ Changed string -> int
         {
             var result = _documentFileService.DocumentFileDelete(id);
             if (!result.Success)
@@ -120,27 +110,26 @@ namespace BizimNetWebAPI.Controllers
         {
             var map = _mapper.Map<DocumentFile>(request);
 
-            // Eski veriyi veritabanından çek
+            // Fetch old data (map.Id should be mapped to int by AutoMapper now)
             var oldDocumentResult = _documentFileService.GetByDocument(map.Id);
+
             if (oldDocumentResult.Success && oldDocumentResult.Data != null)
             {
                 var oldDocument = oldDocumentResult.Data;
-                // DocumentName değişmişse eski dosyayı sil
+
                 var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Uploads", "DocumentFile",
                         oldDocument.DocumentName, oldDocument.DocumentPath);
+
                 if (System.IO.File.Exists(oldPath))
                 {
                     System.IO.File.Delete(oldPath);
                     var path = Path.Combine(PathConstant.DocumentFile + map.DocumentName + Path.DirectorySeparatorChar);
                     map.DocumentPath = _fileHelper.Upload(request.File, path);
                 }
-            } 
+            }
 
             var result = _documentFileService.DocumentFileUpdate(map, request.File);
             return result.Success ? Ok(result) : BadRequest(result.Message);
         }
-
-
-
     }
 }

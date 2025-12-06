@@ -8,6 +8,6 @@ namespace Core.Entities.Abstract
 {
     public interface IEntity
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

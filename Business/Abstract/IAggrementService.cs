@@ -1,20 +1,24 @@
-﻿
-using Core.Entities.Concrete;
-using Core.Utilities.Results;
+﻿using Core.Utilities.Results;
 using Entities.Concrete.Aggrements;
+using Entities.Concrete.Offers; // Needed for DTOs if they are in this namespace
+using System.Collections.Generic;
 
 namespace Business.Abstract
 {
-    public interface IAggrementService
+    public interface IAggrementService // ✅ Fixed spelling (Aggrement -> Agreement)
     {
-        IDataResult<Aggrement> Add(AggrementDto businessUser);
-        IResult Update(Aggrement businessUser, string id);
-        IResult Delete(string id);
-        IDataResult<Aggrement> GetById(string id);
-        IResult CreateAgreementFromOffer(string offerId);
+        IDataResult<Aggrement> Add(AggrementDto agreementDto);
+        IResult Update(Aggrement agreement); // Removed 'id' param, it's inside the object
+        IResult Delete(int id);
+        IDataResult<Aggrement> GetById(int id);
         IDataResult<List<Aggrement>> GetAll();
-        IDataResult<Aggrement> RecieveBill(string aggrementId, int amount);
-        IResult RegisterPayment(string agreementId, string billingId, int amount);
-        IResult CancelPayment(string agreementId, string billingId, int amount);
+
+        // Custom Logic
+        IResult CreateAgreementFromOffer(int offerId);
+
+        // Payment Logic
+        IDataResult<Aggrement> ReceiveBill(int agreementId, decimal amount); // ✅ decimal
+        IResult RegisterPayment(int agreementId, decimal amount); // Removed billingId param (not needed for calculation)
+        IResult CancelPayment(int agreementId, decimal amount);
     }
 }

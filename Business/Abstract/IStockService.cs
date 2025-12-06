@@ -1,21 +1,19 @@
 ﻿using Core.Enums;
 using Core.Utilities.Results;
-using Entities.Concrete.Service;
-using Entities.Concrete.Stock;
-using System;
+using Entities.Concrete.Stocks; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IStockService
     {
         IDataResult<StockAddDto> Add(StockAddDto stock);
-        IDataResult<Stock> Update(Stock servicing);
-        IDataResult<List<Stock>> GetByDeviceType(DeviceType devicetype);
-        IResult Delete(string id);
+        IDataResult<Stock> Update(Stock stock);
+        IDataResult<List<Stock>> GetByDeviceType(DeviceType deviceType);
+
+        // ✅ Changed string -> int
+        IResult Delete(int id);
+
         IDataResult<List<Stock>> GetAll();
     }
 }

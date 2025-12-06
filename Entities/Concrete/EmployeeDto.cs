@@ -13,7 +13,7 @@ namespace Entities.Concrete
         public string Surname { get; set; }
         public string Email { get; set; }
 
-        public string DeparmentId { get; set; }
+        public int DeparmentId { get; set; }
         public string Role { get; set; }
     }
 }

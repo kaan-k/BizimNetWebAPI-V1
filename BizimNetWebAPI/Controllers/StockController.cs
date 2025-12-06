@@ -1,8 +1,6 @@
 ﻿using Business.Abstract;
 using Core.Enums;
-using Core.Utilities.Results;
-using Entities.Concrete.Stock;
-using Microsoft.AspNetCore.Http;
+using Entities.Concrete.Stocks; // ✅ Plural Namespace
 using Microsoft.AspNetCore.Mvc;
 
 namespace BizimNetWebAPI.Controllers
@@ -40,11 +38,12 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id) // ✅ Changed string -> int
         {
             var result = _stockService.Delete(id);
             return Ok(result);
         }
+
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {

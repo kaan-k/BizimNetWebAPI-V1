@@ -41,7 +41,7 @@ namespace DataAccess.Repositories
             _collection.ReplaceOne(Builders<T>.Filter.Eq(e => e.Id, entity.Id), entity);
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             _collection.DeleteOne(Builders<T>.Filter.Eq(e => e.Id, id));
         }

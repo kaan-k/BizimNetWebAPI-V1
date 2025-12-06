@@ -1,5 +1,5 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete.Payment;
+using Entities.Concrete.Payments;
 using Entities.Concrete.Settings;
 using System;
 using System.Collections.Generic;
@@ -12,11 +12,11 @@ namespace Business.Abstract
     public interface IBillingService
     {
         IDataResult<Billing> Add(BillingDto billingDto);
-        IDataResult<Billing> RecievePay(string billId, int amount);
+        IDataResult<Billing> RecievePay(int billId, int amount);
 
-        IResult Update(Billing billing, string id);
-        IResult Delete(string id);
-        IDataResult<Billing> GetById(string id);
+        IResult Update(Billing billing);
+        IResult Delete(int id);
+        IDataResult<Billing> GetById(int id);
         IDataResult<List<Billing>> GetAll();
     }
 }

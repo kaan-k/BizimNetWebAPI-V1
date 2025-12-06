@@ -1,15 +1,12 @@
-﻿using Core.DataAccess.MongoDB;
-using DataAccess.Repositories;
-using Entities.Concrete.Customer;
-using System;
+﻿using Core.DataAccess;
+using Entities.Concrete.Customers;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface ICustomerDal: IMongoRepository<Customer>
+    // 1. Inherit from IEntityRepository, not IMongoRepository
+    public interface ICustomerDal : IEntityRepository<Customer>
     {
+        List<Customer> GetAllDetails();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Abstract;
+using Entities.Concrete.Payments;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
@@ -11,19 +12,18 @@ namespace Entities.Concrete.Aggrements
 {
     public class AggrementDto:IDto
     {
-        public string OfferId { get; set; }
+        public int OfferId { get; set; }
+        public string AgreementTitle { get; set; }
 
-        public string AggrementTitle { get; set; }
+        public int CustomerId { get; set; }
+        public string? AgreementType { get; set; }
+        public decimal AgreedAmount { get; set; }
+        public decimal? PaidAmount { get; set; }
+        // Inside Agreement.cs
+        public virtual ICollection<Billing>? Billings { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string CustomerId { get; set; }
-
-        public string AggrementType { get; set; }
-        public int AgreedAmount { get; set; }// Match Offer.TotalAmount
-        public int PaidAmount { get; set; }
-
-        public List<string> billings { get; set; }
         public DateTime? ExpirationDate { get; set; }
-        public bool isActive { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

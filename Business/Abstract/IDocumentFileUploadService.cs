@@ -1,11 +1,7 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete.DocumentFile;
+using Entities.Concrete.DocumentFile; // ✅ Plural Namespace
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
@@ -14,13 +10,17 @@ namespace Business.Abstract
         IDataResult<List<DocumentFile>> GetAll();
         IDataResult<List<DocumentFile>> GetDocumentDetails();
 
-        IDataResult<DocumentFile> GetByDocument(string id);
+        // ✅ Changed string -> int
+        IDataResult<DocumentFile> GetByDocument(int id);
+
         IDataResult<DocumentFile> GetByFileName(string filename);
 
         IResult DocumentFileAdd(IFormFile file, DocumentFile documentFile);
         IResult DocumentFileCreateServicing(DocumentFile documentFile);
 
         IResult DocumentFileUpdate(DocumentFile documentFile, IFormFile file);
-        IResult DocumentFileDelete(string id);
+
+        // ✅ Changed string -> int
+        IResult DocumentFileDelete(int id);
     }
 }

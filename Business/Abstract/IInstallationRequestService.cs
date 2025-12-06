@@ -1,27 +1,28 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete.InstallationRequest;
-using System;
+using Entities.Concrete.InstallationRequests; // ✅ Plural Namespace
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
     public interface IInstallationRequestService
     {
         IResult Add(InstallationRequestDto request);
-        IResult Delete(string id);
+
+        // ✅ Changed string -> int
+        IResult Delete(int id);
         IResult Update(InstallationRequest request);
-        IResult AssignEmployee(string requestId, string employeeId);
-        IResult UpdateNote(string requestId, string note);
-        IResult MarkAsCompleted(string requestId);
+
+        // ✅ Changed string -> int
+        IResult AssignEmployee(int requestId, int employeeId);
+        IResult UpdateNote(int requestId, string note);
+        IResult MarkAsCompleted(int requestId);
         IResult SendInstallationMail(InstallationRequestDto request);
         IResult SendAssignmentMail();
 
-        IDataResult<InstallationRequest> GetById(string id);
-        IDataResult<List<InstallationRequest>> GetByCustomerId(string customerId);
-        IDataResult<List<InstallationRequest>> GetByOfferId(string offerId);
+        // ✅ Changed string -> int
+        IDataResult<InstallationRequest> GetById(int id);
+        IDataResult<List<InstallationRequest>> GetByCustomerId(int customerId);
+        IDataResult<List<InstallationRequest>> GetByOfferId(int offerId);
         IDataResult<List<InstallationRequest>> GetUnassigned();
         IDataResult<List<InstallationRequest>> GetAssigned();
         IDataResult<List<InstallationRequest>> GetAll();

@@ -1,8 +1,5 @@
 ﻿using Business.Abstract;
-using Core.Enums;
-using Core.Utilities.Results;
-using Entities.Concrete;
-using Entities.Concrete.Device;
+using Entities.Concrete.Devices; // ✅ Plural Namespace
 using Microsoft.AspNetCore.Mvc;
 
 namespace BizimNetWebAPI.Controllers
@@ -19,7 +16,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Add(DeviceDto request)
+        public IActionResult Add(Device request)
         {
             var result = _deviceService.Add(request);
             return Ok(result);
@@ -33,7 +30,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id) // ✅ Changed string -> int
         {
             var result = _deviceService.Delete(id);
             return Ok(result);
@@ -45,18 +42,21 @@ namespace BizimNetWebAPI.Controllers
             var result = _deviceService.GetByDeviceType(deviceType);
             return Ok(result);
         }
+
         [HttpGet("GetAllByCustomerId")]
-        public IActionResult GetAllByCustomerId(string id)
+        public IActionResult GetAllByCustomerId(int id) // ✅ Changed string -> int
         {
             var result = _deviceService.GetAllByCustomerId(id);
             return Ok(result);
         }
+
         [HttpGet("GetById")]
-        public IActionResult GetById(string id)
+        public IActionResult GetById(int id) // ✅ Changed string -> int
         {
             var result = _deviceService.GetById(id);
             return Ok(result);
         }
+
         [HttpGet("GetAllDetails")]
         public IActionResult GetAllDetails()
         {

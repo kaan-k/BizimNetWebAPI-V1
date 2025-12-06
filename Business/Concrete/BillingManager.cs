@@ -2,7 +2,7 @@
 using Business.Abstract;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using Entities.Concrete.Payment;
+using Entities.Concrete.Payments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,6 @@ namespace Business.Concrete
 
             _billingDal.Add(billingEntity);
             var updateResult = _aggrementService.RegisterPayment(
-                billingEntity.AggreementId,
                 billingEntity.Id,
                 billingEntity.Amount
             );
@@ -45,7 +44,7 @@ namespace Business.Concrete
 
 
 
-        public IResult Delete(string id)
+        public IResult Delete(int id)
         {
             // 1. Get the billing record BEFORE deleting it
             // We need to know the Amount and AgreementId to reverse the transaction
@@ -57,7 +56,7 @@ namespace Business.Concrete
             }
 
             // 2. Call Agreement Service to revert the balance
-            var result = _aggrementService.CancelPayment(billing.AggreementId, billing.Id, billing.Amount);
+            var result = _aggrementService.CancelPayment(billing.AgreementId, billing.Amount);
 
             if (!result.Success)
             {
@@ -78,13 +77,13 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Billing>>(billings);
         }
 
-        public IDataResult<Billing> GetById(string id)
+        public IDataResult<Billing> GetById(int id)
         {
             var billing = _billingDal.Get(b => b.Id == id);
             return new SuccessDataResult<Billing>(billing);
         }
 
-        public IDataResult<Billing> RecievePay(string billId,int amount)
+        public IDataResult<Billing> RecievePay(int billId,int amount)
         {
             var bill = _billingDal.Get(b => b.Id == billId);
             if (bill == null)
@@ -100,12 +99,12 @@ namespace Business.Concrete
             bill.PaymentDate = DateTime.Now;
             _billingDal.Update(bill);
 
-            _aggrementService.RecieveBill(bill.AggreementId, amount);
+            //_aggrementService.RecieveBill(bill.AggreementId, amount);
             return new SuccessDataResult<Billing>(bill, "Ödeme alındı.");
 
         }
 
-        public IResult Update(Billing billing, string id)
+        public IResult Update(Billing billing)
         {
             _billingDal.Update(billing);
             return new SuccessResult("Ödeme bilgisi güncellendi.");

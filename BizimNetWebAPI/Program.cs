@@ -1,44 +1,42 @@
 ﻿using Autofac;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
-using Core.Configuration;
 using Core.DependencyResolvers;
 using Core.Extensions;
-using Core.Utilities.Context;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
-using DataAccess.DependencyResolvers;
+using DataAccess.Concrete.EntityFramework;// ✅ Ensure this namespace matches your BizimNetContext location
 using Entities.Profiles.AutoMapperProfiles;
-using Microsoft.OpenApi.Models;
-using MongoDB.Driver;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Use Autofac DI
+// ✅ 1. PostgreSQL Database Configuration
+// This replaces the old MongoDB connection logic.
+// Ensure "PostgreSQL" exists in your appsettings.json under "ConnectionStrings".
+builder.Services.AddDbContext<BizimNetContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
+
+// ✅ 2. Autofac Dependency Injection Setup
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
 {
+    // This module now registers all your EF Managers and DALs
     containerBuilder.RegisterModule(new AutofacBusinessModule());
+
+    // Registers Core aspects (Caching, Performance, etc.)
     containerBuilder.RegisterModule(new AutoFacCoreModule());
-    containerBuilder.RegisterModule(new AutoFacDataAccessModule());
 });
 
-// ✅ MongoDB configuration
-builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
-var mongoClient = new MongoClient(builder.Configuration.GetConnectionString("MongoDB"));
-var database = mongoClient.GetDatabase("BizimNetDB");
-builder.Services.AddSingleton(database);
-
-// ✅ Add HttpContext Accessor
+// ✅ 3. HttpContext Accessor
 builder.Services.AddHttpContextAccessor();
-//builder.Services.AddScoped<IUserContext, HttpUserContext>();
 
-
-// ✅ Improved CORS Policy (Secure + Flexible)
+// ✅ 4. CORS Policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -50,16 +48,16 @@ builder.Services.AddCors(options =>
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // Only if cookies/auth headers are used
+            .AllowCredentials();
     });
 });
 
-// ✅ JWT Authentication
+// ✅ 5. JWT Authentication Configuration
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
-builder.Services.AddAuthentication("Bearer")
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -68,15 +66,16 @@ builder.Services.AddAuthentication("Bearer")
             ValidAudience = tokenOptions.Audience,
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
+            // Fix: Ensures token expires exactly when expected (removes 5 min default buffer)
             LifetimeValidator = (notBefore, expires, token, param) => expires != null ? expires > DateTime.UtcNow : false,
             NameClaimType = ClaimTypes.Name
         };
     });
 
-// ✅ AutoMapper config
+// ✅ 6. AutoMapper Configuration
 builder.Services.AddAutoMapper(typeof(EntitiesAutoMapperProfile));
 
-// ✅ Swagger config with JWT support
+// ✅ 7. Swagger Configuration with JWT Support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "BizimNet Web API", Version = "v1" });
@@ -113,13 +112,15 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// ✅ Developer Exception Page (optional for dev)
+// ✅ 8. HTTP Request Pipeline
+
+// Developer Exception Page
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
 
-// ✅ Swagger UI
+// Swagger UI
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -131,11 +132,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ✅ Use CORS before Authentication
+// CORS must be before Auth
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();

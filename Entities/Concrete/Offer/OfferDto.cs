@@ -1,22 +1,23 @@
 ﻿using Core.Entities.Abstract;
-using Core.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Entities.Concrete.Offer
+namespace Entities.Concrete.Offers // ✅ Changed to PLURAL
 {
-    public class OfferDto:IDto
+    public class OfferDto : IDto
     {
-        public string CustomerId { get; set; }
+        public int Id { get; set; } // Added Id
+        public int CustomerId { get; set; } // ✅ int
         public string OfferTitle { get; set; }
         public string Description { get; set; }
-        public decimal TotalAmount { get; set; }
-        public List<OfferItemDto> items { get; set; }
+        public decimal TotalAmount { get; set; } // ✅ decimal
+
+        public List<OfferItemDto> Items { get; set; } // List of DTOs is fine here
+
         public DateTime ExpirationDate { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
+
+   
 }
