@@ -3,6 +3,7 @@ using System;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BizimNetContext))]
-    partial class BizimNetContextModelSnapshot : ModelSnapshot
+    [Migration("20251207101006_fixv1")]
+    partial class fixv1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -634,37 +637,9 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("WarehouseId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("WarehouseId");
 
                     b.ToTable("Stocks");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Warehouses.Warehouse", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsMainWarehouse")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Warehouses");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Aggrements.Aggrement", b =>
@@ -802,17 +777,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Stocks.Stock", b =>
-                {
-                    b.HasOne("Entities.Concrete.Warehouses.Warehouse", "Warehouse")
-                        .WithMany("Stocks")
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Warehouse");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Aggrements.Aggrement", b =>
                 {
                     b.Navigation("Billings");
@@ -828,11 +792,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.Offers.Offer", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Warehouses.Warehouse", b =>
-                {
-                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

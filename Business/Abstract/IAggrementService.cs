@@ -5,20 +5,19 @@ using System.Collections.Generic;
 
 namespace Business.Abstract
 {
-    public interface IAggrementService // ✅ Fixed spelling (Aggrement -> Agreement)
+    public interface IAggrementService 
     {
         IDataResult<Aggrement> Add(AggrementDto agreementDto);
-        IResult Update(Aggrement agreement); // Removed 'id' param, it's inside the object
+        IResult Update(Aggrement agreement);
         IResult Delete(int id);
         IDataResult<AggrementDto> GetById(int id);
         IDataResult<List<Aggrement>> GetAll();
 
-        // Custom Logic
         IResult CreateAgreementFromOffer(int offerId);
 
-        // Payment Logic
-        IDataResult<Aggrement> ReceiveBill(int agreementId, decimal amount); // ✅ decimal
-        IResult RegisterPayment(int agreementId, decimal amount); // Removed billingId param (not needed for calculation)
+
+        IDataResult<Aggrement> ReceiveBill(int agreementId, decimal amount);
+        IResult RegisterPayment(int agreementId, decimal amount);
         IResult CancelPayment(int agreementId, decimal amount);
     }
 }

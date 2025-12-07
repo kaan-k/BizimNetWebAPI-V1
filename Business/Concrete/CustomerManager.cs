@@ -28,21 +28,37 @@ namespace Business.Concrete
         {
             var customerEntity = _mapper.Map<Customer>(customer);
             // SQL generates the ID automatically, so no need to set it manually.
+            customerEntity.CreatedAt = DateTime.UtcNow;
+            if(customerEntity.ParentCustomerId == null)
+            {
+                customerEntity.IsHeadquarters = true;
+            }
+            customerEntity.IsHeadquarters = false;
+            customerEntity.ParentCustomerId = customer.ParentCustomerId;
             _customerDal.Add(customerEntity);
             return new SuccessDataResult<Customer>(customerEntity, "Müşteri eklendi.");
         }
 
         public IResult Delete(int id)
         {
-            // EF Core Delete usually requires fetching the entity first or using a stub.
-            // Using the overload Delete(int id) we created in the generic repo:
+            //if (_customerDal.HasBranches(id))
+            //    return new ErrorResult("Bu müşteriye bağlı şubeler var. Önce şubeleri silin.");
+
+            if (_customerDal.HasAgreements(id))
+                return new ErrorResult("Hareketli Cari: Müşteriye ait sözleşmeler bulundu. Silinemez!");
+
+            if (_customerDal.HasOffers(id))
+                return new ErrorResult("Hareketli Cari: Müşteriye ait teklifler mevcut. Silinemez!");
+            if (_customerDal.HasDocuments(id))
+                return new ErrorResult("Hareketli Cari: Müşteriye ait dökümanlar mevcut. Silinemez!");
+
+
             _customerDal.Delete(id);
             return new SuccessResult("Müşteri silindi.");
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
-            // Use the custom method GetAllDetails() if you want to include ParentCustomer
             var customers = _customerDal.GetAllDetails();
             return new SuccessDataResult<List<Customer>>(customers);
         }
@@ -61,8 +77,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Customer>> GetAllFiltered(CustomerStatus status)
         {
-            // Assuming 'Status' is stored as a string in DB but Enum in C#.
-            // Adjust .ToString() if needed.
+
             var query = _customerDal.GetAll(x => x.Status == status.ToString());
 
             if (!query.Any())
@@ -87,9 +102,6 @@ namespace Business.Concrete
             var dto = _mapper.Map<CustomerDto>(customer);
             return new SuccessDataResult<CustomerDto>(dto);
         }
-
-
-        // ✅ New method for searching by name (replaces the ObjectId logic)
         public IDataResult<Customer> GetByCompanyName(string companyName)
         {
             var customer = _customerDal.Get(x => x.CompanyName == companyName);

@@ -26,5 +26,33 @@ namespace DataAccess.Concrete.EntityFramework
                     .ToList();
             }
         }
+
+
+
+        public bool HasAgreements(int customerId)
+        {
+            using var context = new BizimNetContext();
+            return context.Aggrements.Any(a => a.CustomerId == customerId);
+        }
+
+        public bool HasOffers(int customerId)
+        {
+            using var context = new BizimNetContext();
+            return context.Offers.Any(o => o.CustomerId == customerId);
+        }
+        public bool HasDocuments(int customerId)
+        {
+            using var context = new BizimNetContext();
+            return context.DocumentFiles.Any(o => o.CustomerId == customerId);
+        }
+
+        public bool HasBranches(int customerId)
+        {
+            throw new NotImplementedException();
+            //Branch ilişkisi ekleyip geri dönülecek.
+            //using var context = new BizimNetContext();
+            //return context.Branches.Any(b => b.CustomerId == customerId);
+        }
+
     }
 }

@@ -20,10 +20,13 @@ namespace BizimNetWorker.Jobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            var duties = _dutyService.GetTodaysDuties();
+            throw new NotImplementedException();
 
-            var result = _pdfGeneratorService.GenerateDailyDutiesPdf(duties.Data, DateTime.Today);
-            return Task.FromResult(result);
+            //var duties = _dutyService.GetTodaysDuties();
+
+            //var result = _pdfGeneratorService.GenerateDailyDutiesPdf(duties.Data, DateTime.Today);
+            //return Task.FromResult(result);
+
         }
     }
 }

@@ -8,5 +8,12 @@ namespace DataAccess.Abstract
     public interface ICustomerDal : IEntityRepository<Customer>
     {
         List<Customer> GetAllDetails();
+
+
+        bool HasAgreements(int customerId);
+        bool HasOffers(int customerId);
+        bool HasBranches(int customerId);
+        bool HasDocuments(int customerId);
+
     }
 }

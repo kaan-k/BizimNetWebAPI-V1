@@ -1,34 +1,31 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete.Duties; // ✅ Plural Namespace
+using Entities.Concrete.Duties;
 using System.Collections.Generic;
 
 namespace Business.Abstract
 {
     public interface IDutyService
     {
-        IDataResult<Duty> Add(DutyDto request);
-        IDataResult<Duty> AddCompleted(DutyDto request);
+        // CRUD
+        IDataResult<DutyDto> Add(DutyDto request);
+        IDataResult<DutyDto> AddCompleted(DutyDto request);
 
-        // ✅ Changed string -> int
         IResult Delete(int id);
-        IResult Update(Duty request);
+        IResult Update(DutyDto request);
 
-        IDataResult<List<Duty>> GetAll();
+        // LIST / QUERY
+        IDataResult<List<DutyDto>> GetAll();
+        IDataResult<List<DutyDto>> GetAllDetails(int userId);
+        IDataResult<List<DutyDto>> GetTodaysDuties();
+        IDataResult<List<DutyDto>> GetAllByCustomerIdReport(int customerId);
+        IDataResult<List<DutyDto>> ReplaceCustomerId(int customerId, int customerIdToReplace);
+        IDataResult<List<DutyDto>> GetAllByCustomerId(int customerId);
+        IDataResult<List<DutyDto>> GetAllByEmployeeId(int employeeId);
+        IDataResult<List<DutyDto>> GetAllByStatus(string status);
 
-        // ✅ Changed string -> int
-        IDataResult<List<Duty>> GetAllDetails(int userId);
-
-        IDataResult<List<Duty>> GetTodaysDuties();
-        IDataResult<List<Duty>> GetAllByCustomerIdReport(int customerId);
-
-        // ✅ Changed string -> int
-        IDataResult<List<Duty>> ReplaceCustomerId(int customerId, int customerIdToReplace);
-        IDataResult<List<Duty>> GetAllByCustomerId(int customerId);
-        IDataResult<List<Duty>> GetAllByEmployeeId(int employeeId);
-
-        IDataResult<List<Duty>> GetAllByStatus(string status);
-        IDataResult<Duty> UpdateStatusById(int id, string newStatus);
-        IDataResult<Duty> GetById(int id);
-        IDataResult<Duty> MarkAsCompleted(int id);
+        // SINGLE
+        IDataResult<DutyDto> UpdateStatusById(int id, string newStatus);
+        IDataResult<DutyDto> GetById(int id);
+        IDataResult<DutyDto> MarkAsCompleted(int id);
     }
 }

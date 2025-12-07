@@ -21,6 +21,7 @@ namespace Entities.Concrete.Customers
         public virtual Customer? ParentCustomer { get; set; }
 
         public bool? IsHeadquarters { get; set; }
+
         public string? BranchName { get; set; }
         public string Name { get; set; }
         public string CompanyName { get; set; }

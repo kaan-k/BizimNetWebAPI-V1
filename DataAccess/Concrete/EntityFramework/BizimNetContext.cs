@@ -13,6 +13,7 @@ using Entities.Concrete.Payments;
 using Entities.Concrete.Services;
 using Entities.Concrete.Settings;
 using Entities.Concrete.Stocks;
+using Entities.Concrete.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Offer> Offers { get; set; }
 
         public DbSet<Billing> Billings { get; set; }
-
+        public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<Servicing> Services { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<BusinessUser> BusinessUsers { get; set; }

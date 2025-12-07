@@ -74,6 +74,11 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<HttpUserContext>().As<IUserContext>().InstancePerLifetimeScope();
             builder.RegisterType<MailManager>().As<IMailManager>().InstancePerLifetimeScope();
             builder.RegisterType<PdfGeneratorManager>().As<IPdfGeneratorService>().SingleInstance();
+
+            //Warehouse
+
+            builder.RegisterType<WarehouseManager>().As<IWarehouseService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfWarehouseDal>().As<IWarehouseDal>().InstancePerLifetimeScope();
         }
     }
 }

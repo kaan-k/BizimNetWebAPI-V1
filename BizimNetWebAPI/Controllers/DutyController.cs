@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.Concrete.Duties; // ✅ Plural Namespace
+using Entities.Concrete.Duties;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BizimNetWebAPI.Controllers
@@ -34,7 +34,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("Delete")]
-        public IActionResult Delete(int id) // ✅ Changed string -> int
+        public IActionResult Delete(int id)
         {
             var result = _dutyService.Delete(id);
             if (result.Success)
@@ -43,7 +43,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpPost("Update")]
-        public IActionResult Update([FromBody] Duty request)
+        public IActionResult Update([FromBody] DutyDto request)
         {
             var result = _dutyService.Update(request);
             if (result.Success)
@@ -52,7 +52,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("MarkAsCompleted")]
-        public IActionResult MarkAsCompleted(int id) // ✅ Changed string -> int
+        public IActionResult MarkAsCompleted(int id)
         {
             var result = _dutyService.MarkAsCompleted(id);
             if (result.Success)
@@ -70,7 +70,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetAllDetails")]
-        public IActionResult GetAllDetails([FromQuery] int userId) // ✅ Changed string -> int
+        public IActionResult GetAllDetails([FromQuery] int userId)
         {
             var result = _dutyService.GetAllDetails(userId);
             if (result.Success)
@@ -79,7 +79,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetAllByCustomer/{customerId}")]
-        public IActionResult GetAllByCustomerId(int customerId) // ✅ Changed string -> int
+        public IActionResult GetAllByCustomerId(int customerId)
         {
             var result = _dutyService.GetAllByCustomerIdReport(customerId);
             if (result.Success)
@@ -88,7 +88,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetAllByEmployee/{employeeId}")]
-        public IActionResult GetAllByEmployeeId(int employeeId) // ✅ Changed string -> int
+        public IActionResult GetAllByEmployeeId(int employeeId)
         {
             var result = _dutyService.GetAllByEmployeeId(employeeId);
             if (result.Success)
@@ -106,7 +106,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpPut("UpdateStatusById")]
-        public IActionResult UpdateStatusById([FromQuery] int id, [FromQuery] string newStatus) // ✅ Changed string -> int
+        public IActionResult UpdateStatusById([FromQuery] int id, [FromQuery] string newStatus)
         {
             var result = _dutyService.UpdateStatusById(id, newStatus);
             if (result.Success)
@@ -115,7 +115,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(int id) // ✅ Changed string -> int
+        public IActionResult GetById(int id)
         {
             var result = _dutyService.GetById(id);
             if (result.Success)
@@ -124,7 +124,7 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("ReplaceById")]
-        public IActionResult ReplaceById(int id, int toReplaceId) // ✅ Changed string -> int
+        public IActionResult ReplaceById(int id, int toReplaceId)
         {
             var result = _dutyService.ReplaceCustomerId(id, toReplaceId);
             if (result.Success)
