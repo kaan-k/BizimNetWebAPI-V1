@@ -1,6 +1,7 @@
 ﻿using Core.Enums;
 using Core.Utilities.Results;
 using Entities.Concrete.Stocks; // ✅ Plural Namespace
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
 namespace Business.Abstract
@@ -13,7 +14,7 @@ namespace Business.Abstract
 
         // ✅ Changed string -> int
         IResult Delete(int id);
-
+        IResult ImportExcel(IFormFile file);
         IDataResult<List<Stock>> GetAll();
     }
 }

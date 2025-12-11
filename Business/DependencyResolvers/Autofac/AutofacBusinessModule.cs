@@ -79,6 +79,24 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<WarehouseManager>().As<IWarehouseService>().InstancePerLifetimeScope();
             builder.RegisterType<EfWarehouseDal>().As<IWarehouseDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<TableManager>().As<ITableService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfTableDal>().As<ITableDal>().InstancePerLifetimeScope();
+
+
+            builder.RegisterType<SectionManager>().As<ISectionService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfSectionDal>().As<ISectionDal>().InstancePerLifetimeScope();
+
+
+
+            builder.RegisterType<StockGroupManager>().As<IStockGroupService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfStockGroupDal>().As<IStockGroupDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderManager>().As<IOrderService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfOrderDal>().As<IOrderDal>().InstancePerLifetimeScope();
+
+            builder.RegisterType<OrderDetailManager>().As<IOrderDetailService>().InstancePerLifetimeScope();
+            builder.RegisterType<EfOrderDetailDal>().As<IOrderDetailDal>().InstancePerLifetimeScope();
         }
     }
 }

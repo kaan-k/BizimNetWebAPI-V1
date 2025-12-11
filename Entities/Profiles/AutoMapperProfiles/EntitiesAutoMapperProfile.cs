@@ -6,10 +6,13 @@ using Entities.Concrete.DocumentFile;
 using Entities.Concrete.Duties;
 using Entities.Concrete.InstallationRequests;
 using Entities.Concrete.Offers;
+using Entities.Concrete.Orders;
 using Entities.Concrete.Payments;
+using Entities.Concrete.Sections;
 using Entities.Concrete.Services;
 using Entities.Concrete.Settings;
 using Entities.Concrete.Stocks;
+using Entities.Concrete.Tables;
 using Entities.Concrete.Warehouses;
 using Entities.DTOs.BillingDtos;
 
@@ -122,7 +125,10 @@ namespace Entities.Profiles.AutoMapperProfiles
                 .ForMember(dest => dest.SignatureBase64,
                     opt => opt.MapFrom(src => src.SignatureBase64));
 
-
+            CreateMap<Table, TableAddDto>().ReverseMap();
+            CreateMap<Section, SectionAddDto>().ReverseMap();
+            CreateMap<StockGroup, StockGroupAddDto>().ReverseMap();
+            CreateMap<Order, OrderDto>().ReverseMap();
             // -----------------------------
             // OTHER
             // -----------------------------

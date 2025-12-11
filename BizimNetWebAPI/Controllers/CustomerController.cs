@@ -38,21 +38,21 @@ namespace BizimNetWebAPI.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById(int id) // ✅ Changed string -> int
+        public IActionResult GetById(int id)
         {
             var result = _customerService.GetById(id);
             return Ok(result);
         }
 
         [HttpGet("GetBranchByHqId")]
-        public IActionResult GetBranchesAsync(int id) // ✅ Changed string -> int
+        public IActionResult GetBranchesAsync(int id)
         {
             var result = _customerService.GetBranchesAsync(id);
             return Ok(result);
         }
 
         [HttpGet("GetAllDevicesByCustomerId")]
-        public IActionResult GetAllDevicesByCustomerId(int id) // ✅ Changed string -> int
+        public IActionResult GetAllDevicesByCustomerId(int id)
         {
             var result = _customerService.GetAllDevicesByCustomerId(id);
             return Ok(result);

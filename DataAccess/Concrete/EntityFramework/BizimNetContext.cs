@@ -9,10 +9,13 @@ using Entities.Concrete.Duties;
 using Entities.Concrete.Employees;
 using Entities.Concrete.InstallationRequests;
 using Entities.Concrete.Offers;
+using Entities.Concrete.Orders;
 using Entities.Concrete.Payments;
+using Entities.Concrete.Sections;
 using Entities.Concrete.Services;
 using Entities.Concrete.Settings;
 using Entities.Concrete.Stocks;
+using Entities.Concrete.Tables;
 using Entities.Concrete.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,6 +51,11 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Offer> Offers { get; set; }
 
         public DbSet<Billing> Billings { get; set; }
+        public DbSet<Table> Tables{ get; set; }
+        public DbSet<Section> Sections{ get; set; }
+        public DbSet<StockGroup> StockGroups { get; set; }
+        public DbSet<Order> Orders{ get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<Servicing> Services { get; set; }
         public DbSet<Employee> Employees { get; set; }

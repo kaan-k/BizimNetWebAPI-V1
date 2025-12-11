@@ -3,6 +3,7 @@ using System;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(BizimNetContext))]
-    partial class BizimNetContextModelSnapshot : ModelSnapshot
+    [Migration("20251211172006_TableAndSectionv2")]
+    partial class TableAndSectionv2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -508,64 +511,6 @@ namespace DataAccess.Migrations
                     b.ToTable("OfferItems");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Orders.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("OrderNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TableId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Orders.OrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("StockId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("StockId");
-
-                    b.ToTable("OrderDetails");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Payments.Billing", b =>
                 {
                     b.Property<int>("Id")
@@ -702,67 +647,24 @@ namespace DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Barcode")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.Property<int>("Count")
                         .HasColumnType("integer");
 
                     b.Property<int>("DeviceType")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int>("StockGroupId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("text");
 
                     b.Property<int>("WarehouseId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StockGroupId");
-
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Stocks");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Stocks.StockGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StockGroups");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Tables.Table", b =>
@@ -921,25 +823,6 @@ namespace DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Orders.OrderDetail", b =>
-                {
-                    b.HasOne("Entities.Concrete.Orders.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Concrete.Stocks.Stock", "Stock")
-                        .WithMany()
-                        .HasForeignKey("StockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Stock");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Payments.Billing", b =>
                 {
                     b.HasOne("Entities.Concrete.Aggrements.Aggrement", "Agreement")
@@ -972,19 +855,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.Stocks.Stock", b =>
                 {
-                    b.HasOne("Entities.Concrete.Stocks.StockGroup", "StockGroup")
-                        .WithMany("Stocks")
-                        .HasForeignKey("StockGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Entities.Concrete.Warehouses.Warehouse", "Warehouse")
                         .WithMany("Stocks")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("StockGroup");
 
                     b.Navigation("Warehouse");
                 });
@@ -1017,19 +892,9 @@ namespace DataAccess.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Orders.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Sections.Section", b =>
                 {
                     b.Navigation("Tables");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Stocks.StockGroup", b =>
-                {
-                    b.Navigation("Stocks");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Warehouses.Warehouse", b =>

@@ -50,5 +50,12 @@ namespace BizimNetWebAPI.Controllers
             var result = _stockService.GetAll();
             return Ok(result);
         }
+        [HttpPost("ImportExcel")]
+        public IActionResult ImportExcel(IFormFile file)
+        {
+            var result = _stockService.ImportExcel(file);
+            if (result.Success) return Ok(result);
+            return BadRequest(result);
+        }
     }
 }
